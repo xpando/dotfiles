@@ -1,0 +1,19 @@
+[user]
+  name = "David Findley"
+  email = "{{ .email }}"
+
+[core]
+  pager = less
+
+[commit]
+  gpgsign = true
+
+[merge]
+  ff = only
+
+[pull]
+  ff = only
+
+# Local overrides
+[include]
+  path = ~/.gitconfig_local

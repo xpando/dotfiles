@@ -1,0 +1,35 @@
+{{ if eq .chezmoi.osRelease.id "arch" -}}
+#!/usr/bin/sh
+
+pkgs=(
+  antibody     # zsh plugin manager
+  starship-bin # prompt
+  exa          # ls replacement
+  fd           # a better find
+  fasd         # quick dir/file access with frecency
+  fzf          # fuzzy finder
+  ripgrep      # faster grep replacement
+  bat	       # colorized cat
+)
+
+if ! command -v yay >/dev/null 2>&1
+then
+  # install git if it is not present
+  command -v git >/dev/null 2>&1 || sudo pacman -S git
+
+  # install AUR helper yay
+  git clone https://aur.archlinux.org/yay.git ~/tmp/yay
+  cd /tmp/yay
+  makepkg -si
+  cd ~
+  rm -rf /tmp/yay
+fi
+
+ay -Syyu
+yay -S ${pkgs[@]}
+
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+brew install exa
+
+{{ end -}}

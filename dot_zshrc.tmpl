@@ -1,0 +1,90 @@
+# Bail out if not running interactively
+[[ $- != *i* ]] && return
+
+export PATH=~/go/bin:$PATH
+export PATH=~/.cargo/bin:$PATH
+export PATH=~/.local/bin:$PATH
+
+export EDITOR=nvim
+export LESS=FRX
+
+# Privacy
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export SAM_CLI_TELEMETRY=0
+
+# Prompt https://starship.rs
+# config in: ~/.config/starship.toml
+eval "$(starship init zsh)"
+
+# Frecent files and directories
+# With zsh plugin andrewferrier/fzf-z Ctrl-G will search
+# directories and files weighted by frequency and recency of use.
+eval "$(fasd --init auto)"
+export FZFZ_RECENT_DIRS_TOOL=fasd
+
+# ZSH Plugins
+source <(antibody init)
+export ZSH="$(antibody home)/https-COLON--SLASH--SLASH-github.com-SLASH-ohmyzsh-SLASH-ohmyzsh"
+antibody bundle < ~/.zsh_plugins
+
+# Aliases
+alias reboot='sudo reboot'
+alias sdn='sudo shutdown now'
+
+# Tmux
+alias t='tmux'
+alias ta='t a -t'
+alias tls='t ls'
+alias tn='t new -t'
+
+# Common command replacements
+# EXA is a better ls written in rust: https://the.exa.website/
+if type exa &>/dev/null; then
+  alias ls='exa --git --group-directories-first'
+fi
+alias l='ls -lh'
+alias ll='ls -lah'
+
+# Colorized cat
+if type bat &>/dev/null; then
+  alias cat='bat -p'
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
+
+# Git
+alias gfa='git fetch --all'
+alias gb='git branch'
+alias gba='git branch --all'
+alias gr='git remote -v'
+alias gra='git remote add'
+
+# Misc
+alias path="tr ':' '\n' <<< \$PATH"
+alias qr='qrencode -t ANSI -s 1 -m 1'
+alias wttr='curl wttr.in'
+
+# httpie - https://httpie.org/
+if type http &>/dev/null; then
+  alias https='http --default-scheme=https'
+fi
+
+# Java development 
+# Install with: curl -s "https://get.sdkman.io" | bash
+if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then 
+  export SDKMAN_DIR="$HOME/.sdkman"
+  source "$HOME/.sdkman/bin/sdkman-init.sh"
+fi
+if type gradle-or-gradlew &>/dev/null; then
+  alias gw='gradle-or-gradlew'
+fi
+
+{{ if eq .chezmoi.osRelease.id "arch" -}}
+alias mirrors='reflector --verbose --sort rate --country US --protocol https'
+alias umirrors='mirrors | egrep "\.(com|org|edu)/arch" | sudo head -n 5 > /etc/pacman.d/mirrorlist'
+alias updates='yay -Syyu'
+alias pkgs='yay -Qett'
+alias ipkg='yay -Slq | fzf -m --preview '\''cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")'\'' | xargs -ro yay -S'
+alias upkg='yay -Qett | fzf -m --preview '\''cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")'\'' | xargs -ro yay -Rc' 
+alias clean-pkgs='yay -Yc'
+alias clean-logs='sudo journalctl --vacuum-time=10d'
+{{ end -}}

@@ -1,0 +1,6 @@
+{{ if ne .chezmoi.os "linux" }}
+dot_xinit
+dot_XResources
+dot_config/awesome/
+dot_config/rofi/
+{{ end }}

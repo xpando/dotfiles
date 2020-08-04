@@ -1,0 +1,66 @@
+[character]
+symbol = "\u03BB"
+
+[battery]
+full_symbol = ""
+charging_symbol = ""
+discharging_symbol = ""
+
+[aws]
+symbol = " "
+displayed_items = "profile"
+
+[conda]
+symbol = " "
+
+[docker]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[git_branch]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[java]
+style = "yellow"
+symbol = " "
+
+[julia]
+symbol = " "
+
+[memory_usage]
+symbol = " "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[package]
+symbol = " "
+
+[php]
+symbol = " "
+
+[python]
+symbol = " "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = " "
