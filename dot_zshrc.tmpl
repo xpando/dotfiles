@@ -31,6 +31,11 @@ antibody bundle < ~/.zsh_plugins
 alias reboot='sudo reboot'
 alias sdn='sudo shutdown now'
 
+# Chezmoi
+alias cm='chezmoi'
+alias cmu='cm source pull -- --rebase && cm diff'
+alias cmcd='cd $(cm source-path)'
+
 # Tmux
 alias t='tmux'
 alias ta='t a -t'
