@@ -78,6 +78,7 @@ if type gradle-or-gradlew &>/dev/null; then
   alias gw='gradle-or-gradlew'
 fi
 
+{{ if eq .chezmoi.os "linux" -}}
 {{ if eq .chezmoi.osRelease.id "arch" -}}
 alias mirrors='reflector --verbose --sort rate --country US --protocol https'
 alias umirrors='mirrors | egrep "\.(com|org|edu)/arch" | sudo head -n 5 > /etc/pacman.d/mirrorlist'
@@ -87,4 +88,5 @@ alias ipkg='yay -Slq | fzf -m --preview '\''cat <(yay -Si {1}) <(yay -Fl {1} | a
 alias upkg='yay -Qett | fzf -m --preview '\''cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")'\'' | xargs -ro yay -Rc' 
 alias clean-pkgs='yay -Yc'
 alias clean-logs='sudo journalctl --vacuum-time=10d'
+{{ end -}}
 {{ end -}}
