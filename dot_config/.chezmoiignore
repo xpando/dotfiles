@@ -1,4 +1,4 @@
 {{- if ne .chezmoi.os "linux" }}
-dot_xinit
-dot_XResources
+awesome/
+rofi/
 {{- end }}
