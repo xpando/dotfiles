@@ -159,34 +159,31 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
+# Colors (One Half Dark)
 colors:
   primary:
-    background: '0x0e0e0e'
-    foreground: '0xc5c5c5'
-
-  cursor:
-    text:    '0x1c1c1c'
-    cursor:  '0xc5c5c5'
+    background: '0x282c34'
+    foreground: '0xdcdfe4'
 
   normal:
-    black:   '0x1c1c1c'
-    red:     '0xff005b'
-    green:   '0xcee318'
-    yellow:  '0xffe755'
-    blue:    '0x048ac7'
-    magenta: '0x833c9f'
-    cyan:    '0x0ac1cd'
-    white:   '0xe5e5e5'
+    black:   '0x282c34'
+    red:     '0xe06c75'
+    green:   '0x98c379'
+    yellow:  '0xe5c07b'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0xdcdfe4'
 
   bright:
-    black:   '0x666666'
-    red:     '0xff00a0'
-    green:   '0xccff00'
-    yellow:  '0xff9f00'
-    blue:    '0x48c6ff'
-    magenta: '0xbe67e1'
-    cyan:    '0x63e7f0'
-    white:   '0xf3f3f3'
+    black:   '0x282c34'
+    red:     '0xe06c75'
+    green:   '0x98c379'
+    yellow:  '0xe5c07b'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0xdcdfe4'
 
   # Indexed Colors
   #
