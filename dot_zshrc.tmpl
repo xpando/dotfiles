@@ -79,8 +79,14 @@ if [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
   export SDKMAN_DIR="$HOME/.sdkman"
   source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi
+
 if type gradle-or-gradlew &>/dev/null; then
   alias gw='gradle-or-gradlew'
+fi
+
+# Fast nodejs version manager
+if type fnm &>/dev/null; then
+  eval "$(fnm env --multi)"
 fi
 
 {{ if eq .chezmoi.os "linux" -}}
