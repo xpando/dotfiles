@@ -1,5 +1,7 @@
 syntax enable
+filetype on
 filetype plugin on
+filetype indent on
 set nocompatible " always gimmie the modern stuff
 set hidden
 set cursorline
@@ -8,6 +10,25 @@ set nobackup
 set nowritebackup
 set updatetime=300
 set path+=** " Recursive search
+set ts=2
+set shiftwidth=2
+set ai sw=2
+set expandtab
+set hlsearch
+set sidescroll=6
+set splitright
+set splitbelow
+
+" Remap leader to spacebar
+nnoremap <Space> <Nop>
+let mapleader="\<Space>"
+nnoremap <silent> <leader>ec :e `chezmoi source-path`/dot_config/nvim/init.vim<CR>
+nnoremap <silent> <leader>sc :source $MYVIMRC
+nnoremap <silent> <leader>ac :!chezmoi apply<CR>
+nnoremap <silent> <C-Space> :NERDTreeToggle<CR>
+
+nnoremap <silent> <leader>fo :Files<CR>
+
 
 " True color
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -36,10 +57,14 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " Code completion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Git
 Plug 'tpope/vim-fugitive'
+
+" Language server support
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 
 call plug#end()
 
@@ -55,35 +80,4 @@ let g:lightline = {
   \   'gitbranch': 'FugitiveHead'
   \ }
   \ }
-
-" Line numbering
-set number relativenumber
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
-
-set shortmess+=c
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
 
