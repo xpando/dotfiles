@@ -25,8 +25,8 @@ set wrap!
 " Remap leader to spacebar
 nnoremap <Space> <Nop>
 let mapleader="\<Space>"
-nnoremap <silent> <leader>ce :e `chezmoi source-path`/dot_config/nvim/init.vim<CR>
-nnoremap <silent> <leader>cs :w<cr>:!chezmoi apply<cr>:source $MYVIMRC
+nnoremap <silent> <leader>ce :e $MYVIMRC<cr>
+nnoremap <silent> <leader>cr :source $MYVIMRC<cr>
 
 " transparent background
 au ColorScheme * hi Normal ctermbg=none guibg=none
