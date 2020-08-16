@@ -5,6 +5,7 @@ filetype indent on
 set nocompatible " always gimmie the modern stuff
 set number
 set relativenumber
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set hidden
 set cursorline
 set noshowmode " lightline shows the mode in the status line
@@ -29,7 +30,7 @@ nnoremap <silent> <leader>ce :e $MYVIMRC<cr>
 nnoremap <silent> <leader>cr :source $MYVIMRC<cr>
 
 " transparent background
-au ColorScheme * hi Normal ctermbg=none guibg=none
+"au ColorScheme * hi Normal ctermbg=none guibg=none
 
 " Plugins
 call plug#begin()
@@ -57,7 +58,7 @@ Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " Color scheme
-colorscheme onehalfdark 
+colorscheme onehalfdark
 let g:lightline = {
   \ 'colorscheme': 'onehalfdark',
   \ 'active': {

@@ -1,6 +1,1 @@
-{{ if ne .chezmoi.os "linux" }}
-alacritty_linux.yml
-{{ end }}
-{{ if ne .chezmoi.os "darwin" }}
-alacritty_darwin.yml
-{{ end }}
+alacritty_*
