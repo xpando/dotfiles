@@ -30,7 +30,7 @@ nnoremap <silent> <leader>ce :e $MYVIMRC<cr>
 nnoremap <silent> <leader>cr :source $MYVIMRC<cr>
 
 " transparent background
-"au ColorScheme * hi Normal ctermbg=none guibg=none
+au ColorScheme * hi Normal ctermbg=none guibg=none
 
 " Plugins
 call plug#begin()
