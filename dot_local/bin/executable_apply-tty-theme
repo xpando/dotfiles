@@ -1,0 +1,25 @@
+#!/bin/sh
+
+TERM=linux
+
+echo() {
+  env echo $*
+}
+
+printf "\033]P0282c34" # Black
+printf "\033]P1e06c75" # Red
+printf "\033]P298c379" # Green
+printf "\033]P3e5c07b" # Yellow
+printf "\033]P461afef" # Blue
+printf "\033]P5c678dd" # Magenta
+printf "\033]P656b6c2" # Cyan
+printf "\033]P7dcdfe4" # White
+printf "\033]P8282c34" # Bright Black 
+printf "\033]P9e06c75" # Bright Red
+printf "\033]Pa98c379" # Bright Green
+printf "\033]Pbe5c07b" # Bright Yellow
+printf "\033]Pc61afef" # Bright Blue
+printf "\033]Pdc678dd" # Bright Magenta
+printf "\033]Pe56b6c2" # Bright Cyan
+printf "\033]Pfdcdfe4" # Bright hite
+
