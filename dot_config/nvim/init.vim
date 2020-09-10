@@ -1,72 +1,14 @@
-syntax enable
-filetype on
-filetype plugin on
-filetype indent on
-set nocompatible " always gimmie the modern stuff
-set number
-set relativenumber
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-set hidden
-set cursorline
-set noshowmode " lightline shows the mode in the status line
-set nobackup
-set nowritebackup
-set updatetime=300
-set path+=** " Recursive search
-set ts=2
-set shiftwidth=2
-set ai sw=2
-set expandtab
-set hlsearch
-set sidescroll=6
-set splitright
-set splitbelow
-set wrap!
+" General Settings
+source $HOME/.config/nvim/vim-plug/plugins.vim
+source $HOME/.config/nvim/general/settings.vim
 
-" Remap leader to spacebar
-nnoremap <Space> <Nop>
-let mapleader="\<Space>"
-nnoremap <silent> <leader>ce :e $MYVIMRC<cr>
-nnoremap <silent> <leader>cr :source $MYVIMRC<cr>
+" Theme
+source $HOME/.config/nvim/themes/settings.vim
 
-" transparent background
-au ColorScheme * hi Normal ctermbg=none guibg=none
+if has("persistent_undo")
+    set undodir=$HOME/.cache/nvim_undo
+    set undofile
+endif
 
-" Plugins
-call plug#begin()
-
-" GUI enhancements
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
-Plug 'itchyny/lightline.vim'
-Plug 'machakann/vim-highlightedyank'
-
-" Fuzzy finder
-Plug 'airblade/vim-rooter'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-" Code completion
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Git
-Plug 'tpope/vim-fugitive'
-
-" Language server support
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
-
-call plug#end()
-
-" Color scheme
-colorscheme onehalfdark
-let g:lightline = {
-  \ 'colorscheme': 'onehalfdark',
-  \ 'active': {
-  \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-  \ },
-  \ 'component_function': {
-  \   'gitbranch': 'FugitiveHead'
-  \ }
-  \ }
-
+" Key bindings
+source $HOME/.config/nvim/keys/mappings.vim
