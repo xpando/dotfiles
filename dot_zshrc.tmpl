@@ -118,11 +118,11 @@ function umirrors() {
   rmirrors > /etc/pacman.d/mirrorlist
 }
 
-alias up='yay -Syyu'
+alias up='yay -Syyu --noconfirm --nodiffmenu --noeditmenu && yay -Sc --noconfirm && yay -Ps'
 alias pkgs='yay -Qett'
 alias ipkg='yay -Slq | fzf -m --preview '\''cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")'\'' | xargs -ro yay -S'
 alias upkg='yay -Qett | fzf -m --preview '\''cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")'\'' | xargs -ro yay -Rc' 
-alias clean-pkgs='yay -Yc'
+alias clean-pkgs='yay -Yc && yay -Sc --noconfirm'
 alias clean-logs='sudo journalctl --vacuum-time=10d'
 {{ end -}}
 {{ end -}}
