@@ -105,19 +105,8 @@ fi
 {{ if eq .chezmoi.os "linux" -}}
 {{ if eq .chezmoi.osRelease.id "arch" -}}
 
-function mirrors() {
-  curl -s https://www.archlinux.org/mirrorlist/\?country\=US\&protocol\=http\&use_mirror_status\=on \
-    | sed -e 's/^#Server/Server/' -e '/^#/d'
-}
-
-function rmirrors() {
-  mirrors | rankmirrors -n 5 -
-}
-
-function umirrors() {
-  rmirrors > /etc/pacman.d/mirrorlist
-}
-
+alias mirrors='reflector --verbose -f 5 -c US -p https'
+alias umirrors='mirrors | sudo tee /etc/pacman.d/mirrorlist'
 alias up='yay -Syyu --noconfirm --nodiffmenu --noeditmenu && yay -Sc --noconfirm && yay -Ps'
 alias pkgs='yay -Qett'
 alias ipkg='yay -Slq | fzf -m --preview '\''cat <(yay -Si {1}) <(yay -Fl {1} | awk "{print \$2}")'\'' | xargs -ro yay -S'
