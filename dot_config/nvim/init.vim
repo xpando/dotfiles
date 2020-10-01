@@ -12,3 +12,5 @@ endif
 
 " Key bindings
 source $HOME/.config/nvim/keys/mappings.vim
+
+" lua require'nvim_lsp'.tsserver.setup{ }

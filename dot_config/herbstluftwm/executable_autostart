@@ -7,10 +7,6 @@ hc() {
 hc emit_hook reload
 
 xsetroot -solid '#000000' # Desktop background color
-lxsession &
-picom &
-nitrogen --restore &
-$HOME/.config/polybar/launcher.sh
 
 # Key bindings
 
@@ -26,11 +22,20 @@ myFiles=nautilus
 
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
-hc keybind $Mod-q close
+hc keybind $Mod-q       close
+
+# Application shortcuts
 hc keybind $Mod-Return spawn $myTerm
-hc keybind $Mod-e spawn $myEditor
-hc keybind $Mod-b spawn $myBrowser
-hc keybind $Mod-f spawn $myFiles
+hc keybind $Mod-e      spawn $myEditor
+hc keybind $Mod-b      spawn $myBrowser
+hc keybind $Mod-f      spawn $myFiles
+
+# Audio controls
+hc keybind XF86AudioRaiseVolume       spawn amixer set Master 3%+ unmute
+hc keybind XF86AudioLowerVolume       spawn amixer set Master 3%- unmute
+hc keybind Shift-XF86AudioRaiseVolume spawn amixer set Master 1%+ unmute
+hc keybind Shift-XF86AudioLowerVolume spawn amixer set Master 1%- unmute
+hc keybind XF86AudioMute              spawn amixer set Master toggle
 
 # focusing clients
 hc keybind $Mod-Left          focus left
@@ -69,8 +74,8 @@ hc keybind $Mod-Control-Up     resize up    +$resizestep
 hc keybind $Mod-Control-Right  resize right +$resizestep
 
 # tags
-tag_names=("www" "dev" "vbox" "chat")
-tag_keys=( {1..4} 0 )
+tag_names=("www" "dev" "vbox" "chat" "game")
+tag_keys=( {1..5} 0 )
 hc rename default "${tag_names[0]}" || true
 for i in ${!tag_names[@]} ; do
     hc add "${tag_names[$i]}"
@@ -86,7 +91,7 @@ hc keybind $Mod-period use_index +1 --skip-visible
 hc keybind $Mod-comma  use_index -1 --skip-visible
 
 # layout
-hc keybind $Mod-Shift-r remove              # Remove the current frame
+hc keybind $Mod-r       remove              # Remove the current frame
 hc keybind $Mod-Shift-s floating   toggle
 hc keybind $Mod-Shift-f fullscreen toggle
 hc keybind $Mod-Shift-p pseudotile toggle
@@ -108,8 +113,8 @@ hc mousebind $Mod-Button3 resize
 hc keybind $Mod-BackSpace   cycle_monitor
 hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
-hc keybind $Mod-c cycle
-hc keybind $Mod-i jumpto urgent
+hc keybind $Mod-c           cycle
+hc keybind $Mod-i           jumpto urgent
 
 # Rofi menus
 hc keybind $Mod-space spawn rofi -show drun
@@ -135,8 +140,8 @@ hc attr theme.normal.color '#454545'
 hc attr theme.urgent.color orange
 hc attr theme.inner_width 0
 hc attr theme.inner_color black
-hc attr theme.border_width 2
-hc attr theme.floating.border_width 4
+hc attr theme.border_width 1
+hc attr theme.floating.border_width 1
 hc attr theme.floating.outer_width 1
 hc attr theme.floating.outer_color black
 hc attr theme.active.inner_color '#3E4A00'
@@ -155,13 +160,14 @@ hc unrule -F
 hc rule focus=on # normally focus new clients
 hc rule floatplacement=center
 
-hc rule class='jetbrains-toolbox' pseudotile=on tag=dev
+hc rule class='jetbrains-idea' title='New Project' floating=on 
+hc rule class='jetbrains-toolbox' pseudotile=on 
 
 # Move all VBox windows to tag 3
-hc rule class~'.*VirtualBox.*' tag=vbox 
-hc rule title='Oracle VM VirtualBox Manager' tag=vbox
+#hc rule class~'.*VirtualBox.*' tag=vbox 
+#hc rule title='Oracle VM VirtualBox Manager' tag=vbox
 
-hc rule class=Slack tag=chat
+#hc rule class=Slack tag=chat
 
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
@@ -177,13 +183,20 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 # or simply:
 # hc detect_monitors
 #hc set_monitors 1920x1060+0+20 1920x1060+1920+20 1920x1060+3840+20
-hc set_monitors 3440x1413+0+27
 
-# find the panel
-panel=~/.config/herbstluftwm/panel.sh
-[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
-for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
-    # start it on each monitor
-    "$panel" $monitor &
-done
+# Autostarts
+lxsession &
+picom &
+nitrogen --restore &
+
+#hc pad 0 27 0 0 0
+
+# Polybar
+{
+  pids=( )
+  $HOME/.config/polybar/launcher.sh
+  pids+=( $! )
+  hc -w '(quit_panel|reload)'
+  kill ${pids[@]}
+} &
 

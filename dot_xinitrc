@@ -24,8 +24,9 @@ export XDG_SESSION_TYPE=x11
 ######## Tiling Window Managers ###############
 ###############################################
 
+exec herbstluftwm
 #exec xmonad
 #dbus-launch --exit-with-session i3
-exec awesome
+#exec awesome
 #exec qtile
 #exec spectrwm
