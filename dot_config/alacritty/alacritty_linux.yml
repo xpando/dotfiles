@@ -17,9 +17,9 @@ window:
   #
   # Specified in number of columns/lines, not pixels.
   # If both are `0`, this setting is ignored.
-  #dimensions:
-  #  columns: 0
-  #  lines: 0
+  dimensions:
+    columns: 120
+    lines: 50
 
   # Window position (changes require restart)
   #
@@ -162,11 +162,11 @@ draw_bold_text_with_bright_colors: true
 # Colors (One Half Dark)
 colors:
   primary:
-    background: '0x282c34'
+    background: '0x111111'
     foreground: '0xdcdfe4'
 
   normal:
-    black:   '0x282c34'
+    black:   '0x111111'
     red:     '0xe06c75'
     green:   '0x98c379'
     yellow:  '0xe5c07b'
@@ -183,7 +183,7 @@ colors:
     blue:    '0x61afef'
     magenta: '0xc678dd'
     cyan:    '0x56b6c2'
-    white:   '0xdcdfe4'
+    white:   '0xdcdfe4'  
 
   # Indexed Colors
   #

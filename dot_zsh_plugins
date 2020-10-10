@@ -2,7 +2,7 @@ ohmyzsh/ohmyzsh
 ohmyzsh/ohmyzsh path:plugins/fzf
 ohmyzsh/ohmyzsh path:plugins/sdk
 ohmyzsh/ohmyzsh path:plugins/gradle
-ohmyzsh/ohmyzsh path:plugins/tmux
+#ohmyzsh/ohmyzsh path:plugins/tmux
 ohmyzsh/ohmyzsh path:plugins/emoji
 
 zsh-users/zsh-completions
