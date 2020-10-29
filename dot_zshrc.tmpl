@@ -101,7 +101,7 @@ fi
 
 # Fast nodejs version manager
 if type fnm &>/dev/null; then
-  eval "$(fnm env --multi)"
+  eval "$(fnm env)"
 fi
 
 {{ if eq .chezmoi.os "linux" -}}
