@@ -16,6 +16,13 @@ export SAM_CLI_TELEMETRY=0
 # config in: ~/.config/starship.toml
 eval "$(starship init zsh)"
 
+# Fuzzy find
+if [ -n "${commands[fzf-share]}" ]; then
+  export FZF_BASE="$(fzf-share)"
+  source "$(fzf-share)/key-bindings.zsh"
+  source "$(fzf-share)/completion.zsh"
+fi
+
 # Frecent files and directories
 # With zsh plugin andrewferrier/fzf-z Ctrl-G will search
 # directories and files weighted by frequency and recency of use.
