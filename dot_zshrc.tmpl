@@ -42,10 +42,13 @@ export ZSH="$(antibody home)/https-COLON--SLASH--SLASH-github.com-SLASH-ohmyzsh-
 antibody bundle < ~/.zsh_plugins
 
 # Aliases
+alias ip='ip -c'
 alias reboot='sudo reboot'
 alias sdn='sudo shutdown now'
 alias docker-up='sudo systemctl start docker'
 alias docker-down='sudo systemctl stop docker && sudo systemctl stop containerd'
+alias vm-up='sudo systemctl start libvirtd && virsh net-start default'
+alias vm-down='sudo systemctl stop libvirtd && virsh net-destroy default'
 
 # Chezmoi
 alias cm='chezmoi'
