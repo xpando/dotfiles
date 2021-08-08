@@ -1,0 +1,34 @@
+[user]
+  name = "David Findley"
+  email = "xpando@gmail.com"
+
+[core]
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  features = side-by-side line-numbers decorations
+  whitespace-error-style = 22 reverse
+
+[delta "decorations"]
+  commit-decoration-style = bold yellow box ul
+  file-style = bold yellow ul
+  file-decoration-style = none
+
+[commit]
+  gpgsign = true
+
+[merge]
+  ff = only
+
+[pull]
+  ff = only
+
+# Local overrides
+[include]
+    path = ~/.gitconfig_local
+
+[alias]
+	logg = log --pretty=format:\"\\\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\\\"\" --graph --date=relative --decorate --all

@@ -1,0 +1,13 @@
+ohmyzsh/ohmyzsh
+ohmyzsh/ohmyzsh path:plugins/fzf
+ohmyzsh/ohmyzsh path:plugins/asdf
+ohmyzsh/ohmyzsh path:plugins/gradle
+ohmyzsh/ohmyzsh path:plugins/emoji
+
+zsh-users/zsh-completions
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-history-substring-search
+
+andrewferrier/fzf-z
+
+dbhagen/shell-aws-autoprofile
