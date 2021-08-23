@@ -93,6 +93,7 @@ case "$(uname -s)" in
 esac
 
 # Common aliases
+alias e="$EDITOR"
 alias path="tr ':' '\n' <<< \$PATH" # list path elements vertiacally for easier reading
 alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -nr | cut -d: -f2-"
 alias gwp="gradle properties | grep plugins: | sed 's/^.*\[\(.*\)\]$/\1/' | tr \",\" \"\n\" | xargs -n 1 | sort"
