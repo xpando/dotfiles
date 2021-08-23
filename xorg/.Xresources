@@ -9,7 +9,7 @@ Xft.lcdfilter:  lcddefault
 ! st.termname: st-256color
 ! st.borderpx: 2
 
-*.font:         Iosevka:style=Light:size=18:antialias=true:autohint:true;
+!*.font:         Iosevka Nerd Font Mono:style=Light:size=18:antialias=true:autohint:true;
 *.alpha:				0.9
 
 ! special
