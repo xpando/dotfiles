@@ -1,4 +1,4 @@
-vim.g.colors_name = 'onedark'
+vim.g.colors_name = 'molokai'
 
 vim.bo.expandtab = true
 vim.bo.shiftwidth = 2
@@ -24,11 +24,11 @@ vim.g.maplocalleader = ' '
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
 vim.g.onedark_terminal_italics = 2
-vim.cmd [[colorscheme onedark]]
+vim.cmd [[colorscheme molokai]]
 
 --Set statusbar
 vim.g.lightline = {
-  colorscheme = 'onedark',
+  colorscheme = 'molokai',
   active = { left = { { 'mode', 'paste' }, { 'gitbranch', 'readonly', 'filename', 'modified' } } },
   component_function = { gitbranch = 'fugitive#head' },
 }

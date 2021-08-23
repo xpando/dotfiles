@@ -3,8 +3,8 @@ require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   -- Color schemes
-  --use 'tomasr/molokai'
-  use 'joshdick/onedark.vim'
+  use 'tomasr/molokai'
+  --use 'joshdick/onedark.vim'
 
   -- Fancier statusline
   use 'itchyny/lightline.vim'
