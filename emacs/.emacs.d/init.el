@@ -1,6 +1,9 @@
 ;; Thanks, but no thanks
 (setq inhibit-startup-message t)
 
+;; Compatibility with WMs like BSPWM
+(setq frame-resize-pixelwise t)
+
 (scroll-bar-mode -1)	; Disable visible scrollbar
 (tool-bar-mode -1)	; Disable the toolbar
 (tooltip-mode -1)	; Disable tooltips
