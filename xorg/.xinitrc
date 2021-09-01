@@ -28,6 +28,7 @@ exec gnome-session
 
 #export _JAVA_AWT_WM_NONREPARENTING=1 # Comment out when using gnome
 wmname LG3D
+#exec i3
 #dbus-launch leftwm
 #exec bspwm
 #exec herbstluftwm
