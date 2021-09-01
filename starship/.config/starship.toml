@@ -1,0 +1,5 @@
+[erlang]
+disabled = true
+
+[elixir]
+disabled = true
