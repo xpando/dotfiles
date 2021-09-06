@@ -3,59 +3,60 @@
 #
 
 # terminal emulator
-super + control + alt + shift + Return
+super + Return
   alacritty	
 
-super + control + alt + shift + b
+# browser
+super + b
   brave
 
 # program launcher
-super + control + alt + shift + space
+super + space
   ~/.config/rofi/scripts/launcher.sh
 
-super + control + alt + shift + a
+# change audio output device
+super + ctrl + alt + shift + a
   ~/.config/rofi/scripts/audio.sh
 
-super + control + alt + shift + F12
-  ~/.local/bin/silicon-binder.sh
-
-super + control + alt + shift + Backspace
+# reload sxhkd
+super + Escape
   pkill -USR1 -x sxhkd
+
 
 # bspwm hotkeys
 #
 
 # quit/restart bspwm
 super + alt + {q,r}
-	bspc {quit,wm -r}
+  bspc {quit,wm -r}
 
-# close and kill
+# close/kill
 super + {_,shift + }w
-	bspc node -{c,k}
+  bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
-super + shift + m
-	bspc desktop -l next
+super + m
+  bspc desktop -l next
 
 # send the newest marked node to the newest preselected node
 super + y
-	bspc node newest.marked.local -n newest.!automatic.local
+  bspc node newest.marked.local -n newest.!automatic.local
 
 # swap the current node and the biggest window
 super + g
-	bspc node -s biggest.window
+  bspc node -s biggest.window
 
 #
 # state/flags
 #
 
 # set the window state
-super + {t,shift + t,s,f}
-	bspc node -t {\~tiled,\~pseudo_tiled,\~floating,\~fullscreen}
+super + {t,Shift + t,s,f}
+  bspc node -t {\~tiled,\~pseudo_tiled,\~floating,\~fullscreen}
 
 # set the node flags
-super + ctrl + {m,x,y,z}
-	bspc node -g {marked,locked,sticky,private}
+super + ctrl {m,x,y,z}
+  bspc node -g {marked,locked,sticky,private}
 
 #
 # focus/swap
@@ -110,5 +111,17 @@ super + alt + shift + {Left,Down,Up,Right}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
-super + ctrl + alt + {Left,Down,Up,Right}
-	bspc node -v {-20 0,0 20,0 -20,20 0}
+#super + ctrl + alt + {Left,Down,Up,Right}
+#	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# media keys
+XF86AudioRaiseVolume
+  pactl set-sink-volume 0 +5%
+
+XF86AudioLowerVolume
+  pactl set-sink-volume 0 -5%
+
+XF86AudioMute
+  pactl set-sink-mute 0 toggle
+
+
