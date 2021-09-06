@@ -1,9 +1,11 @@
 # Bail out if not running interactively
 [[ $- != *i* ]] && return
 
-export PATH=~/go/bin:$PATH
-export PATH=~/.cargo/bin:$PATH
-export PATH=~/.emacs.d/bin:$PATH
+export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
+
+#export PATH=~/go/bin:$PATH
+#export PATH=~/.cargo/bin:$PATH
+#export PATH=~/.emacs.d/bin:$PATH
 export PATH=~/.local/bin:$PATH
 
 export LESS=FRX
@@ -40,16 +42,6 @@ fi
 # directories and files weighted by frequency and recency of use.
 eval "$(fasd --init auto)"
 export FZFZ_RECENT_DIRS_TOOL=fasd
-
-# Fuzzy search AWS EC2 infra
-if type aws-fuzzy &>/dev/null; then
-    export AWS_FUZZ_PRIVATE_IP='true'
-    export AWS_FUZZ_USER='david.findley'
-    export AWS_FUZZ_KEY_PATH='~/.ssh/id_rsa'
-    export AWS_FUZZ_USE_CACHE=yes
-    export AWS_FUZZ_CACHE_EXPIRY=3600  # expiry time in seconds
-    alias awssh='aws-fuzzy --private'
-fi
 
 # Common command replacements
 # EXA is a better ls written in rust: https://the.exa.website/
