@@ -2,7 +2,7 @@
 [[ $- != *i* ]] && return
 
 ##############################################################################
-## History Configuration
+## History
 ##############################################################################
 HISTSIZE=5000               # How many lines of history to keep in memory
 HISTFILE=~/.zsh_history     # Where to save history to disk
@@ -24,20 +24,15 @@ bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
 ####################################################################
-# Path
-####################################################################
-
-#export PATH=~/go/bin:$PATH
-#export PATH=~/.cargo/bin:$PATH
-#export PATH=~/.emacs.d/bin:$PATH
-export PATH="$PATH:~/.local/bin"
-
-####################################################################
 # Nix package manager
 ####################################################################
-export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
 source "$HOME/.nix-profile/etc/profile.d/nix.sh"
+source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 
+####################################################################
+# Path 
+####################################################################
+export PATH=$PATH:~/.local/bin
 export LESS=FRX
 export EDITOR=vim
 
@@ -68,9 +63,6 @@ fi
 
 ####################################################################
 # Prompt https://starship.rs
-# config in: ~/.config/starship.toml
-# Install: 
-#   curl -fsSL --proto-redir https https://starship.rs/install.sh | bash
 ####################################################################
 if type starship &>/dev/null; then
   eval "$(starship init zsh)"
@@ -186,15 +178,19 @@ case "$SYSTEM" in
       Arch)
         alias mirrors='reflector --verbose -f 5 -c US -p https'
         alias umirrors='mirrors | sudo tee /etc/pacman.d/mirrorlist'
-        #alias up='paru -Syyu --noconfirm && paru -Sc --noconfirm && paru -Ps'
-        alias up='sudo pacman -Syu && paru -Sua'
+        alias up='paru -Syyu --noconfirm && paru -Sc --noconfirm && paru -Ps'
         alias pkgs='paru -Qett'
         alias ipkg='paru -Slq | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -S'
         alias upkg='paru -Qett | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -Rc' 
         alias clean-pkgs='paru -c'
         . /opt/asdf-vm/asdf.sh # asdf version manager installed with paru -S asdf-vm
         ;;
-        # TODO: add aliases specific to other distributions I use such as Fedora, PopOS, Ubuntu
+
+      Ubuntu)
+        ;;
+
+      Fedora)
+        ;;
     esac
     ;;
 

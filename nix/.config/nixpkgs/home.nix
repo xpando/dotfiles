@@ -14,25 +14,26 @@ with pkgs;
     username = "david";
     homeDirectory = "/home/david";
     packages = [
-      stow      # dotfiles manager
-      antibody  # zsh plugin manager
-      starship  # prompt
-      exa       # ls replacement
-      fzf       # fuzzy find
-      fasd      # quick access to files and dirs
-      fd        # find replacement
-      bat       # cat replacement
-      htop      # system resource monitor
-      neofetch  # system info
-      neovim    # better vim
-      micro     # better nano
-      git       # dvcs
-      gh        # github CLI
-      delta     # better diffs
-      ripgrep   # better grep
-      direnv    # auto switch env on dir change
-      gnupg     # digital sigs for things like git commits
-      asdf-vm   # Extendable version manager with support for Ruby, Node.js, Erlang & more
+      stow        # dotfiles manager
+      antibody    # zsh plugin manager
+      starship    # prompt
+      exa         # ls replacement
+      fzf         # fuzzy find
+      fasd        # quick access to files and dirs
+      fd          # find replacement
+      bat         # cat replacement
+      htop        # system resource monitor
+      neofetch    # system info
+      neovim      # better vim
+      micro       # better nano
+      git         # dvcs
+      gh          # github CLI
+      delta       # better diffs
+      ripgrep     # better grep
+      direnv      # auto switch env on dir change
+      gnupg       # digital sigs for things like git commits
+      tree-sitter # lang syntax parser for neovim
+      nodejs      # global nodejs for npm CLI tools
 
       # patched nerd fonts with symbols for prompts and status lines in the terminal
       # the full package is quite large so override with just the fonts I use
