@@ -7,9 +7,9 @@ with pkgs;
   programs.home-manager.enable = true;
 
   fonts.fontconfig.enable = true;
-  
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
+ 
+  # This is my base tool set. Per project dev tools will be 
+  # setup via a combo of direnv, asdf and nix-shell
   home = {
     username = "david";
     homeDirectory = "/home/david";
@@ -25,13 +25,17 @@ with pkgs;
       htop      # system resource monitor
       neofetch  # system info
       neovim    # better vim
+      micro     # better nano
       git       # dvcs
+      gh        # github CLI
       delta     # better diffs
       ripgrep   # better grep
       direnv    # auto switch env on dir change
       gnupg     # digital sigs for things like git commits
+      asdf-vm   # Extendable version manager with support for Ruby, Node.js, Erlang & more
 
       # patched nerd fonts with symbols for prompts and status lines in the terminal
+      # the full package is quite large so override with just the fonts I use
       (nerdfonts.override { fonts = [ "Iosevka" ]; })
     ];
   };

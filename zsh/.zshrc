@@ -30,7 +30,7 @@ bindkey "^[[1;5D" backward-word
 #export PATH=~/go/bin:$PATH
 #export PATH=~/.cargo/bin:$PATH
 #export PATH=~/.emacs.d/bin:$PATH
-export PATH=~/.local/bin:$PATH
+export PATH=$PATH:~/.local/bin
 
 ####################################################################
 # Nix package manager
@@ -39,11 +39,12 @@ export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
 
 export LESS=FRX
 export EDITOR=vim
-if type nvim &>/dev/null; then # prefer nvim
-    export EDITOR=nvim
-fi
 
-#. /opt/asdf-vm/asdf.sh
+# prefer neovim
+if type nvim &>/dev/null; then
+  export EDITOR=nvim
+  alias vim='nvim'
+fi
 
 ####################################################################
 # Privacy
@@ -58,9 +59,11 @@ export SAM_CLI_TELEMETRY=0
 #    https https://git.io/antibody \
 #    | sh -s - -b /usr/local/bin
 ####################################################################
-source <(antibody init)
-export ZSH="$(antibody home)/https-COLON--SLASH--SLASH-github.com-SLASH-ohmyzsh-SLASH-ohmyzsh"
-antibody bundle < ~/.zsh_plugins
+if type antibody &>/dev/null; then
+  source <(antibody init)
+  export ZSH="$(antibody home)/https-COLON--SLASH--SLASH-github.com-SLASH-ohmyzsh-SLASH-ohmyzsh"
+  antibody bundle < ~/.zsh_plugins
+fi
 
 ####################################################################
 # Prompt https://starship.rs
@@ -68,15 +71,24 @@ antibody bundle < ~/.zsh_plugins
 # Install: 
 #   curl -fsSL --proto-redir https https://starship.rs/install.sh | bash
 ####################################################################
-eval "$(starship init zsh)"
+if type starship &>/dev/null; then
+  eval "$(starship init zsh)"
+fi
+
+####################################################################
+# Auto environment config with direnv https://direnv.net/
+####################################################################
+if type direnv &>/dev/null; then
+  eval "$(direnv hook zsh)"
+fi
 
 ####################################################################
 # Fuzzy find
 ####################################################################
 if [ -n "${commands[fzf-share]}" ]; then
-    export FZF_BASE="$(fzf-share)"
-    source "$(fzf-share)/key-bindings.zsh"
-    source "$(fzf-share)/completion.zsh"
+  export FZF_BASE="$(fzf-share)"
+  source "$(fzf-share)/key-bindings.zsh"
+  source "$(fzf-share)/completion.zsh"
 fi
 
 ####################################################################
@@ -84,8 +96,10 @@ fi
 # With zsh plugin andrewferrier/fzf-z Ctrl-G will search
 # directories and files weighted by frequency and recency of use.
 ####################################################################
-eval "$(fasd --init auto)"
-export FZFZ_RECENT_DIRS_TOOL=fasd
+if type fasd &>/dev/null; then
+  eval "$(fasd --init auto)"
+  export FZFZ_RECENT_DIRS_TOOL=fasd
+fi
 
 ####################################################################
 # Common command replacements
@@ -93,10 +107,12 @@ export FZFZ_RECENT_DIRS_TOOL=fasd
 
 # EXA is a better ls written in rust: https://the.exa.website/
 if type exa &>/dev/null; then
-  alias ls='exa --git --group-directories-first'
+  alias ls='exa --git --group-directories-first --group --time-style=long-iso --icons'
 fi
-alias l='ls -lh'
-alias ll='ls -lah'
+alias l='ls -h'
+alias la='ls -ah'
+alias ll='ls -lh'
+alias lla='ls -lah'
 
 # Colorized cat
 if type bat &>/dev/null; then
@@ -120,21 +136,6 @@ if type gradle-or-gradlew &>/dev/null; then
   alias gw='gradle-or-gradlew'
 fi
 
-#############################################################################
-# Nethax
-#############################################################################
-function sniff-ssl-destination-port {
-  COMMAND="port $1"
-    echo "Sniffing for requests to port $1"
-      sudo ssldump -A -s 0 -i any $COMMAND
-}
-
-function sniff-destination-port {
-  COMMAND="port $1"
-  echo "Sniffing for requests to port $1"
-  sudo tcpdump -A -s 0 -i any $COMMAND
-}
-
 ####################################################################
 # Common aliases
 ####################################################################
@@ -144,7 +145,6 @@ alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -
 alias gwp="gradle properties | grep plugins: | sed 's/^.*\[\(.*\)\]$/\1/' | tr \",\" \"\n\" | xargs -n 1 | sort"
 alias qr='qrencode -t ANSI -s 1 -m 1'
 alias wttr='curl wttr.in'
-alias fkeys='echo 0 | sudo tee /sys/module/hid_apple/parameters/fnmode >/dev/null'
 function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 
 ####################################################################
@@ -174,6 +174,11 @@ case "$SYSTEM" in
     alias vm-down='sudo systemctl stop libvirtd && virsh net-destroy default'
     alias clean-logs='sudo journalctl --vacuum-time=5d'
 
+    # disable Fn mode for F keys for Mac keyboards
+    # this is needed when I'm using my Keychron K3 on linux
+    alias fkeys='echo 0 | sudo tee /sys/module/hid_apple/parameters/fnmode >/dev/null'
+
+    # show what ports are open and listening
     function eports() { sudo ss -ntapl | awk '$1=="LISTEN" && $4!~/^(127\.|\[::1\])/' }
 
     case "$DIST" in
