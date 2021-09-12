@@ -14,25 +14,25 @@ with pkgs;
     username = "david";
     homeDirectory = "/home/david";
     packages = [
-      stow
-      antibody
-      starship
-      exa
-      fzf
-      fasd
-      fd
-      bat
-      htop
-      neofetch
-      vim
-      neovim
-      git
-      delta
-      ripgrep
-      direnv
-      gnupg
+      stow      # dotfiles manager
+      antibody  # zsh plugin manager
+      starship  # prompt
+      exa       # ls replacement
+      fzf       # fuzzy find
+      fasd      # quick access to files and dirs
+      fd        # find replacement
+      bat       # cat replacement
+      htop      # system resource monitor
+      neofetch  # system info
+      neovim    # better vim
+      git       # dvcs
+      delta     # better diffs
+      ripgrep   # better grep
+      direnv    # auto switch env on dir change
+      gnupg     # digital sigs for things like git commits
 
-      (nerdfonts.override { fonts = [ "Iosevka" "Hack" ]; })
+      # patched nerd fonts with symbols for prompts and status lines in the terminal
+      (nerdfonts.override { fonts = [ "Iosevka" ]; })
     ];
   };
 
