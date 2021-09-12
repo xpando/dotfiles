@@ -24,18 +24,19 @@ bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
 ####################################################################
-# Path 
+# Path
 ####################################################################
 
 #export PATH=~/go/bin:$PATH
 #export PATH=~/.cargo/bin:$PATH
 #export PATH=~/.emacs.d/bin:$PATH
-export PATH=$PATH:~/.local/bin
+export PATH="$PATH:~/.local/bin"
 
 ####################################################################
 # Nix package manager
 ####################################################################
-export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
+export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
+source "$HOME/.nix-profile/etc/profile.d/nix.sh"
 
 export LESS=FRX
 export EDITOR=vim
