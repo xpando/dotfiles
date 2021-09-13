@@ -24,10 +24,10 @@ bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
 ####################################################################
-# Nix package manager
+# Nix and Home Manager Environment
 ####################################################################
-source "$HOME/.nix-profile/etc/profile.d/nix.sh"
-source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+source "$HOME/.nix-profile/etc/profile.d/nix.sh" 2>/dev/null
+source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 2>/dev/null
 
 ####################################################################
 # Path 
