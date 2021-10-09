@@ -114,9 +114,10 @@ if type bat &>/dev/null; then
 fi
 
 # Git
-alias gfa='git fetch --all'
-alias gfp='git fetch --prune --all'
-alias grp='git remote prune'
+alias g='git'
+alias gfa='g fetch --all'
+alias gfp='g fetch --prune --all'
+alias grp='g remote prune'
 
 # httpie - https://httpie.org/
 if type http &>/dev/null; then
@@ -137,7 +138,6 @@ alias path="tr ':' '\n' <<< \$PATH" # list path elements vertiacally for easier 
 alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -nr | cut -d: -f2-"
 alias gwp="gradle properties | grep plugins: | sed 's/^.*\[\(.*\)\]$/\1/' | tr \",\" \"\n\" | xargs -n 1 | sort"
 alias qr='qrencode -t ANSI -s 1 -m 1'
-alias wttr='curl wttr.in'
 function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 
 ####################################################################
