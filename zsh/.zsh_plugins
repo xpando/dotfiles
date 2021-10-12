@@ -5,8 +5,8 @@ ohmyzsh/ohmyzsh path:plugins/gradle
 ohmyzsh/ohmyzsh path:plugins/emoji
 ohmyzsh/ohmyzsh path:plugins/extract
 
-
-unixorn/fzf-zsh-plugin
+andrewferrier/fzf-z
+#unixorn/fzf-zsh-plugin
 #Aloxaf/fzf-tab
 #xpando/fzf-z
 
