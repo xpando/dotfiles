@@ -69,13 +69,6 @@ if type starship &>/dev/null; then
 fi
 
 ####################################################################
-# Auto environment config with direnv https://direnv.net/
-####################################################################
-if type direnv &>/dev/null; then
-  eval "$(direnv hook zsh)"
-fi
-
-####################################################################
 # Fuzzy find
 ####################################################################
 if [ -n "${commands[fzf-share]}" ]; then
@@ -93,6 +86,12 @@ if type fasd &>/dev/null; then
   eval "$(fasd --init auto)"
   export FZFZ_RECENT_DIRS_TOOL=fasd
 fi
+
+####################################################################
+# SDK Man - manage multiple versions of Java, Scala etc.
+####################################################################
+export SDKMAN_DIR="$HOME/.sdkman"
+source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
 
 ####################################################################
 # Common command replacements
@@ -130,6 +129,12 @@ if type gradle-or-gradlew &>/dev/null; then
   alias gw='gradle-or-gradlew'
 fi
 
+# AWS CLI
+if type aws &>/dev/null; then
+  # Localstack
+  alias awsl='aws --endpoint-url=http://localhost:4566'
+fi
+
 ####################################################################
 # Common aliases
 ####################################################################
@@ -138,13 +143,14 @@ alias path="tr ':' '\n' <<< \$PATH" # list path elements vertiacally for easier 
 alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -nr | cut -d: -f2-"
 alias gwp="gradle properties | grep plugins: | sed 's/^.*\[\(.*\)\]$/\1/' | tr \",\" \"\n\" | xargs -n 1 | sort"
 alias qr='qrencode -t ANSI -s 1 -m 1'
+
 function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 
 ####################################################################
 # Platform specific aliases
 ####################################################################
 SYSTEM=$(uname -s)
-case "$(uname -s)" in
+case "$SYSTEM" in
   Linux)
     DIST=$(lsb_release -a | egrep 'Distributor ID:' | cut -f2)
     ;;
@@ -195,7 +201,22 @@ case "$SYSTEM" in
     ;;
 
   Darwin)
-    # TODO: add Mac specific aliases here
+    alias docker-up='limactl start'
+    alias docker-down='limactl stop'
+    alias docker='lima nerdctl'
+    function pg-up {
+      lima nerdctl run --rm \
+        -p "5432:5432" \
+        -e POSTGRES_USER="postgres" \
+        -e POSTGRES_PASSWORD="postgres" \
+        -e POSTGRES_DB="$1" \
+        --name "postgres_$1" \
+        postgres
+    }
+
+    function pg-down {
+      lima nerdctl stop "postgres_$1"
+    }
     ;;
 esac
 
