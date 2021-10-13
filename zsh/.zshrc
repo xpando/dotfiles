@@ -201,9 +201,13 @@ case "$SYSTEM" in
     ;;
 
   Darwin)
+    # add sbin to path for Homebrew
+    export PATH=/usr/local/sbin:$PATH
+
     alias docker-up='limactl start'
     alias docker-down='limactl stop'
     alias docker='lima nerdctl'
+
     function pg-up {
       lima nerdctl run --rm \
         -p "5432:5432" \
