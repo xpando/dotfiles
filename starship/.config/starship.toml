@@ -1,5 +1,5 @@
-format = """$character"""
-right_format = """$all"""
+#format = """$character"""
+#right_format = """$all"""
 
 [aws]
 disabled = true
