@@ -1,18 +1,14 @@
 ohmyzsh/ohmyzsh
 ohmyzsh/ohmyzsh path:plugins/fzf
 ohmyzsh/ohmyzsh path:plugins/asdf
-ohmyzsh/ohmyzsh path:plugins/gradle
-ohmyzsh/ohmyzsh path:plugins/emoji
-ohmyzsh/ohmyzsh path:plugins/extract
+#ohmyzsh/ohmyzsh path:plugins/pyenv
+#ohmyzsh/ohmyzsh path:plugins/gradle
+#ohmyzsh/ohmyzsh path:plugins/emoji
+#ohmyzsh/ohmyzsh path:plugins/extract
 
 andrewferrier/fzf-z
-#unixorn/fzf-zsh-plugin
-#Aloxaf/fzf-tab
-#xpando/fzf-z
+#darvid/zsh-poetry
 
 zsh-users/zsh-completions
 zsh-users/zsh-syntax-highlighting
-#zsh-users/zsh-history-substring-search
-#spwhitt/nix-zsh-completions
-
 

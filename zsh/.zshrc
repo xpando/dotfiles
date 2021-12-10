@@ -87,6 +87,13 @@ if type fasd &>/dev/null; then
   export FZFZ_RECENT_DIRS_TOOL=fasd
 fi
 
+###################################################################
+# Python version manager 
+####################################################################
+if type pyenv &>/dev/null; then
+  eval "$(pyenv init -)" 
+fi
+
 ####################################################################
 # SDK Man - manage multiple versions of Java, Scala etc.
 ####################################################################
@@ -100,11 +107,12 @@ source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
 # EXA is a better ls written in rust: https://the.exa.website/
 if type exa &>/dev/null; then
   alias ls='exa --git --group-directories-first --group --time-style=long-iso --icons'
+  export EXA_ICON_SPACING=2
 fi
-alias l='ls -h'
-alias la='ls -ah'
-alias ll='ls -lh'
-alias lla='ls -lah'
+alias l='ls'
+alias la='ls -a'
+alias ll='ls -l'
+alias lla='ls -la'
 
 # Colorized cat
 if type bat &>/dev/null; then
@@ -141,10 +149,19 @@ fi
 alias e="$EDITOR"
 alias path="tr ':' '\n' <<< \$PATH" # list path elements vertiacally for easier reading
 alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -nr | cut -d: -f2-"
+alias serve="python -m http.server"
 alias gwp="gradle properties | grep plugins: | sed 's/^.*\[\(.*\)\]$/\1/' | tr \",\" \"\n\" | xargs -n 1 | sort"
 alias qr='qrencode -t ANSI -s 1 -m 1'
 
 function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
+
+case "$(pstree -sA $$ | awk -F "---" '{ print $2 }')" in
+  wezterm-gui)
+    alias neofetch="neofetch --backend iterm2 --source ~/Pictures/icons/hedgehog.png"
+    ;;
+  kitty)
+    alias neofetch="neofetch --backend kitty --source ~/Pictures/icons/hedgehog.png"
+esac
 
 ####################################################################
 # Platform specific aliases
@@ -171,7 +188,7 @@ case "$SYSTEM" in
     alias docker-down='sudo systemctl stop docker && sudo systemctl stop containerd && sudo ip link delete docker0'
     alias vm-up='sudo systemctl start libvirtd && virsh net-start default'
     alias vm-down='sudo systemctl stop libvirtd && virsh net-destroy default'
-    alias clean-logs='sudo journalctl --vacuum-time=5d'
+    alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1s'
 
     # disable Fn mode for F keys for Mac keyboards
     # this is needed when I'm using my Keychron K3 on linux
@@ -189,7 +206,6 @@ case "$SYSTEM" in
         alias ipkg='paru -Slq | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -S'
         alias upkg='paru -Qett | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -Rc' 
         alias clean-pkgs='paru -c'
-        . /opt/asdf-vm/asdf.sh # asdf version manager installed with paru -S asdf-vm
         ;;
 
       Ubuntu)
