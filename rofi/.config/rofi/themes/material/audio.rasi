@@ -8,11 +8,8 @@
  */
 
 configuration {
-    font:                           "Fantasque Sans Mono 10";
-    show-icons:                     true;
-    icon-theme:                     "Papirus";
-    drun-display-format:            "{name}";
-    disable-history:                false;
+    font:                           "VictoMono Nerd Font 18";
+    disable-history:                true;
     fullscreen:                     false;
     hide-scrollbar:                 true;
     sidebar-mode:                   false;
@@ -24,29 +21,37 @@ window {
     transparency:                   "real";
     background-color:               @bg;
     text-color:                     @fg;
-    border:                         0px;
-    border-color:                   @ac;
-    border-radius:                  0px;
-    width:                          600px;
+    width:                          800px;
     location:                       center;
     x-offset:                       0;
     y-offset:                       0;
+    border:                         0px;
+    margin:                         0px;
+    padding:                        0px;
 }
 
 prompt {
     enabled:                        true;
-    padding:                        0px 5px 5px 0px;
     background-color:               @al;
     text-color:                     @bar;
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+    border:                         0px;
+    margin:                         0px;
+    padding:                        0px;
 }
 
 textbox-prompt-colon {
-    padding:                        -2px 5px 5px -10px;
-    font:                           "Material\-Design\-Iconic\-Font 12";
+    font:                           "VictoMono Nerd Font 24";
     background-color:               @al;
     text-color:                     @bar;
     expand:                         false;
-    str:                            "";
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+    border:                         0px;
+    margin:                         0px;
+    padding:                        0px 10px;
+    str:                            "";
 }
 
 entry {
@@ -55,9 +60,10 @@ entry {
     placeholder-color:              @bar;
     expand:                         true;
     horizontal-align:               0;
-    placeholder:                    "Search...";
-    padding:                        1px;
-    blink:                          true;
+    vertical-align:                 0.5;
+    border:                         0px;
+    margin:                         0px;
+    padding:                        0px;
 }
 
 inputbar {
@@ -68,28 +74,30 @@ inputbar {
     border:                         0px;
     border-radius:                  0px;
     border-color:                   @ac;
+    border:                         0px;
     margin:                         0px;
-    padding:                        15px 0px 8px 25px;
+    padding:                        0px;
 }
 
 listview {
     background-color:               @al;
-    padding:                        0px;
     columns:                        1;
     lines:                          5;
     spacing:                        5px;
     cycle:                          true;
     dynamic:                        true;
     layout:                         vertical;
+    border:                         0px;
+    margin:                         0px;
+    padding:                        0px;
 }
 
 mainbox {
     background-color:               @al;
-    border:                         0px;
-    border-radius:                  0px;
-    border-color:                   @ac;
     children:                       [ inputbar, listview ];
     spacing:                        0px;
+    border:                         0px;
+    margin:                         0px;
     padding:                        0px;
 }
 
@@ -97,13 +105,17 @@ element {
     background-color:               @al;
     text-color:                     @fg;
     orientation:                    horizontal;
-    border-radius:                  0px;
-    padding:                        15px;
+    border:                         0px;
+    margin:                         0px;
+    padding:                        0px;
 }
 
 element-icon {
     size:                           0px;
     border:                         0px;
+    border:                         0px;
+    margin:                         0px;
+    padding:                        5px;
 }
 
 element-text {
@@ -112,13 +124,15 @@ element-text {
     expand:                         true;
     horizontal-align:               0;
     vertical-align:                 0.5;
-    margin:                         0px 0px 0px -5px;
+    border:                         0px;
+    margin:                         0px;
+    padding:                        5px;
 }
 
 element selected {
     background-color:               @bga;
     text-color:                     @fg;
     border:                         0px;
-    border-radius:                  0px;
-    border-color:                   @bg;
+    margin:                         0px;
+    padding:                        5px;
 }

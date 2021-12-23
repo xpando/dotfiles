@@ -5,7 +5,7 @@
 * {
     background-color:       @bg;
     text-color:             @fg;
-	font:				 	"Fantasque Sans Mono 10";
+	font:				 	"VictoMono Nerd Font 18";
 }
 
 window {
