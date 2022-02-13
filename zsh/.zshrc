@@ -88,10 +88,15 @@ if type fasd &>/dev/null; then
 fi
 
 ###################################################################
-# Python version manager 
+# Python 
 ####################################################################
-if type pyenv &>/dev/null; then
-  eval "$(pyenv init -)" 
+if type pipx &>/dev/null; then
+  eval "$(register-python-argcomplete pipx)"
+fi
+
+if type pipenv &>/dev/null; then
+  # Tell pipenv to create virtual environments inside the project directory
+  export PIPENV_VENV_IN_PROJECT=1
 fi
 
 ####################################################################
@@ -141,6 +146,10 @@ fi
 if type aws &>/dev/null; then
   # Localstack
   alias awsl='aws --endpoint-url=http://localhost:4566'
+fi
+
+if [[ -d ~/.awsglue/bin ]]; then
+  export PATH=$PATH:~/.awsglue/bin
 fi
 
 ####################################################################

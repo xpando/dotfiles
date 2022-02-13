@@ -4,6 +4,3 @@
 # Turn off debug logging for things like albert
 export QT_LOGGING_RULES="*.debug=false;*.info=false"
 
-if type pyenv &>/dev/null; then
-  eval "$(pyenv init --path)"
-fi
