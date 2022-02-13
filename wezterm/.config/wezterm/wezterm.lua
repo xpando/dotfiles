@@ -3,12 +3,12 @@ local wt = require 'wezterm';
 return {
 
   -- Don't use a login shell
-  -- default_prog = {"/usr/bin/zsh"},
+  default_prog = {"/usr/bin/zsh"},
 
   color_scheme = "OneHalfDark",
   font_size = 18.0,
   font = wt.font_with_fallback({
-    { family="Iosevka Nerd Font", weight="ExtraLight"},
+    { family="Iosevka Nerd Font", weight="Light"},
     { family="Apple Color Emoji" }
   }),
   font_rules = {
