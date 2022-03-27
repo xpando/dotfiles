@@ -164,14 +164,6 @@ alias qr='qrencode -t ANSI -s 1 -m 1'
 
 function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 
-case "$(pstree -sA $$ | awk -F "---" '{ print $2 }')" in
-  wezterm-gui)
-    alias neofetch="neofetch --backend iterm2 --source ~/Pictures/icons/hedgehog.png"
-    ;;
-  kitty)
-    alias neofetch="neofetch --backend kitty --source ~/Pictures/icons/hedgehog.png"
-esac
-
 ####################################################################
 # Platform specific aliases
 ####################################################################
@@ -232,6 +224,8 @@ case "$SYSTEM" in
     alias docker-up='limactl start'
     alias docker-down='limactl stop'
     alias docker='lima nerdctl'
+
+    alias wez-up='brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest'
 
     function pg-up {
       lima nerdctl run --rm \
