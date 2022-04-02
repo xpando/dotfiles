@@ -221,6 +221,9 @@ case "$SYSTEM" in
     # add sbin to path for Homebrew
     export PATH=/usr/local/sbin:$PATH
 
+    alias wezup='brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest'
+    alias qrp='pbpaste | qrencode -s 30 -o - | wezterm -n imgcat'
+
     alias docker-up='limactl start'
     alias docker-down='limactl stop'
     alias docker='lima nerdctl'
