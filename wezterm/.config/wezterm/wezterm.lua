@@ -3,7 +3,7 @@ local wt = require 'wezterm';
 return {
 
   -- Don't use a login shell
-  default_prog = {"/usr/bin/zsh"},
+  -- default_prog = {"/usr/local/bin/zsh"},
 
   color_scheme = "OneHalfDark",
   font_size = 18.0,
