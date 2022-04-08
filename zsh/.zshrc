@@ -87,9 +87,26 @@ if type fasd &>/dev/null; then
   export FZFZ_RECENT_DIRS_TOOL=fasd
 fi
 
-###################################################################
-# Python 
+# Automatically configure environment when changing into a directory with a .envrc file
+if type direnv &>/dev/null; then
+  eval "$(asdf exec direnv hook zsh)"
+fi
+
 ####################################################################
+# SDK Man - manage multiple versions of Java, Scala etc.
+####################################################################
+if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
+  export SDKMAN_DIR="$HOME/.sdkman"
+  source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
+fi
+
+###################################################################
+# Python
+####################################################################
+if type pyenv &>/dev/null; then
+  eval "$(pyenv init -)"
+fi
+
 if type pipx &>/dev/null; then
   eval "$(register-python-argcomplete pipx)"
 fi
@@ -98,12 +115,6 @@ if type pipenv &>/dev/null; then
   # Tell pipenv to create virtual environments inside the project directory
   export PIPENV_VENV_IN_PROJECT=1
 fi
-
-####################################################################
-# SDK Man - manage multiple versions of Java, Scala etc.
-####################################################################
-export SDKMAN_DIR="$HOME/.sdkman"
-source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
 
 ####################################################################
 # Common command replacements
@@ -146,10 +157,6 @@ fi
 if type aws &>/dev/null; then
   # Localstack
   alias awsl='aws --endpoint-url=http://localhost:4566'
-fi
-
-if [[ -d ~/.awsglue/bin ]]; then
-  export PATH=$PATH:~/.awsglue/bin
 fi
 
 ####################################################################
@@ -227,22 +234,12 @@ case "$SYSTEM" in
     alias docker-up='limactl start'
     alias docker-down='limactl stop'
     alias docker='lima nerdctl'
-
-    alias wez-up='brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest'
-
-    function pg-up {
-      lima nerdctl run --rm \
-        -p "5432:5432" \
-        -e POSTGRES_USER="postgres" \
-        -e POSTGRES_PASSWORD="postgres" \
-        -e POSTGRES_DB="$1" \
-        --name "postgres_$1" \
-        postgres
-    }
-
-    function pg-down {
-      lima nerdctl stop "postgres_$1"
-    }
     ;;
 esac
 
+# load local system configuration if it exists
+if [ -f "$HOME/.zsh_local" ]; then
+  source "$HOME/.zsh_local"
+fi
+
+export PYTHONPATH=$PYTHONPATH:/Users/david.findley/Projects/cyclope

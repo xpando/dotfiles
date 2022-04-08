@@ -1,4 +1,4 @@
-#format = """$character"""
+format = """$character"""
 #right_format = """$all"""
 
 [aws]
