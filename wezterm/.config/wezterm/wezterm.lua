@@ -1,12 +1,13 @@
 local wt = require 'wezterm';
 
 return {
+  -- On MacOS when launching the app from Alfred the default program is "sh". I want to use zsh.
+  default_prog = {"/usr/local/bin/zsh", "-l"},
 
-  -- Don't use a login shell
-  -- default_prog = {"/usr/local/bin/zsh"},
+  window_decorations = "RESIZE",
 
-  color_scheme = "OneHalfDark",
-  font_size = 18.0,
+  color_scheme = "DaveDark",
+  font_size = 20.0,
   font = wt.font_with_fallback({
     { family="Iosevka Nerd Font", weight="Light"},
     { family="Apple Color Emoji" }
@@ -24,14 +25,11 @@ return {
         { family="Iosevka Nerd Font", weight="Light" }
       })
     }
-   },
+  },
   freetype_load_target = "HorizontalLcd",
   bold_brightens_ansi_colors = true,
   window_background_opacity = 1.0,
   text_background_opacity = 1.0,
-
-  -- hide title bar
-  window_decoration = "NONE",
 
   -- set to false to disable the tab bar completely
   enable_tab_bar = true,
@@ -44,14 +42,15 @@ return {
     tab_bar = {
 
       -- The color of the strip that goes along the top of the window
-      background = "#0b0022",
+      -- background = "#0b0022",
+      background = "#1e1e1e",
 
       -- The active tab is the one that has focus in the window
       active_tab = {
         -- The color of the background area for the tab
-        bg_color = "#2b2042",
+        bg_color = "#1e1e1e",
         -- The color of the text for the tab
-        fg_color = "#c0c0c0",
+        fg_color = "#84f542",
 
         -- Specify whether you want "Half", "Normal" or "Bold" intensity for the
         -- label shown for this tab.
@@ -74,8 +73,8 @@ return {
 
       -- Inactive tabs are the tabs that do not have focus
       inactive_tab = {
-        bg_color = "#1b1032",
-        fg_color = "#808080",
+        bg_color = "#000000",
+        fg_color = "#c0c0c0",
 
         -- The same options that were listed under the `active_tab` section above
         -- can also be used for `inactive_tab`.
