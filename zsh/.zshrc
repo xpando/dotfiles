@@ -231,9 +231,11 @@ case "$SYSTEM" in
     alias wezup='brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest'
     alias qrp='pbpaste | qrencode -s 30 -o - | wezterm -n imgcat'
 
-    alias docker-up='limactl start'
-    alias docker-down='limactl stop'
-    alias docker='lima nerdctl'
+    if type limactl &>/dev/null; then
+      alias docker-up='limactl start'
+      alias docker-down='limactl stop'
+      #alias docker='lima nerdctl'
+    fi
     ;;
 esac
 
