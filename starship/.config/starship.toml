@@ -1,6 +1,9 @@
 format = """$all$character"""
 #right_format = """$all"""
 
+# Commands can be slow on systems with a lot of realtime security monitoring
+command_timeout = 1000
+
 [aws]
 disabled = true
 

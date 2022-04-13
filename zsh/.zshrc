@@ -142,6 +142,10 @@ alias gfa='g fetch --all'
 alias gfp='g fetch --prune --all'
 alias grp='g remote prune'
 
+if type onefetch &>/dev/null; then
+  alias onefetch='onefetch --no-palette --no-merges --no-bots -A 10'
+fi
+
 # httpie - https://httpie.org/
 if type http &>/dev/null; then
   alias https='http --default-scheme=https'
@@ -243,5 +247,3 @@ esac
 if [ -f "$HOME/.zsh_local" ]; then
   source "$HOME/.zsh_local"
 fi
-
-export PYTHONPATH=$PYTHONPATH:/Users/david.findley/Projects/cyclope
