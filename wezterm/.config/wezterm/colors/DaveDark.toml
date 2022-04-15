@@ -1,6 +1,6 @@
 [colors]
 foreground = "#dcdfe4"
-background = "#1e1e1e"
+background = "#0e0e0e"
 cursor_bg = "#a3b3cc"
 cursor_border = "#a3b3cc"
 cursor_fg = "#dcdfe4"
