@@ -65,27 +65,34 @@ if type starship &>/dev/null; then
 fi
 
 ####################################################################
-# Fuzzy find
+# History
 ####################################################################
-if [ -n "${commands[fzf-share]}" ]; then
-  export FZF_BASE="$(fzf-share)"
-  source "$(fzf-share)/key-bindings.zsh"
-  source "$(fzf-share)/completion.zsh"
+
+# https://github.com/cantino/mcfly
+if type mcfly &>/dev/null; then
+ export MCFLY_RESULTS=25
+ #export MCFLY_FUZZY=2
+ #export MCFLY_INTERFACE_VIEW=BOTTOM
+ eval "$(mcfly init zsh)"
+fi
+
+# https://github.com/ellie/atuin
+# if type atuin &>/dev/null; then
+#   export ATUIN_NOBIND="true"
+#   eval "$(atuin init zsh)"
+#   bindkey ^r _atuin_search_widget
+# fi
+
+if type zoxide &>/dev/null; then
+  eval "$(zoxide init zsh)"
 fi
 
 ####################################################################
-# Frecent files and directories
-# With zsh plugin andrewferrier/fzf-z Ctrl-G will search
-# directories and files weighted by frequency and recency of use.
+# asdf - manage multiple versions of dev tools
 ####################################################################
-if type fasd &>/dev/null; then
-  eval "$(fasd --init auto)"
-  export FZFZ_RECENT_DIRS_TOOL=fasd
-fi
-
-# Automatically configure environment when changing into a directory with a .envrc file
-if type direnv &>/dev/null; then
-  eval "$(asdf exec direnv hook zsh)"
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+  source "$HOME/.asdf/asdf.sh"
+  source "$HOME/.asdf/completions/asdf.bash"
 fi
 
 ####################################################################
