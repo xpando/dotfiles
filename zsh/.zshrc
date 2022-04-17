@@ -93,6 +93,10 @@ fi
 if [ -f "$HOME/.asdf/asdf.sh" ]; then
   source "$HOME/.asdf/asdf.sh"
   source "$HOME/.asdf/completions/asdf.bash"
+  # Automatically configure environment when changing into a directory with a .envrc file
+  if type direnv &>/dev/null; then
+    eval "$(asdf exec direnv hook zsh)"
+  fi
 fi
 
 ####################################################################
@@ -103,7 +107,7 @@ if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
   source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
 fi
 
-###################################################################
+####################################################################
 # Python
 ####################################################################
 if type pyenv &>/dev/null; then
@@ -117,6 +121,15 @@ fi
 if type pipenv &>/dev/null; then
   # Tell pipenv to create virtual environments inside the project directory
   export PIPENV_VENV_IN_PROJECT=1
+fi
+
+####################################################################
+# Go
+####################################################################
+if type go &>/dev/null; then
+  export GOPATH=$HOME/Go
+  export GOBIN=$GOPATH/bin
+  export PATH=$PATH:$GOBIN
 fi
 
 ####################################################################
