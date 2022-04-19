@@ -177,6 +177,15 @@ fi
 if type aws &>/dev/null; then
   # Localstack
   alias awsl='aws --endpoint-url=http://localhost:4566'
+  # Hotkey to quickly switch AWS profiles
+  if type fzf &>/dev/null; then
+    function _change_aws_profile() {
+      profile=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | fzf)
+      [ ! -z "$profile" ] && export AWS_PROFILE=$profile
+    }
+    zle -N _change_aws_profile
+    bindkey ^p _change_aws_profile
+  fi
 fi
 
 ####################################################################
