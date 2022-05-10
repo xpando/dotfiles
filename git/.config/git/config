@@ -27,10 +27,12 @@
   ff = only
 
 [alias]
-	logg = log --pretty=format:\"\\\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\\\"\" --graph --date=relative --decorate --all
+  up = "!f() { git fetch --all; git pull origin HEAD; for upstream in $(git remote); do git remote prune "${upstream}"; done }; f"
+  undo = !git reset HEAD~1 --mixed
+  logg = !git log --pretty=format:\"\\\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\\\"\" --graph --date=relative --decorate --all
+  top = !git log --format=format:%an | sort | uniq -c | sort -gbr | head -n 20
 
 # Local overrides
 [include]
     path = ~/.gitconfig_local
-
 
