@@ -1,21 +1,61 @@
 # Bail out if not running interactively
 [[ $- != *i* ]] && return
 
+export ZDOTDIR=$HOME/.config/zsh
+source "$ZDOTDIR/zsh-functions"
+
+####################################################################
+# Path 
+####################################################################
+export PATH=$PATH:~/.local/bin
+export LESS=FRX
+export EDITOR=vim
+
 ##############################################################################
 ## History
 ##############################################################################
-HISTSIZE=15000              # How many lines of history to keep in memory
-SAVEHIST=1000000000         # Number of history entries to save to disk
-HISTFILE=~/.zsh_history     # Where to save history to disk
-#HISTDUP=erase               # Erase duplicates in the history file
-setopt    appendhistory     # Append history to the history file (no overwriting)
-setopt    sharehistory      # Share history across terminals
-setopt    incappendhistory  # Immediately append to the history file, not just when a term is killed
+HISTSIZE=15000           # How many lines of history to keep in memory
+SAVEHIST=1000000000      # Number of history entries to save to disk
+HISTFILE=~/.zsh_history  # Where to save history to disk
+HISTDUP=erase            # Erase duplicates in the history file
+setopt appendhistory     # Append history to the history file (no overwriting)
+setopt sharehistory      # Share history across terminals
+setopt incappendhistory  # Immediately append to the history file, not just when a term is killed
+
+####################################################################
+# Completions
+####################################################################
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+
+# compinit
+_comp_options+=(globdots) # Include hidden files.
+
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+####################################################################
+# asdf - manage multiple versions of dev tools
+####################################################################
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+  autoload -U +X bashcompinit && bashcompinit # asdf requires bash completions :(
+  fpath=($HOME/.asdf/completions $fpath)
+  source "$HOME/.asdf/asdf.sh"
+fi
+
+####################################################################
+# Plugins
+####################################################################
+zsh_add_plugin "zsh-users/zsh-autosuggestions"
+zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
+compinit
 
 ####################################################################
 # Key bindings
 ####################################################################
-
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
 
@@ -26,34 +66,10 @@ if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/
 if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 2>/dev/null; fi
 
 ####################################################################
-# Path 
-####################################################################
-export PATH=$PATH:~/.local/bin
-export LESS=FRX
-export EDITOR=vim
-
-# prefer neovim
-if type nvim &>/dev/null; then
-  export EDITOR=nvim
-  alias vim='nvim'
-fi
-
-####################################################################
 # Privacy
 ####################################################################
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export SAM_CLI_TELEMETRY=0
-
-####################################################################
-# ZSH Plugins
-####################################################################
-if [[ ! -f ~/.zpm/zpm.zsh ]]; then
-  git clone --recursive https://github.com/zpm-zsh/zpm ~/.zpm
-fi
-source ~/.zpm/zpm.zsh
-
-zpm load @omz
-zpm load @gh/zsh-users/zsh-syntax-highlighting
 
 ####################################################################
 # Prompt https://starship.rs
@@ -65,8 +81,6 @@ fi
 ####################################################################
 # History
 ####################################################################
-
-#[ -f ~/.resh/shellrc ] && source ~/.resh/shellrc
 
 # https://github.com/cantino/mcfly
 #if type mcfly &>/dev/null; then
@@ -85,18 +99,6 @@ fi
 
 if type zoxide &>/dev/null; then
   eval "$(zoxide init zsh)"
-fi
-
-####################################################################
-# asdf - manage multiple versions of dev tools
-####################################################################
-if [ -f "$HOME/.asdf/asdf.sh" ]; then
-  source "$HOME/.asdf/asdf.sh"
-  source "$HOME/.asdf/completions/asdf.bash"
-  # Automatically configure environment when changing into a directory with a .envrc file
-  if type direnv &>/dev/null; then
-    eval "$(asdf exec direnv hook zsh)"
-  fi
 fi
 
 ####################################################################
@@ -136,6 +138,11 @@ fi
 # Common command replacements
 ####################################################################
 
+# prefer neovim
+if type nvim &>/dev/null; then
+  export EDITOR=nvim
+fi
+
 # EXA is a better ls written in rust: https://the.exa.website/
 if type exa &>/dev/null; then
   alias ls='exa --git --group-directories-first --group --time-style=long-iso --icons'
@@ -165,12 +172,6 @@ fi
 # httpie - https://httpie.org/
 if type http &>/dev/null; then
   alias https='http --default-scheme=https'
-fi
-
-# gradle zsh plugin provides this function
-# if it is present, alias it to gw
-if type gradle-or-gradlew &>/dev/null; then
-  alias gw='gradle-or-gradlew'
 fi
 
 # AWS CLI
