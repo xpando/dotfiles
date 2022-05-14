@@ -2,7 +2,7 @@ local wt = require 'wezterm';
 
 return {
   -- On MacOS when launching the app from Alfred the default program is "sh". I want to use zsh.
-  default_prog = {"/usr/local/bin/zsh", "-l"},
+  -- default_prog = {"/usr/local/bin/zsh", "-l"},
 
   window_decorations = "RESIZE",
 
