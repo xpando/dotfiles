@@ -22,11 +22,21 @@ setopt appendhistory     # Append history to the history file (no overwriting)
 setopt sharehistory      # Share history across terminals
 setopt incappendhistory  # Immediately append to the history file, not just when a term is killed
 
+##############################################################################
+## Ergonomics
+##############################################################################
+unsetopt BEEP # beeping is annoying
+setopt autocd nomatch
+setopt interactive_comments
+stty stop undef		# Disable ctrl-s to freeze terminal.
+zle_highlight=('paste:none')
+
 ####################################################################
 # Completions
 ####################################################################
 autoload -Uz compinit
 zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 zmodload zsh/complist
 
 # compinit
