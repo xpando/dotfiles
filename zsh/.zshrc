@@ -2,7 +2,6 @@
 [[ $- != *i* ]] && return
 
 export ZDOTDIR=$HOME/.config/zsh
-source "$ZDOTDIR/zsh-functions"
 
 ####################################################################
 # Path 
@@ -46,6 +45,7 @@ autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
+compinit
 
 ####################################################################
 # asdf - manage multiple versions of dev tools
@@ -59,15 +59,18 @@ fi
 ####################################################################
 # Plugins
 ####################################################################
-zsh_add_plugin "zsh-users/zsh-autosuggestions"
-zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
-compinit
+source $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+source $ZDOTDIR/plugins/fzf-z/fzf-z.plugin.zsh
+source $ZDOTDIR/plugins/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
 
 ####################################################################
-# Key bindings
+# Frecent files and directories weighted by frequency and recency 
+# of use. https://github.com/clvv/fasd
 ####################################################################
-bindkey "^[[1;3C" forward-word
-bindkey "^[[1;3D" backward-word
+if type fasd &>/dev/null; then
+  eval "$(fasd --init auto)"
+  export FZFZ_RECENT_DIRS_TOOL=fasd
+fi
 
 ####################################################################
 # Nix and Home Manager Environment
@@ -86,29 +89,6 @@ export SAM_CLI_TELEMETRY=0
 ####################################################################
 if type starship &>/dev/null; then
   eval "$(starship init zsh)"
-fi
-
-####################################################################
-# History
-####################################################################
-
-# https://github.com/cantino/mcfly
-#if type mcfly &>/dev/null; then
-# export MCFLY_RESULTS=25
-# export MCFLY_FUZZY=2
-# export MCFLY_INTERFACE_VIEW=BOTTOM
-# eval "$(mcfly init zsh)"
-#fi
-
-# https://github.com/ellie/atuin
-if type atuin &>/dev/null; then
-   export ATUIN_NOBIND="true"
-   eval "$(atuin init zsh)"
-   bindkey ^r _atuin_search_widget
-fi
-
-if type zoxide &>/dev/null; then
-  eval "$(zoxide init zsh)"
 fi
 
 ####################################################################
@@ -225,6 +205,12 @@ case "$SYSTEM" in
   *)
     echo "Unknown system: '$SYSTEM'."
 esac
+
+####################################################################
+# Key bindings
+####################################################################
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;3D" backward-word
 
 case "$SYSTEM" in
   Linux)

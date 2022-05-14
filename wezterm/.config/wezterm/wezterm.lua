@@ -4,6 +4,9 @@ return {
   -- On MacOS when launching the app from Alfred the default program is "sh". I want to use zsh.
   -- default_prog = {"/usr/local/bin/zsh", "-l"},
 
+  exit_behavior = "Close",
+  -- clean_exit_codes = {127},
+
   window_decorations = "RESIZE",
 
   color_scheme = "DaveDark",
@@ -36,7 +39,7 @@ return {
 
   -- set to true to hide the tab bar when there is only
   -- a single tab in the window
-  hide_tab_bar_if_only_one_tab = false,
+  hide_tab_bar_if_only_one_tab = true,
 
   colors = {
     tab_bar = {

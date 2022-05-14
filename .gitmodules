@@ -1,0 +1,10 @@
+[submodule "zsh/.config/zsh/plugins/zsh-syntax-highlighting"]
+	path = zsh/.config/zsh/plugins/zsh-syntax-highlighting
+	url = https://github.com/xpando/zsh-syntax-highlighting
+
+[submodule "zsh/.config/zsh/plugins/zsh-fzf-history-search"]
+	path = zsh/.config/zsh/plugins/zsh-fzf-history-search
+	url = https://github.com/xpando/zsh-fzf-history-search.git
+[submodule "zsh/.config/zsh/plugins/fzf-z"]
+	path = zsh/.config/zsh/plugins/fzf-z
+	url = https://github.com/xpando/fzf-z.git
