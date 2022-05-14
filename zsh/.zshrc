@@ -46,16 +46,14 @@ export SAM_CLI_TELEMETRY=0
 
 ####################################################################
 # ZSH Plugins
-# Install: 
-# curl -sfL --proto-redir \
-#    https https://git.io/antibody \
-#    | sh -s - -b /usr/local/bin
 ####################################################################
-if type antibody &>/dev/null; then
-  source <(antibody init)
-  export ZSH="$(antibody home)/https-COLON--SLASH--SLASH-github.com-SLASH-ohmyzsh-SLASH-ohmyzsh"
-  antibody bundle < ~/.zsh_plugins
+if [[ ! -f ~/.zpm/zpm.zsh ]]; then
+  git clone --recursive https://github.com/zpm-zsh/zpm ~/.zpm
 fi
+source ~/.zpm/zpm.zsh
+
+zpm load @omz
+zpm load @gh/zsh-users/zsh-syntax-highlighting
 
 ####################################################################
 # Prompt https://starship.rs
@@ -68,20 +66,22 @@ fi
 # History
 ####################################################################
 
+#[ -f ~/.resh/shellrc ] && source ~/.resh/shellrc
+
 # https://github.com/cantino/mcfly
-if type mcfly &>/dev/null; then
- export MCFLY_RESULTS=25
- #export MCFLY_FUZZY=2
- #export MCFLY_INTERFACE_VIEW=BOTTOM
- eval "$(mcfly init zsh)"
-fi
+#if type mcfly &>/dev/null; then
+# export MCFLY_RESULTS=25
+# export MCFLY_FUZZY=2
+# export MCFLY_INTERFACE_VIEW=BOTTOM
+# eval "$(mcfly init zsh)"
+#fi
 
 # https://github.com/ellie/atuin
-# if type atuin &>/dev/null; then
-#   export ATUIN_NOBIND="true"
-#   eval "$(atuin init zsh)"
-#   bindkey ^r _atuin_search_widget
-# fi
+if type atuin &>/dev/null; then
+   export ATUIN_NOBIND="true"
+   eval "$(atuin init zsh)"
+   bindkey ^r _atuin_search_widget
+fi
 
 if type zoxide &>/dev/null; then
   eval "$(zoxide init zsh)"
@@ -272,3 +272,4 @@ esac
 if [ -f "$HOME/.zsh_local" ]; then
   source "$HOME/.zsh_local"
 fi
+
