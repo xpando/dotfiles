@@ -38,7 +38,6 @@ zmodload zsh/complist
 
 # compinit
 _comp_options+=(globdots) # Include hidden files.
-compinit -c
 
 ####################################################################
 # asdf - manage multiple versions of dev tools
@@ -57,13 +56,14 @@ function __load_plugin {
     source "$HOME/.config/zsh/plugins/$1/$1.plugin.zsh"
   fi
 }
+
+__load_plugin zsh-vim-mode
 __load_plugin zsh-autosuggestions
 __load_plugin zsh-syntax-highlighting
 __load_plugin fzf-z
 __load_plugin zsh-fzf-history-search
 
-# Load this last to avoid conflicts
-__load_plugin zsh-vim-mode
+compinit -c
 
 ####################################################################
 # Frecent files and directories weighted by frequency and recency 
