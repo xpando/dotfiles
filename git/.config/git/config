@@ -27,6 +27,13 @@
   ff = only
 
 [alias]
+  ai = !git add $(git status --porcelain | fzf -m | awk '{print $2}')
+  ci = commit -a
+  co = checkout
+  st = status
+  ff = merge --ff-only
+  am = commit --amend -C HEAD
+  pushf = push --force-with-lease
   up = "!f() { git fetch --all; git pull origin HEAD; for upstream in $(git remote); do git remote prune "${upstream}"; done }; f"
   undo = !git reset HEAD~1 --mixed
   logg = !git log --pretty=format:\"\\\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\\\"\" --graph --date=relative --decorate --all
