@@ -8,3 +8,6 @@
 [submodule "zsh/.config/zsh/plugins/fzf-z"]
 	path = zsh/.config/zsh/plugins/fzf-z
 	url = https://github.com/xpando/fzf-z.git
+[submodule "zsh/.config/zsh/plugins/zsh-vim-mode"]
+	path = zsh/.config/zsh/plugins/zsh-vim-mode
+	url = https://github.com/xpando/zsh-vim-mode.git

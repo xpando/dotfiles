@@ -1,8 +1,6 @@
 # Bail out if not running interactively
 [[ $- != *i* ]] && return
 
-export ZDOTDIR=$HOME/.config/zsh
-
 ####################################################################
 # Path 
 ####################################################################
@@ -40,12 +38,7 @@ zmodload zsh/complist
 
 # compinit
 _comp_options+=(globdots) # Include hidden files.
-
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-compinit
+compinit -c
 
 ####################################################################
 # asdf - manage multiple versions of dev tools
@@ -59,16 +52,25 @@ fi
 ####################################################################
 # Plugins
 ####################################################################
-source $ZDOTDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-source $ZDOTDIR/plugins/fzf-z/fzf-z.plugin.zsh
-source $ZDOTDIR/plugins/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
+function __load_plugin {
+  if [ -f "$HOME/.config/zsh/plugins/$1/$1.plugin.zsh" ]; then
+    source "$HOME/.config/zsh/plugins/$1/$1.plugin.zsh"
+  fi
+}
+__load_plugin zsh-autosuggestions
+__load_plugin zsh-syntax-highlighting
+__load_plugin fzf-z
+__load_plugin zsh-fzf-history-search
+
+# Load this last to avoid conflicts
+__load_plugin zsh-vim-mode
 
 ####################################################################
 # Frecent files and directories weighted by frequency and recency 
 # of use. https://github.com/clvv/fasd
 ####################################################################
 if type fasd &>/dev/null; then
-  eval "$(fasd --init auto)"
+  eval "$(fasd --init zsh-hook zsh-ccomp zsh-wcomp)"
   export FZFZ_RECENT_DIRS_TOOL=fasd
 fi
 
@@ -205,12 +207,6 @@ case "$SYSTEM" in
   *)
     echo "Unknown system: '$SYSTEM'."
 esac
-
-####################################################################
-# Key bindings
-####################################################################
-bindkey "^[[1;3C" forward-word
-bindkey "^[[1;3D" backward-word
 
 case "$SYSTEM" in
   Linux)
