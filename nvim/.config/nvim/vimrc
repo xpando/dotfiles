@@ -1,0 +1,122 @@
+let mapleader = ' '
+let maplocalleader = ','
+nnoremap ; :
+
+" Copy to system clipboard
+noremap Y "+y
+
+" Help
+noremap <C-]> K
+" noremap <leader>h :vert help<space>
+cabbrev vh vert help
+
+" Edit configuration
+noremap <leader>rc <cmd>edit $MYVIMRC<cr>
+
+" Sessions
+noremap <leader>ss <cmd>mksession! .session.vim<cr>
+noremap <leader>sr <cmd>source     .session.vim<cr>
+
+" Repeat search (`alt <` and `alt >`)
+noremap ≤ ,
+noremap ≥ ;
+
+" Cursor navigation
+noremap J 5j
+noremap K 5k
+noremap H ^
+noremap L g_
+
+" Buffers
+noremap <s-left>  <cmd>bp<cr>
+noremap <s-right> <cmd>bn<cr>
+noremap <s-down>  <cmd>bd<cr>
+noremap <s-up>    <cmd>b 1<cr>
+
+" Windows
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+""" Movement
+set mouse=a
+set nowrap
+set scrolloff=5
+set sidescrolloff=5
+set virtualedit=block
+set whichwrap=<,>,[,]   " L/R arrows keys can move to next line
+
+""" Completion
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c    " no ins-completion-menu messages
+set wildignorecase
+set wildmenu
+
+""" Search
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+""" UI
+colorscheme everblush
+set number
+set relativenumber
+" set signcolumn=number   " (don't use this if using gitsigns)
+set ruler
+set shortmess+=I        " no intro message
+set showcmd
+: set noshowmode
+
+" set colorcolumn=81,121
+" set cursorcolumn
+" set cursorline
+
+""" Conceal
+set conceallevel=1
+" set concealcursor=n  " conceal in normal mode
+
+""" Folds
+set foldlevel=2
+set fillchars=fold:\ ,eob:\     " less fillchars
+set foldtext=getline(v:foldstart).'\ …\ '.trim(getline(v:foldend))
+
+""" Whitespace
+" set list
+" set listchars=eol:~,nbsp:_,extends:»,precedes:«,tab:├─,multispace:·,trail:•
+
+""" Indentation
+set autoindent
+set smartindent
+set expandtab       " <tab> inserts spaces
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+
+""" Files, buffers, windows
+set autoread
+set confirm             " ask to save stuff
+set fileencoding=utf-8  " encoding written to file
+set hidden              " hide buffers instead of closing them
+set noswapfile
+set spelllang=
+set splitbelow
+set splitright
+
+""" Persistent undo
+set undodir="$HOME/.local/share/nvim/undo"
+set undofile
+set undolevels=100      " How many undos
+set undoreload=1000     " number of lines to save for undo
+set updatetime=500
+
+""" Disable bundled plugins
+let g:loaded_2html_plugin = 1
+let g:loaded_gzip = 1
+let g:loaded_matchit = 1
+let g:loaded_remote_plugins = 1
+let g:loaded_spellfile_plugin = 1
+let g:loaded_tarPlugin = 1
+let g:loaded_tutor_mode_plugin = 1
+let g:loaded_zipPlugin = 1
