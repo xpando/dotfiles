@@ -12,3 +12,6 @@ disabled = true
 
 [elixir]
 disabled = true
+
+[kotlin]
+symbol = "Kt "
