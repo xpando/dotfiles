@@ -39,10 +39,15 @@ packer.init {
 }
 
 return packer.startup(function(use)
-  use "wbthomason/packer.nvim" -- Have packer manage itself
-  use "nvim-lua/popup.nvim"    -- An implementation of the Popup API from vim in Neovim
-  use "nvim-lua/plenary.nvim"  -- Useful lua functions used ny lots of plugins
-
+  use "wbthomason/packer.nvim"   -- Have packer manage itself
+  use "nvim-lua/popup.nvim"      -- An implementation of the Popup API from vim in Neovim
+  use "nvim-lua/plenary.nvim"    -- Useful lua functions used ny lots of plugins
+  use "kyazdani42/nvim-web-devicons" 
+  use "kyazdani42/nvim-tree.lua" -- Tree view for files and directories
+  use "akinsho/bufferline.nvim"  -- A buffer line plugin for Neovim
+  use "lewis6991/impatient.nvim" -- Impatient.nvim is a vim plugin that makes vim faster by using a cache of the buffer contents
+  use "folke/which-key.nvim"     -- WhichKey.nvim is a vim plugin that shows a list of keybindings in a popup window
+  
   -- Color schemes
   use "navarasu/onedark.nvim"
   -- use "mangeshrex/everblush.vim"
@@ -53,7 +58,7 @@ return packer.startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
 
-  -- cmp plugins
+  -- Completions
   use "hrsh7th/nvim-cmp"         -- The completion plugin
   use "hrsh7th/cmp-buffer"       -- buffer completions
   use "hrsh7th/cmp-path"         -- path completions
@@ -64,6 +69,9 @@ return packer.startup(function(use)
   -- LSP
   use "neovim/nvim-lspconfig"           -- enable LSP
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+
+  -- Telescope
+  use "nvim-telescope/telescope.nvim"
 
   -- Treesitter
   use "nvim-treesitter/nvim-treesitter"

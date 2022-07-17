@@ -7,7 +7,7 @@ configs.setup {
   ensure_installed = { 
     "lua", "yaml", "json", "python", "java", "kotlin", "rust", "go",
     "scala", "typescript", "toml", "bash", "haskell", "make", "markdown",
-    "dockerfile"
+    "dockerfile", "zig",
   },
   sync_install = false,
   ignore_install = { "" },
