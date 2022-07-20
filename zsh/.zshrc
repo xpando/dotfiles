@@ -27,52 +27,31 @@ setopt autocd nomatch
 setopt interactive_comments
 stty stop undef		# Disable ctrl-s to freeze terminal.
 zle_highlight=('paste:none')
-
-####################################################################
-# Completions
-####################################################################
-autoload -Uz compinit
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
-zmodload zsh/complist
-
-# compinit
-_comp_options+=(globdots) # Include hidden files.
-
-####################################################################
-# asdf - manage multiple versions of dev tools
-####################################################################
-if [ -f "$HOME/.asdf/asdf.sh" ]; then
-  autoload -U +X bashcompinit && bashcompinit # asdf requires bash completions :(
-  fpath=($HOME/.asdf/completions $fpath)
-  source "$HOME/.asdf/asdf.sh"
-fi
+zstyle ':completion:\*' matcher-list 'm:{a-z}={A-Za-z}' # Make completions case insensitive
 
 ####################################################################
 # Plugins
 ####################################################################
-function __load_plugin {
-  if [ -f "$HOME/.config/zsh/plugins/$1/$1.plugin.zsh" ]; then
-    source "$HOME/.config/zsh/plugins/$1/$1.plugin.zsh"
-  fi
-}
+# Download Znap, if it's not there yet.
+[[ -f ~/Git/zsh-snap/znap.zsh ]] ||
+    git clone --depth 1 -- \
+        https://github.com/marlonrichert/zsh-snap.git ~/Git/zsh-snap
 
-__load_plugin zsh-vim-mode
-__load_plugin zsh-autosuggestions
-__load_plugin zsh-syntax-highlighting
-__load_plugin fzf-z
-__load_plugin zsh-fzf-history-search
+# Start Znap
+source ~/Git/zsh-snap/znap.zsh
 
-compinit -c
+#znap source softmoth/zsh-vim-mode
+znap source zsh-users/zsh-completions
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-syntax-highlighting
+znap source joshskidmore/zsh-fzf-history-search
 
 ####################################################################
-# Frecent files and directories weighted by frequency and recency 
-# of use. https://github.com/clvv/fasd
+# Completions
 ####################################################################
-if type fasd &>/dev/null; then
-  eval "$(fasd --init zsh-hook zsh-ccomp zsh-wcomp)"
-  export FZFZ_RECENT_DIRS_TOOL=fasd
-fi
+#autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 ####################################################################
 # Nix and Home Manager Environment
@@ -94,7 +73,16 @@ if type starship &>/dev/null; then
 fi
 
 ####################################################################
-# SDK Man - manage multiple versions of Java, Scala etc.
+# asdf - manage multiple versions of dev tools
+####################################################################
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+  autoload -U +X bashcompinit && bashcompinit # asdf requires bash completions :(
+  fpath=($HOME/.asdf/completions $fpath)
+  source "$HOME/.asdf/asdf.sh"
+fi
+
+####################################################################
+# SDK Man - manage multiple versions of JVM based tools
 ####################################################################
 if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
   export SDKMAN_DIR="$HOME/.sdkman"
@@ -130,9 +118,12 @@ fi
 # Common command replacements
 ####################################################################
 
-# prefer neovim
-if type nvim &>/dev/null; then
-  export EDITOR=nvim
+####################################################################
+# Zoxide - a smarter cd command, inspired by z and autojump
+# https://github.com/ajeetdsouza/zoxide
+####################################################################
+if type zoxide &>/dev/null; then
+  eval "$(zoxide init zsh)"
 fi
 
 # EXA is a better ls written in rust: https://the.exa.website/
@@ -149,6 +140,11 @@ alias lla='ls -la'
 if type bat &>/dev/null; then
   alias cat='bat -p'
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
+
+# prefer neovim
+if type nvim &>/dev/null; then
+  export EDITOR=nvim
 fi
 
 # Git
@@ -173,7 +169,7 @@ if type aws &>/dev/null; then
   # Hotkey to quickly switch AWS profiles
   if type fzf &>/dev/null; then
     function _change_aws_profile() {
-      profile=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | fzf)
+      profile=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | fzf +m --height 40% --border rounded)
       [ ! -z "$profile" ] && export AWS_PROFILE=$profile
     }
     zle -N _change_aws_profile

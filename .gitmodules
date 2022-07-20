@@ -11,3 +11,6 @@
 [submodule "zsh/.config/zsh/plugins/zsh-vim-mode"]
 	path = zsh/.config/zsh/plugins/zsh-vim-mode
 	url = https://github.com/xpando/zsh-vim-mode.git
+[submodule "zsh/.config/zsh/plugins/zsh-autocomplete"]
+	path = zsh/.config/zsh/plugins/zsh-autocomplete
+	url = https://github.com/marlonrichert/zsh-autocomplete.git
