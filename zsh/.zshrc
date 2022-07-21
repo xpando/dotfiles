@@ -33,16 +33,17 @@ zstyle ':completion:\*' matcher-list 'm:{a-z}={A-Za-z}' # Make completions case 
 # Plugins
 ####################################################################
 # Download Znap, if it's not there yet.
-[[ -f ~/Git/zsh-snap/znap.zsh ]] ||
+export ZNAP_ROOT="$HOME/.local/share/zsh/plugins/zsh-snap"
+[[ -f "$ZNAP_ROOT/znap.zsh" ]] ||
     git clone --depth 1 -- \
-        https://github.com/marlonrichert/zsh-snap.git ~/Git/zsh-snap
+        https://github.com/marlonrichert/zsh-snap.git "$ZNAP_ROOT"
 
 # Start Znap
-source ~/Git/zsh-snap/znap.zsh
+source "$ZNAP_ROOT/znap.zsh"
 
-#znap source softmoth/zsh-vim-mode
+znap source softmoth/zsh-vim-mode
 znap source zsh-users/zsh-completions
-znap source zsh-users/zsh-autosuggestions
+#znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
 znap source joshskidmore/zsh-fzf-history-search
 
