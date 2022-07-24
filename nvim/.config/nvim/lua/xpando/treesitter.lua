@@ -7,7 +7,7 @@ configs.setup {
   ensure_installed = { 
     "lua", "yaml", "json", "python", "java", "kotlin", "rust", "go",
     "scala", "typescript", "toml", "bash", "haskell", "make", "markdown",
-    "dockerfile", "zig",
+    "dockerfile", "zig", "c_sharp",
   },
   sync_install = false,
   ignore_install = { "" },
@@ -15,7 +15,7 @@ configs.setup {
     enable = true,
   },
   highlight = {
-    enable = true, -- false will disable the whole extension
+    enable = true,    -- false will disable the whole extension
     disable = { "" }, -- list of language that will be disabled
     additional_vim_regex_highlighting = true,
   },
