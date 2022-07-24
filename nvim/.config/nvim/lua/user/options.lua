@@ -39,3 +39,11 @@ vim.opt.shortmess:append "c"
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 vim.cmd [[set iskeyword+=-]]
 vim.cmd [[set formatoptions-=cro]] -- TODO: this doesn't seem to work
+
+-- Remap space as leader key
+local opts = { noremap = true, silent = true }
+local term_opts = { silent = true }
+local keymap = vim.api.nvim_set_keymap
+keymap("", "<Space>", "<Nop>", opts)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "

@@ -1,87 +1,83 @@
-local fn = vim.fn
+local PKGS = {
+  "savq/paq-nvim"; -- Let Paq manage itself
 
--- Automatically install packer
-local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system {
-    "git",
-    "clone",
-    "--depth",
-    "1",
-    "https://github.com/wbthomason/packer.nvim",
-    install_path,
-  }
-  print "Installing packer close and reopen Neovim..."
-  vim.cmd [[packadd packer.nvim]]
-end
-
--- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd [[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]]
-
--- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
-if not status_ok then
-  return
-end
-
--- Have packer use a popup window
-packer.init {
-  display = {
-    open_fn = function()
-      return require("packer.util").float { border = "rounded" }
-    end,
-  },
-}
-
-return packer.startup(function(use)
-  use "wbthomason/packer.nvim"   -- Have packer manage itself
-  use "nvim-lua/popup.nvim"      -- An implementation of the Popup API from vim in Neovim
-  use "nvim-lua/plenary.nvim"    -- Useful lua functions used ny lots of plugins
-  use "kyazdani42/nvim-web-devicons" 
-  use "kyazdani42/nvim-tree.lua" -- Tree view for files and directories
-  use "akinsho/bufferline.nvim"  -- A buffer line plugin for Neovim
-  use "lewis6991/impatient.nvim" -- Impatient.nvim is a vim plugin that makes vim faster by using a cache of the buffer contents
-  use "folke/which-key.nvim"     -- WhichKey.nvim is a vim plugin that shows a list of keybindings in a popup window
-  
-  -- Color schemes
-  use "navarasu/onedark.nvim"
-  -- use "mangeshrex/everblush.vim"
-  -- use { "sonph/onehalf", rtp = "vim/" }
-
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-  }
-
-  -- Completions
-  use "hrsh7th/nvim-cmp"         -- The completion plugin
-  use "hrsh7th/cmp-buffer"       -- buffer completions
-  use "hrsh7th/cmp-path"         -- path completions
-  use "hrsh7th/cmp-cmdline"      -- cmdline completions
-  use "saadparwaiz1/cmp_luasnip" -- snippet completions
-  use "hrsh7th/cmp-nvim-lsp"
+  "navarasu/onedark.nvim";        -- OneDark theme
+  "nvim-lua/popup.nvim";          -- An implementation of the Popup API from vim in Neovim
+  "nvim-lua/plenary.nvim";        -- Useful lua functions used ny lots of plugins
+  "kyazdani42/nvim-tree.lua";     -- Tree view for files and directories
+  "akinsho/bufferline.nvim";      -- A buffer line plugin for Neovim
+  "lewis6991/impatient.nvim";     -- Impatient.nvim is a vim plugin that makes vim faster by using a cache of the buffer contents
+  "folke/which-key.nvim";         -- WhichKey.nvim is a vim plugin that shows a list of keybindings in a popup window  
+  "kyazdani42/nvim-web-devicons";
+  "nvim-lualine/lualine.nvim";
 
   -- LSP
-  use "neovim/nvim-lspconfig"           -- enable LSP
-  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+  "neovim/nvim-lspconfig";           -- enable LSP
+  "williamboman/nvim-lsp-installer"; -- simple to use language server installer
+
+  -- Completions
+  "hrsh7th/nvim-cmp";         -- The completion plugin
+  "hrsh7th/cmp-buffer";       -- buffer completions
+  "hrsh7th/cmp-path";         -- path completions
+  "hrsh7th/cmp-cmdline";      -- cmdline completions
+  "saadparwaiz1/cmp_luasnip"; -- snippet completions
+  "hrsh7th/cmp-nvim-lsp";
 
   -- Telescope
-  use "nvim-telescope/telescope.nvim"
+  "nvim-telescope/telescope.nvim";
 
   -- Treesitter
-  use "nvim-treesitter/nvim-treesitter"
+  "nvim-treesitter/nvim-treesitter";
 
   -- Git
-  use "lewis6991/gitsigns.nvim"
+  "lewis6991/gitsigns.nvim";
+}
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require("packer").sync()
+local function clone_paq()
+  local path = vim.fn.stdpath 'data' .. '/site/pack/paqs/start/paq-nvim'
+  if vim.fn.empty(vim.fn.glob(path)) > 0 then
+      vim.fn.system {
+          'git',
+          'clone',
+          '--depth=1',
+          'https://github.com/savq/paq-nvim.git',
+          path,
+      }
   end
+end
+
+local function bootstrap()
+  clone_paq()
+
+  -- Load Paq
+  vim.cmd 'packadd paq-nvim'
+  local paq = require 'paq'
+
+  -- Exit nvim after installing plugins
+  vim.cmd 'autocmd User PaqDoneInstall quit'
+
+  -- Read and install packages
+  paq(PKGS):install()
+end
+
+local function sync_all()
+  -- package.loaded.paq = nil
+  (require 'paq')(PKGS):sync()
+end
+
+local function keymap(lhs, rhs, mode)
+  vim.keymap.set(mode or 'n', lhs, rhs)
+end
+
+keymap('<leader>pq', function()
+  package.loaded.plugins = nil
+  require('plugins').sync_all()
 end)
+
+keymap('<leader>pg', function()
+  local src_path = vim.fn.stdpath('config') .. '/lua/plugins.lua'
+  vim.cmd('edit/' .. src_path)
+end)
+
+
+return { bootstrap = bootstrap, sync_all = sync_all }

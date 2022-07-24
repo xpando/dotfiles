@@ -1,6 +1,6 @@
 require('lualine').setup {
     options = {
-      theme = 'onedark'
-      -- ... your lualine config
+        theme = 'onedark'
+        -- ... your lualine config
     }
-  }
+}
