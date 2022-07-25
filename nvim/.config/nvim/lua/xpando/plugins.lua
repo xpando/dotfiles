@@ -3,34 +3,33 @@ local PKGS = {
   
     'navarasu/onedark.nvim';        -- OneDark theme
     'nvim-lualine/lualine.nvim';
-    -- 'nvim-lua/popup.nvim';          -- An implementation of the Popup API from vim in Neovim
-    -- 'nvim-lua/plenary.nvim';        -- Useful lua functions used ny lots of plugins
-    -- 'kyazdani42/nvim-tree.lua';     -- Tree view for files and directories
-    -- 'akinsho/bufferline.nvim';      -- A buffer line plugin for Neovim
-    -- 'lewis6991/impatient.nvim';     -- Impatient.nvim is a vim plugin that makes vim faster by using a cache of the buffer contents
-    -- 'folke/which-key.nvim';         -- WhichKey.nvim is a vim plugin that shows a list of keybindings in a popup window  
-    -- 'kyazdani42/nvim-web-devicons';
+    'nvim-lua/popup.nvim';          -- An implementation of the Popup API from vim in Neovim
+    'nvim-lua/plenary.nvim';        -- Useful lua functions used ny lots of plugins
+    'folke/which-key.nvim';         -- WhichKey.nvim is a vim plugin that shows a list of keybindings in a popup window  
+    'kyazdani42/nvim-tree.lua';     -- Tree view for files and directories
+    'akinsho/bufferline.nvim';      -- A buffer line plugin for Neovim
+    'kyazdani42/nvim-web-devicons';
   
     -- LSP
-    -- 'neovim/nvim-lspconfig';           -- enable LSP
-    -- 'williamboman/nvim-lsp-installer'; -- simple to use language server installer
+    'neovim/nvim-lspconfig';           -- enable LSP
+    'williamboman/nvim-lsp-installer'; -- simple to use language server installer
   
     -- Completions
-    -- 'hrsh7th/nvim-cmp';         -- The completion plugin
-    -- 'hrsh7th/cmp-buffer';       -- buffer completions
-    -- 'hrsh7th/cmp-path';         -- path completions
-    -- 'hrsh7th/cmp-cmdline';      -- cmdline completions
-    -- 'saadparwaiz1/cmp_luasnip'; -- snippet completions
-    -- 'hrsh7th/cmp-nvim-lsp';
+    'hrsh7th/nvim-cmp';         -- The completion plugin
+    'hrsh7th/cmp-buffer';       -- buffer completions
+    'hrsh7th/cmp-path';         -- path completions
+    'hrsh7th/cmp-cmdline';      -- cmdline completions
+    'saadparwaiz1/cmp_luasnip'; -- snippet completions
+    'hrsh7th/cmp-nvim-lsp';
   
     -- Telescope
-    -- 'nvim-telescope/telescope.nvim';
+    'nvim-telescope/telescope.nvim';
   
     -- Treesitter
-    -- 'nvim-treesitter/nvim-treesitter';
+    'nvim-treesitter/nvim-treesitter';
   
     -- Git
-    -- 'lewis6991/gitsigns.nvim';
+    'lewis6991/gitsigns.nvim';
   }
   
   local function clone_paq()
