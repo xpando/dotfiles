@@ -210,10 +210,10 @@ case "$SYSTEM" in
     alias sdn='sudo shutdown now'
     alias reboot='sudo reboot'
     alias ip='ip -c' # use colored output
-    alias docker-up='sudo systemctl start docker'
-    alias docker-down='sudo systemctl stop docker && sudo systemctl stop containerd && sudo ip link delete docker0'
-    alias vm-up='sudo systemctl start libvirtd && virsh net-start default'
-    alias vm-down='virsh -q net-destroy default; sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}'
+    alias docker-up='sudo systemctl start {containerd.service,docker.socket}; systemctl status {containerd.service,docker.socket,docker.service} --no-pager'
+    alias docker-down='sudo systemctl stop {docker.service,docker.socket,containerd.service}; sudo ip link delete docker0; systemctl status {docker.service,docker.socket,containerd.service} --no-pager'
+    alias vm-up='sudo systemctl start libvirtd; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager; virsh net-start default'
+    alias vm-down='virsh -q net-destroy default; sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
     alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1s'
 
     # disable Fn mode for F keys for Mac keyboards
