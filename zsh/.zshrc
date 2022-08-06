@@ -213,7 +213,7 @@ case "$SYSTEM" in
     alias docker-up='sudo systemctl start docker'
     alias docker-down='sudo systemctl stop docker && sudo systemctl stop containerd && sudo ip link delete docker0'
     alias vm-up='sudo systemctl start libvirtd && virsh net-start default'
-    alias vm-down='sudo systemctl stop libvirtd && virsh net-destroy default'
+    alias vm-down='virsh -q net-destroy default; sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}'
     alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1s'
 
     # disable Fn mode for F keys for Mac keyboards
