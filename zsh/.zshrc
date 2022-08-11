@@ -42,7 +42,6 @@ source "$ZNAP_ROOT/znap.zsh"
 
 znap source softmoth/zsh-vim-mode
 znap source zsh-users/zsh-completions
-#znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
 znap source joshskidmore/zsh-fzf-history-search
 
@@ -68,7 +67,7 @@ export SAM_CLI_TELEMETRY=0
 ##############################################################################
 # Prompt https://starship.rs
 ##############################################################################
-if type starship &>/dev/null; then
+if command -v starship &>/dev/null; then
   eval "$(starship init zsh)"
 fi
 
@@ -92,15 +91,15 @@ fi
 ##############################################################################
 # Python
 ##############################################################################
-if type pyenv &>/dev/null; then
+if command -v pyenv &>/dev/null; then
   eval "$(pyenv init -)"
 fi
 
-if type pipx &>/dev/null; then
+if command -v pipx &>/dev/null; then
   eval "$(register-python-argcomplete pipx)"
 fi
 
-if type pipenv &>/dev/null; then
+if command -v pipenv &>/dev/null; then
   # Tell pipenv to create virtual environments inside the project directory
   export PIPENV_VENV_IN_PROJECT=1
 fi
@@ -108,7 +107,7 @@ fi
 ##############################################################################
 # Go
 ##############################################################################
-if type go &>/dev/null; then
+if command -v go &>/dev/null; then
   export GOPATH=$HOME/Go
   export GOBIN=$GOPATH/bin
   export PATH=$PATH:$GOBIN
@@ -122,12 +121,12 @@ fi
 # Zoxide - a smarter cd command, inspired by z and autojump
 # https://github.com/ajeetdsouza/zoxide
 ##############################################################################
-if type zoxide &>/dev/null; then
+if command -v zoxide &>/dev/null; then
   eval "$(zoxide init zsh)"
 fi
 
 # EXA is a better ls written in rust: https://the.exa.website/
-if type exa &>/dev/null; then
+if command -v exa &>/dev/null; then
   alias ls='exa --git --group-directories-first --group --time-style=long-iso --icons'
   export EXA_ICON_SPACING=2
 fi
@@ -137,13 +136,13 @@ alias ll='ls -l'
 alias lla='ls -la'
 
 # Colorized cat
-if type bat &>/dev/null; then
+if command -v bat &>/dev/null; then
   alias cat='bat -p'
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 fi
 
 # prefer neovim
-if type nvim &>/dev/null; then
+if command -v nvim &>/dev/null; then
   export EDITOR=nvim
 fi
 
@@ -153,27 +152,51 @@ alias gfa='g fetch --all'
 alias gfp='g fetch --prune --all'
 alias grp='g remote prune'
 
-if type onefetch &>/dev/null; then
+if command -v onefetch &>/dev/null; then
   alias onefetch='onefetch --no-palette --no-merges --no-bots -A 10'
 fi
 
 # httpie - https://httpie.org/
-if type http &>/dev/null; then
+if command -v http &>/dev/null; then
   alias https='http --default-scheme=https'
 fi
 
+# AWS Profile selector function
+export function select_aws_profile() {
+  if [ -f ~/.aws/config ]; then
+    profile_list='sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config'
+    if command -v gum &>/dev/null; then
+      eval "$profile_list | gum filter --placeholder='Select profile...' --indicator='👉'"
+    elif command -v fzf &>/dev/null; then
+      eval "$profile_list | fzf +m --height 40% --border rounded"
+    else
+      echo "select_aws_profile requires either gum or fzf."
+      return -1
+    fi
+  fi
+}
+
 # AWS CLI
-if type aws &>/dev/null; then
+if command -v aws &>/dev/null; then
   # Localstack
   alias awsl='aws --endpoint-url=http://localhost:4566'
-  # Hotkey to quickly switch AWS profiles
-  if type fzf &>/dev/null; then
-    function _change_aws_profile() {
-      profile=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | fzf +m --height 40% --border rounded)
+  alias awsi='env | grep AWS_'
+  if command -v select_aws_profile &>/dev/null; then
+    function awsp() {
+      profile=$(select_aws_profile)
       [ ! -z "$profile" ] && export AWS_PROFILE=$profile
     }
-    zle -N _change_aws_profile
-    bindkey ^p _change_aws_profile
+  fi
+fi
+
+# AWS Vault
+if command -v aws-vault &>/dev/null; then
+  eval "$(aws-vault --completion-script-zsh)"
+  if command -v select_aws_profile &>/dev/null; then
+    function awsv() {
+      profile=$(select_aws_profile)
+      [ ! -z "$profile" ] && aws-vault exec -s $profile zsh
+    }
   fi
 fi
 
@@ -248,12 +271,6 @@ case "$SYSTEM" in
 
     alias wezup='brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest'
     alias qrp='pbpaste | qrencode -s 30 -o - | wezterm -n imgcat'
-
-    if type limactl &>/dev/null; then
-      alias docker-up='limactl start'
-      alias docker-down='limactl stop'
-      #alias docker='lima nerdctl'
-    fi
     ;;
 esac
 
