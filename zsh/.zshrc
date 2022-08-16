@@ -161,26 +161,30 @@ if command -v http &>/dev/null; then
   alias https='http --default-scheme=https'
 fi
 
-# AWS Profile selector function
-export function select_aws_profile() {
-  if [ -f ~/.aws/config ]; then
-    profile_list='sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config'
-    if command -v gum &>/dev/null; then
-      eval "$profile_list | gum filter --placeholder='Select profile...' --indicator='👉'"
-    elif command -v fzf &>/dev/null; then
-      eval "$profile_list | fzf +m --height 40% --border rounded"
-    else
-      echo "select_aws_profile requires either gum or fzf."
-      return -1
-    fi
-  fi
-}
-
 # AWS CLI
 if command -v aws &>/dev/null; then
   # Localstack
   alias awsl='aws --endpoint-url=http://localhost:4566'
   alias awsi='env | grep AWS_'
+
+  # AWS Profile selector function
+  function select_aws_profile() {
+    get_profiles='sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config'
+    if command -v gum &>/dev/null; then
+      eval "$get_profiles | gum filter --placeholder='Select profile...' --indicator='👉'"
+    elif command -v fzf &>/dev/null; then
+      eval "$get_profiles | fzf +m --height 40% --border rounded"
+    else
+      echo "select_aws_profile requires either gum or fzf."
+      return -1
+    fi
+  }
+  
+  function awsr() {
+    region = $(select_aws_region)
+    [ ! -z "$region" ] && export AWS_REGION=$region
+  }
+
   if command -v select_aws_profile &>/dev/null; then
     function awsp() {
       profile=$(select_aws_profile)
@@ -195,7 +199,11 @@ if command -v aws-vault &>/dev/null; then
   if command -v select_aws_profile &>/dev/null; then
     function awsv() {
       profile=$(select_aws_profile)
-      [ ! -z "$profile" ] && aws-vault exec -s $profile zsh
+      [ ! -z "$profile" ] && aws-vault exec $profile ${@:-zsh}
+    }
+    function awsvs() {
+      profile=$(select_aws_profile)
+      [ ! -z "$profile" ] && aws-vault exec --server $profile zsh
     }
   fi
 fi
