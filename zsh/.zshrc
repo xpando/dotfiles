@@ -203,7 +203,7 @@ if command -v aws-vault &>/dev/null; then
     }
     function awsvs() {
       profile=$(select_aws_profile)
-      [ ! -z "$profile" ] && aws-vault exec --server $profile zsh
+      [ ! -z "$profile" ] && aws-vault exec --prompt=osascript --ec2-server $profile ${@:-zsh}
     }
   fi
 fi

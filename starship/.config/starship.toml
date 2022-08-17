@@ -5,7 +5,9 @@ format = """$all$character"""
 command_timeout = 1000
 
 [aws]
-disabled = true
+disabled = false
+symbol = ' '
+format = '[$symbol($profile)( \($duration\))]($style) '
 
 [erlang]
 disabled = true
