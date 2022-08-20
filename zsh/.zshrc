@@ -263,6 +263,7 @@ case "$SYSTEM" in
         alias ipkg='paru -Slq | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -S'
         alias upkg='paru -Qett | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -Rc' 
         alias clean-pkgs='paru -c'
+        alias wezup='paru -S wezterm-nightly-bin'
         ;;
 
       Ubuntu)
