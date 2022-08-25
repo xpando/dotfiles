@@ -166,6 +166,7 @@ if command -v aws &>/dev/null; then
   # Localstack
   alias awsl='aws --endpoint-url=http://localhost:4566'
   alias awsi='env | grep AWS_'
+  alias awsc='unset `env | grep AWS_ | cut -d'=' -f1 | grep -v REGION`'
 
   # AWS Profile selector function
   function select_aws_profile() {
