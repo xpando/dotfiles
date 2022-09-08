@@ -163,13 +163,20 @@ fi
 
 # AWS CLI
 if command -v aws &>/dev/null; then
-  # Localstack
+  # AWS CLI with Localstack
   alias awsl='aws --endpoint-url=http://localhost:4566'
-  alias awsi='env | grep AWS_'
-  alias awsc='unset `env | grep AWS_ | cut -d'=' -f1 | grep -v REGION`'
+  
+  # AWS SSO login
+  alias aws-login='aws --profile retail-dev-ReadOnly sso login'
+
+  # show all AWS related environment variables
+  alias awse='env | grep AWS_ && aws sts get-caller-identity'
+  
+  # Clear AWS related environment variables (exceluding AWS_DEFAULT_REGION)
+  alias awsc='unset `env | grep AWS_ | cut -d'=' -f1 | grep -v AWS_DEFAULT`'
 
   # AWS Profile selector function
-  function select_aws_profile() {
+  function aws_profile_selector() {
     get_profiles='sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config'
     if command -v gum &>/dev/null; then
       eval "$get_profiles | gum filter --placeholder='Select profile...' --indicator='👉'"
@@ -180,15 +187,10 @@ if command -v aws &>/dev/null; then
       return -1
     fi
   }
-  
-  function awsr() {
-    region = $(select_aws_region)
-    [ ! -z "$region" ] && export AWS_REGION=$region
-  }
 
-  if command -v select_aws_profile &>/dev/null; then
+  if command -v aws_profile_selector &>/dev/null; then
     function awsp() {
-      profile=$(select_aws_profile)
+      profile=$(aws_profile_selector)
       [ ! -z "$profile" ] && export AWS_PROFILE=$profile
     }
   fi
@@ -197,13 +199,13 @@ fi
 # AWS Vault
 if command -v aws-vault &>/dev/null; then
   eval "$(aws-vault --completion-script-zsh)"
-  if command -v select_aws_profile &>/dev/null; then
+  if command -v aws_profile_selector &>/dev/null; then
     function awsv() {
-      profile=$(select_aws_profile)
+      profile=$(aws_profile_selector)
       [ ! -z "$profile" ] && aws-vault exec $profile ${@:-zsh}
     }
     function awsvs() {
-      profile=$(select_aws_profile)
+      profile=$(aws_profile_selector)
       [ ! -z "$profile" ] && aws-vault exec --prompt=osascript --ec2-server $profile ${@:-zsh}
     }
   fi
