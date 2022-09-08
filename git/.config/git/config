@@ -2,6 +2,9 @@
   name = "David Findley"
   email = "xpando@gmail.com"
 
+[init]
+  defaultBranch = main
+
 [core]
   pager = delta
 
@@ -56,3 +59,4 @@
 
 [push]
 	autoSetupRemote = true
+
