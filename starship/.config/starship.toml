@@ -7,7 +7,7 @@ command_timeout = 1000
 [aws]
 disabled = false
 symbol = ' '
-format = '[$symbol($profile)( \($duration\))]($style) '
+format = '[($symbol)($profile)( \($duration\))]($style) '
 
 [erlang]
 disabled = true
