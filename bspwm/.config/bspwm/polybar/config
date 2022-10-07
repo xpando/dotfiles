@@ -19,9 +19,9 @@
 [colors]
 background = ${xrdb:background}
 foreground = ${xrdb:foreground}
-primary = ${xrdb:color6}
-secondary = ${xrdb:color5}
-alert = ${xrdb:color8}
+primary    = ${xrdb:color6}
+secondary  = ${xrdb:color5}
+alert      = ${xrdb:color8}
 
 ; Active Shade 
 shade0  = ${xrdb:color0}
@@ -44,14 +44,15 @@ shade16 = ${xrdb:color0}
 shade17 = ${xrdb:color0}
 shade18 = ${xrdb:color0}
 
-[bar/bar]
-width = 100%
-height = 40
-offset-x = 0
-offset-y = 0
-;radius = 18.0
+[bar/primary]
+monitor      = DP-0
+width        = 100%
+height       = 40
+offset-x     = 0
+offset-y     = 0
+;radius       = 18.0
 fixed-center = true
-bottom = false
+bottom       = false
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -75,9 +76,57 @@ font-2 = Font Awesome 5 Free Solid:size=15;4
 font-3 = Fura Code Nerd Font Mono:size=18;4
 font-4 = Noto Color Emoji:scale=8;4
 
-modules-left = launcher sep left bspwm right sep left bsplayout bspmode right
+modules-left   = launcher sep left bspwm right sep left bsplayout bspmode right
 modules-center = xwindow
-modules-right = left cpu void memory right sep left eth wlan right sep left pulseaudio right sep left time right sep powermenu
+modules-right  = left cpu void memory right sep left eth wlan right sep left pulseaudio right sep left time right sep powermenu
+
+override-redirect = true
+wm-restack = bspwm
+
+scroll-up = #bspwm.prev
+scroll-down = #bspwm.next
+
+cursor-click = pointer
+
+enable-ipc = true
+pseudo-transparency = false
+
+tray-position = right
+tray-padding = 5
+tray-background = ${colors.shade16}
+tray-maxsize = 26
+tray-detached = false
+
+[bar/secondary]
+monitor      = DP-2
+width        = 100%
+height       = 40
+fixed-center = true
+bottom       = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+overline-size = 5
+underline-size = 5
+line-color = ${colors.background}
+
+border-bottom-size = 3
+border-color = ${colors.shade0}
+
+padding-left = 1
+padding-right = 1
+
+module-margin-left = 0
+module-margin-right = 0
+
+font-0 = Noto Sans:style=Regular:size=18;4
+font-1 = Font Awesome 5 Brands:size=15;4
+font-2 = Font Awesome 5 Free Solid:size=15;4
+font-3 = Fura Code Nerd Font Mono:size=18;4
+font-4 = Noto Color Emoji:scale=8;4
+
+modules-left = bspwm
 
 override-redirect = true
 wm-restack = bspwm
@@ -97,9 +146,7 @@ tray-maxsize = 26
 tray-detached = false
 
 #####################################################################
-#
 #                               MODULES
-#
 #####################################################################
 [module/sep]
 type = custom/text
@@ -119,7 +166,6 @@ content-foreground = ${colors.shade16}
 content-background = ${colors.background}
 content-overline = ${colors.background}
 content-underline = ${colors.background}
-;content = ""
 content = ""
 
 [module/right]
@@ -134,8 +180,10 @@ content = ""
 type = internal/bspwm
 
 format = <label-state>
-pin-workspaces = false
+pin-workspaces = true
 enable-scroll = true
+;label-monitor = %name%
+;label-focused = %name%
 label-separator = "  "
 label-separator-background = ${colors.shade16}
 

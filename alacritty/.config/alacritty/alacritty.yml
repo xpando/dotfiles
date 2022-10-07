@@ -37,7 +37,7 @@ window:
     x: 10
     y: 10 
 
-  opacity: 0.95
+  opacity: 0.85
 
   # Spread additional padding evenly around the terminal content.
   #dynamic_padding: false
@@ -164,8 +164,8 @@ draw_bold_text_with_bright_colors: true
 # Colors (One Half Dark)
 colors:
   primary:
-    background: '0x2c2e33'
-    foreground: '0xabb2bf'
+    background: '0x0e0e0e'
+    foreground: '0xdcdfe4'
 
   normal:
     black:   '0x2c2e33'
