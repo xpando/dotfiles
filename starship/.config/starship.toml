@@ -1,19 +1,115 @@
-format = """$all$character"""
-#right_format = """$all"""
+format = """
+$custom\
+$username\
+$hostname\
+$localip\
+$singularity\
+$kubernetes\
+$directory\
+$vcsh\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$docker_context\
+$package\
+$c\
+$cmake\
+$cobol\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$haskell\
+$helm\
+$java\
+$julia\
+$kotlin\
+$lua\
+$nim\
+$nodejs\
+$ocaml\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$python\
+$raku\
+$rlang\
+$red\
+$ruby\
+$rust\
+$scala\
+$swift\
+$terraform\
+$vlang\
+$vagrant\
+$zig\
+$buf\
+$nix_shell\
+$conda\
+$spack\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$azure\
+$env_var\
+$crystal\
+$sudo\
+$container\
+$shell\
+$line_break\
+($shlvl )$character\
+"""
+right_format = """
+$cmd_duration\
+$jobs\
+$battery\
+$time\
+$status\
+"""
+continuation_prompt = '[﬌ ](#666666)'
 
-# Commands can be slow on systems with a lot of realtime security monitoring
-command_timeout = 1000
+[character]
+success_symbol = '[ ](#aaaaaa)'
+error_symbol = '[ ](#aaaaaa)'
+vimcmd_symbol = '[ ](green)'
+vimcmd_replace_one_symbol = '[ ](purple)'
+vimcmd_replace_symbol = '[ ](purple)'
+vimcmd_visual_symbol = '[ ](yellow)'
+
+[directory]
+truncation_length = 1
+
+[status]
+format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style) '
+map_symbol = true
+disabled = false
+
+[sudo]
+disabled = false
+
+[shlvl]
+#symbol = " "
+symbol = "❯"
+repeat = true
+format = "[$symbol](#aaaaaa)"
+disabled = false
 
 [aws]
+symbol = " "
+format = '[($symbol($profile)( \($duration\)))]($style) '
 disabled = false
-symbol = ' '
-format = '[($symbol $profile)( \($duration\))]($style) '
 
-[erlang]
-disabled = true
-
-[elixir]
-disabled = true
-
-[kotlin]
-symbol = "Kt "
+[custom.aws_vault]
+description = "AWS Vault server is active."
+symbol = "🛡️ "
+when = '[[ ! -z "$AWS_VAULT" ]]'
+disabled = false

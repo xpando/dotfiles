@@ -110,9 +110,9 @@ fi
 # Go
 ##############################################################################
 if command -v go &>/dev/null; then
-  export GOPATH=$HOME/Go
-  export GOBIN=$GOPATH/bin
-  export PATH=$PATH:$GOBIN
+#  export GOPATH=$HOME/Go
+#  export GOBIN=$GOPATH/bin
+#  export PATH=$PATH:$GOBIN
 fi
 
 ##############################################################################
@@ -174,8 +174,8 @@ if command -v aws &>/dev/null; then
   # show all AWS related environment variables
   alias awse='env | grep AWS_ && aws sts get-caller-identity'
   
-  # Clear AWS related environment variables (exceluding AWS_DEFAULT_REGION)
-  alias awsc='unset `env | grep AWS_ | cut -d'=' -f1 | grep -v AWS_DEFAULT`'
+  # Clear AWS related environment variables
+  alias awsc='unset `env | grep AWS_ | cut -d'=' -f1 | grep -v "AWS_VAULT_"`'
 
   # AWS Profile selector function
   function aws_profile_selector() {
@@ -200,6 +200,7 @@ fi
 
 # AWS Vault
 if command -v aws-vault &>/dev/null; then
+  export AWS_VAULT_PROMPT=osascript
   eval "$(aws-vault --completion-script-zsh)"
   if command -v aws_profile_selector &>/dev/null; then
     function awsv() {
@@ -208,7 +209,7 @@ if command -v aws-vault &>/dev/null; then
     }
     function awsvs() {
       profile=$(aws_profile_selector)
-      [ ! -z "$profile" ] && aws-vault exec --prompt=osascript --ec2-server $profile ${@:-zsh}
+      [ ! -z "$profile" ] && aws-vault exec --ec2-server $profile ${@:-zsh}
     }
   fi
 fi
