@@ -130,7 +130,7 @@ end
 
 -- On MacOS when launching the app from Alfred the default program is "sh". I want to use zsh.
 if string.find(os.capture("uname", true), "Darwin") then
-  config.insert(default_prog, {"/usr/local/bin/zsh", "-l"})
+  config["default_prog"] = {"/usr/local/bin/zsh", "-l"}
 end
   
 return config
