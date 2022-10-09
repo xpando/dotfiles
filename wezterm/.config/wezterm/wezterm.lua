@@ -9,6 +9,8 @@ return {
 
   window_decorations = "RESIZE",
 
+  default_cursor_style = 'SteadyUnderline',
+
   color_scheme = "DaveDark",
   font_size = 20.0,
   font = wt.font_with_fallback({
