@@ -1,14 +1,26 @@
 local wt = require 'wezterm';
 
-config = {
-  exit_behavior = "Close",
-  -- clean_exit_codes = {127},
+-- This config uses the following fonts:
+-- 
+-- Iosevka
+-- Nerd Font Symbols Only
+-- Noto Color Emoji
+-- 
+-- Install on MacOS with:
+-- brew install --cask font-iosevka
+-- brew install --cask font-symbols-only-nerd-font
+-- brew install --cask font-noto-color-emoji
 
-  -- window_decorations = "RESIZE",
+config = {
+  color_scheme = "DaveDark",
 
   default_cursor_style = 'SteadyUnderline',
 
-  color_scheme = "DaveDark",
+  -- window_decorations = "RESIZE",
+
+  exit_behavior = "Close",
+  -- clean_exit_codes = {127},
+
   font_size = 24.0,
   font = wt.font_with_fallback({
     { family="Iosevka Term", weight="Light" },
@@ -31,7 +43,7 @@ config = {
   },
   freetype_load_target = "HorizontalLcd",
   bold_brightens_ansi_colors = true,
-  window_background_opacity = 0.95,
+  window_background_opacity = 0.85,
   text_background_opacity = 1.0,
 
   -- set to false to disable the tab bar completely
@@ -128,7 +140,8 @@ function os.capture(cmd, raw)
   return s
 end
 
--- On MacOS when launching the app from Alfred the default program is "sh". I want to use zsh.
+-- On MacOS when launching the app from Alfred the default program is "sh". 
+-- I want to use zsh.
 if string.find(os.capture("uname", true), "Darwin") then
   config["default_prog"] = {"/usr/local/bin/zsh", "-l"}
 end

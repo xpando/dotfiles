@@ -211,17 +211,21 @@ cask "emacs"
 # Web browser
 cask "firefox"
 cask "font-awesome-terminal-fonts"
-cask "font-blex-mono-nerd-font"
 # Monospaced font that includes programming ligatures
 cask "font-cascadia-code"
+cask "font-fira-code"
 # Icon set and toolkit
 cask "font-fontawesome"
-# Developer targeted fonts with a high number of glyphs
-cask "font-iosevka-nerd-font"
+cask "font-hack"
+# Sans-serif, slab-serif, monospace and quasi‑proportional typeface family
+cask "font-iosevka"
+# Typeface made for developers
+cask "font-jetbrains-mono"
 cask "font-noto-color-emoji"
+# Just the Nerd Font Icons. I.e Symbol font only
+cask "font-symbols-only-nerd-font"
 # Monospaced font with cursive italics and programming symbol ligatures
 cask "font-victor-mono"
-cask "font-victor-mono-nerd-font"
 # Tools to protect your emails and files
 cask "gpg-suite"
 # System monitoring app

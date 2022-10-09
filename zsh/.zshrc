@@ -205,17 +205,17 @@ if command -v aws &>/dev/null; then
   alias awsl='aws --endpoint-url=http://localhost:4566'
   
   # AWS SSO login
-  alias aws-login='aws --profile retail-dev-ReadOnly sso login'
+  alias aws-login='aws --profile $(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | head -n 1) sso login'
 
-  # show all AWS related environment variables
-  alias awse='env | grep AWS_ && aws sts get-caller-identity'
+  # Show all AWS related environment variables
+  alias awse='env | grep AWS_ | sed -n "s/^\(.*\)=\(.*\)$/\x1b[34m\1\x1b[0m=\x1b[32m\2\x1b[0m/gp" && echo "Caller identity:" && aws sts get-caller-identity | jq'
   
   # Clear AWS related environment variables
   alias awsc='unset `env | grep AWS_ | cut -d'=' -f1 | grep -v "AWS_VAULT_"`'
 
   # AWS Profile selector function
   function aws_profile_selector() {
-    get_profiles='sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config'
+    get_profiles='sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | sort'
     if command -v gum &>/dev/null; then
       eval "$get_profiles | gum filter --placeholder='Select profile...' --indicator='👉'"
     elif command -v fzf &>/dev/null; then

@@ -1,65 +1,39 @@
+# This config is best with the following fonts:
+#
+# Iosevka
+# Nerd Font Symbols Only
+# Noto Color Emoji
+#
+# Install on MacOS with:
+# brew install --cask font-iosevka
+# brew install --cask font-symbols-only-nerd-font
+# brew install --cask font-noto-color-emoji
+
 format = """
-$username\
-$hostname\
-$localip\
-$singularity\
-$kubernetes\
 $directory\
-$vcsh\
 $git_branch\
 $git_commit\
 $git_state\
 $git_metrics\
 $git_status\
-$hg_branch\
 $docker_context\
 $package\
-$c\
-$cmake\
-$cobol\
-$daml\
-$dart\
-$deno\
 $dotnet\
 $elixir\
-$elm\
 $erlang\
 $golang\
 $haskell\
-$helm\
 $java\
-$julia\
 $kotlin\
 $lua\
-$nim\
 $nodejs\
-$ocaml\
-$perl\
-$php\
 $pulumi\
-$purescript\
 $python\
-$raku\
-$rlang\
-$red\
-$ruby\
 $rust\
 $scala\
-$swift\
 $terraform\
-$vlang\
 $vagrant\
-$zig\
-$buf\
 $nix_shell\
-$conda\
-$spack\
-$memory_usage\
-$gcloud\
-$openstack\
-$azure\
-$env_var\
-$crystal\
 $container\
 $shell\
 $jobs\
@@ -73,6 +47,8 @@ $custom\
 $aws\
 """
 continuation_prompt = '[﬌](#666666)'
+
+command_timeout = 1000
 
 [character]
 success_symbol = ''
@@ -133,3 +109,41 @@ description = "AWS Vault server is active."
 symbol = "  "
 when = 'ps -o command | grep -E "^aws-vault.*(--ec2-server|--server|-s)"'
 disabled = false
+
+# Programming Languages
+
+[java]
+symbol = " "
+format = "[$symbol( $version)](blue) "
+
+[scala]
+symbol = " "
+format = "[$symbol( $version)](blue) "
+
+[kotlin]
+symbol = " "
+format = "[$symbol( $version)](blue) "
+
+[golang]
+symbol = "🐹"
+format = "[$symbol( $version)](blue) "
+
+[rust]
+symbol = "🦀"
+format = "[$symbol( $version)](blue) "
+
+[python]
+symbol = " "
+format = "[$symbol( $version)](blue) "
+
+[elixir]
+symbol = " "
+format = '[$symbol( $version \(OTP $otp_version\) )](blue) '
+
+# Build, Package and Deployment Tools
+[package]
+format = "[$symbol($version)](yellow) "
+
+[pulumi]
+symbol = "ﲳ "
+format = "[$symbol( $stack)](blue) "
