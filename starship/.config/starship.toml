@@ -60,11 +60,10 @@ $openstack\
 $azure\
 $env_var\
 $crystal\
-$sudo\
 $container\
 $shell\
 $line_break\
-($status)($jobs)($time)($shlvl)$character\
+$sudo$status$jobs$time$shlvl$character\
 """
 right_format = """
 $cmd_duration\
@@ -83,7 +82,7 @@ vimcmd_replace_symbol = '[ ](purple)'
 vimcmd_visual_symbol = '[ ](yellow)'
 
 [directory]
-truncation_length = 1
+truncation_length = 4
 
 [status]
 format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style) '
@@ -91,6 +90,7 @@ map_symbol = true
 disabled = false
 
 [sudo]
+format = "$symbol"
 disabled = false
 
 [shlvl]
@@ -102,7 +102,8 @@ disabled = false
 
 [aws]
 symbol = " "
-format = '[($symbol($profile)(  $duration))]($style) '
+#format = '[($symbol($profile)(  $duration))]($style) '
+format = '[($symbol($profile))]($style) '
 disabled = false
 
 [custom.aws_vault]

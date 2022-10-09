@@ -70,6 +70,7 @@ export SAM_CLI_TELEMETRY=0
 # Prompt https://starship.rs
 ##############################################################################
 if command -v starship &>/dev/null; then
+  export STARSHIP_LOG=error
   eval "$(starship init zsh)"
 fi
 
