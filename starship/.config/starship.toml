@@ -107,11 +107,11 @@ disabled = false
 
 [custom.aws_vault]
 description = "AWS Vault server is active."
-symbol = "廬 "
+symbol = "廬"
 when = '[[ ! -z "$AWS_VAULT" ]]'
 disabled = false
 
 [custom.aws_vault_proxy]
-symbol = "撚 "
+symbol = "撚"
 when = "ps -o command | grep -e '[a]ws-vault.*--ec2-server'"
 disabled = false
