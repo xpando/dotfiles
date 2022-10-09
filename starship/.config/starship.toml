@@ -1,5 +1,4 @@
 format = """
-$custom\
 $username\
 $hostname\
 $localip\
@@ -56,7 +55,6 @@ $nix_shell\
 $conda\
 $spack\
 $memory_usage\
-$aws\
 $gcloud\
 $openstack\
 $azure\
@@ -66,20 +64,19 @@ $sudo\
 $container\
 $shell\
 $line_break\
-($shlvl )$character\
+($status)($jobs)($time)($shlvl)$character\
 """
 right_format = """
 $cmd_duration\
-$jobs\
 $battery\
-$time\
-$status\
+$custom\
+$aws\
 """
 continuation_prompt = '[﬌ ](#666666)'
 
 [character]
-success_symbol = '[ ](#aaaaaa)'
-error_symbol = '[ ](#aaaaaa)'
+success_symbol = '[ ](#666666)'
+error_symbol = '[ ](#666666)'
 vimcmd_symbol = '[ ](green)'
 vimcmd_replace_one_symbol = '[ ](purple)'
 vimcmd_replace_symbol = '[ ](purple)'
@@ -100,16 +97,21 @@ disabled = false
 #symbol = " "
 symbol = "❯"
 repeat = true
-format = "[$symbol](#aaaaaa)"
+format = "[$symbol ](#aaaaaa)"
 disabled = false
 
 [aws]
 symbol = " "
-format = '[($symbol($profile)( \($duration\)))]($style) '
+format = '[($symbol($profile)(  $duration))]($style) '
 disabled = false
 
 [custom.aws_vault]
 description = "AWS Vault server is active."
-symbol = "🛡️ "
+symbol = "廬 "
 when = '[[ ! -z "$AWS_VAULT" ]]'
+disabled = false
+
+[custom.aws_vault_proxy]
+symbol = "撚 "
+when = "ps -o command | grep -e '[a]ws-vault.*--ec2-server'"
 disabled = false

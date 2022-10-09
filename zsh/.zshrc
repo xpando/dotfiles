@@ -205,11 +205,11 @@ if command -v aws-vault &>/dev/null; then
   if command -v aws_profile_selector &>/dev/null; then
     function awsv() {
       profile=$(aws_profile_selector)
-      [ ! -z "$profile" ] && aws-vault exec $profile ${@:-zsh}
+      [ ! -z "$profile" ] && aws-vault exec $profile -- ${@:-zsh}
     }
     function awsvs() {
       profile=$(aws_profile_selector)
-      [ ! -z "$profile" ] && aws-vault exec --ec2-server $profile ${@:-zsh}
+      [ ! -z "$profile" ] && aws-vault exec --ec2-server $profile -- ${@:-zsh}
     }
   fi
 fi
