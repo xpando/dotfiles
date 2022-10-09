@@ -1,33 +1,31 @@
 local wt = require 'wezterm';
 
-return {
-  -- On MacOS when launching the app from Alfred the default program is "sh". I want to use zsh.
-  -- default_prog = {"/usr/local/bin/zsh", "-l"},
-
+config = {
   exit_behavior = "Close",
   -- clean_exit_codes = {127},
 
-  window_decorations = "RESIZE",
+  -- window_decorations = "RESIZE",
 
   default_cursor_style = 'SteadyUnderline',
 
   color_scheme = "DaveDark",
-  font_size = 20.0,
+  font_size = 24.0,
   font = wt.font_with_fallback({
-    { family="Iosevka Nerd Font", weight="Light"},
-    { family="Apple Color Emoji" }
+    { family="Iosevka Term", weight="Light" },
+    { family="Symbols Nerd Font Mono" },
+    { family="Noto Color Emoji" },
   }),
   font_rules = {
     {
       intensity = "Bold",
       font = wt.font_with_fallback({
-        { family="Iosevka Nerd Font", weight="Regular" }
+        { family="Iosevka Term", weight="Light" }
       })
     },
     {
       intensity = "Half",
       font = wt.font_with_fallback({
-        { family="Iosevka Nerd Font", weight="Light" }
+        { family="Iosevka Term", weight="ExtraLight" }
       })
     }
   },
@@ -118,3 +116,21 @@ return {
     }
   }
 }
+
+function os.capture(cmd, raw)
+  local f = assert(io.popen(cmd, 'r'))
+  local s = assert(f:read('*a'))
+  f:close()
+  if raw then return s end
+  s = string.gsub(s, '^%s+', '')
+  s = string.gsub(s, '%s+$', '')
+  s = string.gsub(s, '[\n\r]+', ' ')
+  return s
+end
+
+-- On MacOS when launching the app from Alfred the default program is "sh". I want to use zsh.
+if string.find(os.capture("uname", true), "Darwin") then
+  config.insert(default_prog, {"/usr/local/bin/zsh", "-l"})
+end
+  
+return config

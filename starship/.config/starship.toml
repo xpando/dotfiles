@@ -62,8 +62,9 @@ $env_var\
 $crystal\
 $container\
 $shell\
+$jobs\
 $line_break\
-$sudo$status$jobs$time$shlvl$character\
+$sudo$status$time$character$shlvl\
 """
 right_format = """
 $cmd_duration\
@@ -71,21 +72,24 @@ $battery\
 $custom\
 $aws\
 """
-continuation_prompt = '[﬌ ](#666666)'
+continuation_prompt = '[﬌](#666666)'
 
 [character]
-success_symbol = '[ ](#666666)'
-error_symbol = '[ ](#666666)'
+success_symbol = ''
+error_symbol = ''
+# success_symbol = '[❯](green)'
+# error_symbol = '[❯](red)'
 vimcmd_symbol = '[ ](green)'
 vimcmd_replace_one_symbol = '[ ](purple)'
 vimcmd_replace_symbol = '[ ](purple)'
 vimcmd_visual_symbol = '[ ](yellow)'
+format = "$symbol"
 
 [directory]
 truncation_length = 4
 
 [status]
-format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style) '
+format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style)'
 map_symbol = true
 disabled = false
 
@@ -94,25 +98,38 @@ format = "$symbol"
 disabled = false
 
 [shlvl]
-#symbol = " "
+threshold = 1
 symbol = "❯"
 repeat = true
-format = "[$symbol ](#aaaaaa)"
+format = "[$symbol](green) "
+# format = "[$shlvl](#aaaaaa)"
 disabled = false
+
+[jobs]
+symbol = " "
+format = "[$symbol( $number)]($style) "
 
 [aws]
-symbol = " "
-#format = '[($symbol($profile)(  $duration))]($style) '
-format = '[($symbol($profile))]($style) '
+# symbol = " "
+symbol = " "
+format = '[($symbol ($profile)( $region)(羽$duration))]($style) '
+# format = '[($symbol ($profile))]($style) '
 disabled = false
 
+[aws.region_aliases]
+us-east-1 = "VA"
+us-east-2 = "OH"
+us-west-1 = "CA"
+us-west-2 = "OR"
+
 [custom.aws_vault]
-description = "AWS Vault server is active."
-symbol = "廬"
+description = "AWS Vault credentials are present."
+symbol = "  "
 when = '[[ ! -z "$AWS_VAULT" ]]'
 disabled = false
 
 [custom.aws_vault_proxy]
-symbol = "撚"
-when = "ps -o command | grep -e '[a]ws-vault.*--ec2-server'"
+description = "AWS Vault server is active."
+symbol = "  "
+when = 'ps -o command | grep -E "^aws-vault.*(--ec2-server|--server|-s)"'
 disabled = false
