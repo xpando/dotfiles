@@ -67,6 +67,13 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export SAM_CLI_TELEMETRY=0
 
 ##############################################################################
+# Wezterm shell integration
+##############################################################################
+if [ -f "$HOME/.config/wezterm/shell_integration.sh" ]; then
+  source "$HOME/.config/wezterm/shell_integration.sh"
+fi
+
+##############################################################################
 # Prompt https://starship.rs
 ##############################################################################
 if command -v starship &>/dev/null; then

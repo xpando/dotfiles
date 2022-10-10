@@ -21,6 +21,11 @@ config = {
   exit_behavior = "Close",
   -- clean_exit_codes = {127},
 
+  keys = {
+    { key = 'UpArrow', mods = 'SHIFT', action = wt.action.ScrollToPrompt(-1) },
+    { key = 'DownArrow', mods = 'SHIFT', action = wt.action.ScrollToPrompt(1) },
+  },  
+
   font_size = 24.0,
   font = wt.font_with_fallback({
     { family="Iosevka Term", weight="Light" },

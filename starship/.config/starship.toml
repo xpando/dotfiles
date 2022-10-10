@@ -36,12 +36,12 @@ $vagrant\
 $nix_shell\
 $container\
 $shell\
-$jobs\
 $fill\
-$cmd_duration\
-$battery\
-$custom\
-$aws\
+(\\[$jobs\\])\
+(\\[$cmd_duration\\])\
+(\\[$battery\\])\
+(\\[$custom\\])\
+(\\[$aws\\])\
 $line_break\
 $sudo$status$time$character$shlvl\
 """
@@ -67,7 +67,7 @@ vimcmd_visual_symbol = '[ ](yellow)'
 format = "$symbol"
 
 [fill]
-symbol = " "
+symbol = "-"
 
 [directory]
 truncation_length = 4
@@ -76,6 +76,9 @@ truncation_length = 4
 format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style)'
 map_symbol = true
 disabled = false
+
+[cmd_duration]
+format = "[($duration)]($style)"
 
 [sudo]
 format = "$symbol"
@@ -91,12 +94,12 @@ disabled = false
 
 [jobs]
 symbol = " "
-format = "[$symbol( $number)]($style) "
+format = "[$symbol($number)](blue)"
 
 [aws]
 # symbol = " "
 symbol = " "
-format = '[($symbol ($profile)( $region)(羽$duration))]($style) '
+format = '[($symbol( $profile)( $region)( $duration))]($style)'
 # format = '[($symbol ($profile))]($style) '
 disabled = false
 
@@ -108,14 +111,14 @@ us-west-2 = "OR"
 
 [custom.aws_vault]
 description = "AWS Vault credentials are present."
-symbol = "  "
+symbol = " "
 when = '[[ ! -z "$AWS_VAULT" ]]'
 disabled = false
 
 [custom.aws_vault_proxy]
 description = "AWS Vault server is active."
-symbol = "  "
-when = 'ps -o command | grep -E "^aws-vault.*(--ec2-server|--server|-s)"'
+symbol = "  "
+when = 'ps -o command | grep -E "^aws-vault.*(--ecs-server|--ec2-server|--server|-s)"'
 disabled = false
 
 # Programming Languages
