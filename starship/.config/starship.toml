@@ -37,16 +37,21 @@ $nix_shell\
 $container\
 $shell\
 $jobs\
-$line_break\
-$sudo$status$time$character$shlvl\
-"""
-right_format = """
+$fill\
 $cmd_duration\
 $battery\
 $custom\
 $aws\
+$line_break\
+$sudo$status$time$character$shlvl\
 """
-continuation_prompt = '[﬌](#666666)'
+# right_format = """
+# $cmd_duration\
+# $battery\
+# $custom\
+# $aws\
+# """
+continuation_prompt = '[﬌ ](#666666) '
 
 command_timeout = 1000
 
@@ -60,6 +65,9 @@ vimcmd_replace_one_symbol = '[ ](purple)'
 vimcmd_replace_symbol = '[ ](purple)'
 vimcmd_visual_symbol = '[ ](yellow)'
 format = "$symbol"
+
+[fill]
+symbol = " "
 
 [directory]
 truncation_length = 4
