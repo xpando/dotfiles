@@ -99,8 +99,8 @@ format = "[$symbol($number)](blue)"
 [aws]
 # symbol = " "
 symbol = " "
-format = '[($symbol( $profile)( $region)( $duration))]($style)'
-# format = '[($symbol ($profile))]($style) '
+format = '[($symbol($profile)( $region)( $duration))]($style)'
+# format = '[($symbol($profile))]($style) '
 disabled = false
 
 [aws.region_aliases]
@@ -117,7 +117,7 @@ disabled = false
 
 [custom.aws_vault_proxy]
 description = "AWS Vault server is active."
-symbol = "  "
+symbol = " "
 when = 'ps -o command | grep -E "^aws-vault.*(--ecs-server|--ec2-server|--server|-s)"'
 disabled = false
 
