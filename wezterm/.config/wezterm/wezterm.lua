@@ -48,7 +48,7 @@ config = {
   },
   freetype_load_target = "HorizontalLcd",
   bold_brightens_ansi_colors = true,
-  window_background_opacity = 0.85,
+  window_background_opacity = 0.95,
   text_background_opacity = 1.0,
 
   -- set to false to disable the tab bar completely
