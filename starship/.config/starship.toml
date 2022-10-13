@@ -145,7 +145,7 @@ format = "[$symbol( $version)](blue) "
 
 [python]
 symbol = " "
-format = "[$symbol( $version)](blue) "
+format = '[$symbol( ($virtualenv:)$version)](blue) '
 
 [elixir]
 symbol = " "
