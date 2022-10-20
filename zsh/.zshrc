@@ -266,6 +266,7 @@ alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -
 alias serve="python -m http.server"
 alias gwp="gradle properties | grep plugins: | sed 's/^.*\[\(.*\)\]$/\1/' | tr \",\" \"\n\" | xargs -n 1 | sort"
 alias qr='qrencode -t ANSI -s 1 -m 1'
+alias emoji-test='curl https://unicode.org/Public/emoji/11.0/emoji-test.txt | less -S'
 
 function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 
@@ -296,8 +297,8 @@ case "$SYSTEM" in
     alias vm-down='virsh -q net-destroy default; sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
     alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1s'
 
-    # disable Fn mode for F keys for Mac keyboards
-    # this is needed when I'm using my Keychron K3 on linux
+    # Disable Fn mode for F keys for Mac keyboards
+    # This is needed when I'm using my Keychron K3 on Linux
     alias fkeys='echo 0 | sudo tee /sys/module/hid_apple/parameters/fnmode >/dev/null'
 
     # show what ports are open and listening
