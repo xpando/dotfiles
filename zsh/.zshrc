@@ -4,7 +4,7 @@
 ##############################################################################
 # Path 
 ##############################################################################
-export PATH=$PATH:~/.local/bin
+export PATH=~/.local/bin:$PATH
 export LESS=FRX
 export EDITOR=vim
 
@@ -82,12 +82,10 @@ if command -v starship &>/dev/null; then
 fi
 
 ##############################################################################
-# asdf - manage multiple versions of dev tools
+# JetBrains CLI scripts
 ##############################################################################
-if [ -f "$HOME/.asdf/asdf.sh" ]; then
-  autoload -U +X bashcompinit && bashcompinit # asdf requires bash completions :(
-  fpath=($HOME/.asdf/completions $fpath)
-  source "$HOME/.asdf/asdf.sh"
+if [ -d "$HOME/.local/share/JetBrains/Toolbox/scripts" ]; then
+  export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
 fi
 
 ##############################################################################
@@ -96,6 +94,15 @@ fi
 if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
   export SDKMAN_DIR="$HOME/.sdkman"
   source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
+fi
+
+##############################################################################
+# asdf - manage multiple versions of dev tools
+##############################################################################
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+  autoload -U +X bashcompinit && bashcompinit # asdf requires bash completions :(
+  fpath=($HOME/.asdf/completions $fpath)
+  source "$HOME/.asdf/asdf.sh"
 fi
 
 ##############################################################################
