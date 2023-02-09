@@ -11,18 +11,27 @@ export EDITOR=vim
 ##############################################################################
 ## History
 ##############################################################################
+HISTFILE=~/.zsh_history  # Where to save history to disk
 HISTSIZE=15000           # How many lines of history to keep in memory
 SAVEHIST=1000000000      # Number of history entries to save to disk
-HISTFILE=~/.zsh_history  # Where to save history to disk
-HISTDUP=erase            # Erase duplicates in the history file
-setopt appendhistory     # Append history to the history file (no overwriting)
-setopt sharehistory      # Share history across terminals
-setopt incappendhistory  # Immediately append to the history file, not just when a term is killed
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
 ##############################################################################
 ## Ergonomics
 ##############################################################################
-unsetopt BEEP # beeping is annoying
+setopt NO_BEEP # beeping is annoying
 setopt autocd nomatch
 setopt interactive_comments
 stty stop undef		# Disable ctrl-s to freeze terminal.
@@ -94,6 +103,16 @@ fi
 if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
   export SDKMAN_DIR="$HOME/.sdkman"
   source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
+  function java_list_cacerts() {
+    keytool -list -cacerts -storepass changeit
+  }
+  function java_trust_cacert() {
+    if [ ! -f "$1" ]; then
+      echo "Certificate file '$1' not found"
+      return 2 # No such file or directory
+    fi
+    keytool -import -cacerts -storepass changeit -alias awsRdsRootCaCertificate -file $1
+  }
 fi
 
 ##############################################################################
@@ -203,10 +222,6 @@ alias g='git'
 alias gfa='g fetch --all'
 alias gfp='g fetch --prune --all'
 alias grp='g remote prune'
-
-if command -v onefetch &>/dev/null; then
-  alias onefetch='onefetch --no-palette --no-merges --no-bots -A 10'
-fi
 
 # httpie - https://httpie.org/
 if command -v http &>/dev/null; then
