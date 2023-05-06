@@ -67,7 +67,8 @@ vimcmd_visual_symbol = '[ ](yellow)'
 format = "$symbol"
 
 [fill]
-symbol = "-"
+symbol = " "
+style = "fg:#1e2237"
 
 [directory]
 truncation_length = 4
@@ -86,7 +87,7 @@ disabled = false
 
 [shlvl]
 threshold = 1
-symbol = "❯"
+symbol = "\u25B6"
 repeat = true
 format = "[$symbol](green) "
 # format = "[$shlvl](#aaaaaa)"
