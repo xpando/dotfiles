@@ -11,9 +11,9 @@ export EDITOR=vim
 ##############################################################################
 ## History
 ##############################################################################
-HISTFILE=~/.zsh_history  # Where to save history to disk
-HISTSIZE=15000           # How many lines of history to keep in memory
-SAVEHIST=1000000000      # Number of history entries to save to disk
+HISTFILE=~/.zsh_history          # Where to save history to disk
+HISTSIZE=15000                   # How many lines of history to keep in memory
+SAVEHIST=1000000000              # Number of history entries to save to disk
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
@@ -106,7 +106,7 @@ if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
   function java_list_cacerts() {
     keytool -list -cacerts -storepass changeit
   }
-  function java_trust_cacert() {
+  function java_trust_aws_rds_cacert() {
     if [ ! -f "$1" ]; then
       echo "Certificate file '$1' not found"
       return 2 # No such file or directory
@@ -263,22 +263,6 @@ if command -v aws &>/dev/null; then
   fi
 fi
 
-# AWS Vault
-if command -v aws-vault &>/dev/null; then
-  export AWS_VAULT_PROMPT=osascript
-  eval "$(aws-vault --completion-script-zsh)"
-  if command -v aws_profile_selector &>/dev/null; then
-    function awsv() {
-      profile=$(aws_profile_selector)
-      [ ! -z "$profile" ] && aws-vault exec $profile -- ${@:-zsh}
-    }
-    function awsvs() {
-      profile=$(aws_profile_selector)
-      [ ! -z "$profile" ] && aws-vault exec --ec2-server $profile -- ${@:-zsh}
-    }
-  fi
-fi
-
 ##############################################################################
 # Common aliases
 ##############################################################################
@@ -307,6 +291,26 @@ case "$SYSTEM" in
     echo "Unknown system: '$SYSTEM'."
 esac
 
+
+# AWS Vault
+if command -v aws-vault &>/dev/null; then
+  declare -A PROMPTS
+  PROMPTS[Linux]="zenity"
+  PROMPTS[Darwin]="osascript"
+  export AWS_VAULT_PROMPT=$prompts[$SYSTEM]
+  eval "$(aws-vault --completion-script-zsh)"
+  if command -v aws_profile_selector &>/dev/null; then
+    function awsv() {
+      profile=$(aws_profile_selector)
+      [ ! -z "$profile" ] && aws-vault exec $profile -- ${@:-zsh}
+    }
+    function awsvs() {
+      profile=$(aws_profile_selector)
+      [ ! -z "$profile" ] && aws-vault exec --ec2-server $profile -- ${@:-zsh}
+    }
+  fi
+fi
+
 case "$SYSTEM" in
   Linux)
     # aliases common to all Linux systems
@@ -315,8 +319,10 @@ case "$SYSTEM" in
     alias ip='ip -c' # use colored output
     alias docker-up='sudo systemctl start {containerd.service,docker.socket}; systemctl status {containerd.service,docker.socket,docker.service} --no-pager'
     alias docker-down='sudo systemctl stop {docker.service,docker.socket,containerd.service}; sudo ip link delete docker0; systemctl status {docker.service,docker.socket,containerd.service} --no-pager'
-    alias vm-up='sudo systemctl start libvirtd; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager; virsh net-start default'
-    alias vm-down='virsh -q net-destroy default; sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
+    alias kvm-up='sudo systemctl start libvirtd; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager; virsh net-start default'
+    alias kvm-down='virsh -q net-destroy default; sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
+    alias vmw-up='sudo systemctl start vmware-networks vmware-networks-configuration vmware-usbarbitrator && sudo systemctl status vmware-networks vmware-networks-configuration vmware-usbarbitrator'
+    alias vmw-down='sudo systemctl stop vmware-usbarbitrator vmware-networks-configuration vmware-networks && sudo systemctl status vmware-networks vmware-networks-configuration vmware-usbarbitrator'
     alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1s'
 
     # Disable Fn mode for F keys for Mac keyboards
@@ -330,7 +336,7 @@ case "$SYSTEM" in
       Arch)
         alias mirrors='reflector --verbose -f 5 -c US -p https'
         alias umirrors='mirrors | sudo tee /etc/pacman.d/mirrorlist'
-        alias up='paru -Syyu --noconfirm && paru -Sc --noconfirm && paru -Ps'
+        alias up='paru -Syu --noconfirm && paru -Sc --noconfirm && paru -Ps'
         alias pkgs='paru -Qett'
         alias ipkg='paru -Slq | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -S'
         alias upkg='paru -Qett | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -Rc' 
