@@ -41,22 +41,24 @@
   undo = !git reset HEAD~1 --mixed
   top = !git log --format=format:%an | sort | uniq -c | sort -gbr | head -n 20
   logg = !git log --pretty=format:\"\\\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\\\"\" --graph --date=relative --decorate --all
-	logv = "!f() { git log --all --color --graph --pretty=format:'%C(bold yellow)<sig>%G?</sig>%C(reset) %C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cr) %C(blue)<%an>%C(reset)' | \
-        	sed \
-        	-e 's#<sig>G</sig>#Good#' \
-        	-e 's#<sig>B</sig>#\\nBAD \\nBAD \\nBAD \\nBAD \\nBAD#' \
-        	-e 's#<sig>U</sig>#Unknown#' \
-        	-e 's#<sig>X</sig>#Expired#' \
-        	-e 's#<sig>Y</sig>#Expired Key#' \
-        	-e 's#<sig>R</sig>#Revoked#' \
-        	-e 's#<sig>E</sig>#Missing Key#' \
-        	-e 's#<sig>N</sig>#None#'; \
-		}; f"
+  logv = "!f() { git log --all --color --graph --pretty=format:'%C(bold yellow)<sig>%G?</sig>%C(reset) %C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cr) %C(blue)<%an>%C(reset)' | \
+    sed \
+    -e 's#<sig>G</sig>#Good#' \
+    -e 's#<sig>B</sig>#\\nBAD \\nBAD \\nBAD \\nBAD \\nBAD#' \
+    -e 's#<sig>U</sig>#Unknown#' \
+    -e 's#<sig>X</sig>#Expired#' \
+    -e 's#<sig>Y</sig>#Expired Key#' \
+    -e 's#<sig>R</sig>#Revoked#' \
+    -e 's#<sig>E</sig>#Missing Key#' \
+    -e 's#<sig>N</sig>#None#'; \
+  }; f"
 
 # Local overrides
 [include]
-    path = ~/.gitconfig_local
+  path = ~/.gitconfig_local
 
 [push]
-	autoSetupRemote = true
+  autoSetupRemote = true
 
+[rerere]
+  enabled = true
