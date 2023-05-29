@@ -70,6 +70,11 @@ if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/
 if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 2>/dev/null; fi
 
 ##############################################################################
+# Homebrew package manager (Linux)
+##############################################################################
+if [ -e "$HOME/.brew/bin/brew" ]; then eval "$($HOME/.brew/bin/brew shellenv)"; fi
+
+##############################################################################
 # Privacy
 ##############################################################################
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -118,10 +123,15 @@ fi
 ##############################################################################
 # asdf - manage multiple versions of dev tools
 ##############################################################################
-if [ -f "$HOME/.asdf/asdf.sh" ]; then
-  autoload -U +X bashcompinit && bashcompinit # asdf requires bash completions :(
-  fpath=($HOME/.asdf/completions $fpath)
-  source "$HOME/.asdf/asdf.sh"
+#if [ -f "$HOME/.asdf/asdf.sh" ]; then
+#  autoload -U +X bashcompinit && bashcompinit # asdf requires bash completions :(
+#  fpath=($HOME/.asdf/completions $fpath)
+#  source "$HOME/.asdf/asdf.sh"
+#fi
+# RTX is a replacement for asdf written in Rust
+# see: https://github.com/jdxcode/rtx
+if command -v rtx &>/dev/null; then
+  eval "$(rtx activate zsh)"
 fi
 
 ##############################################################################
@@ -342,6 +352,7 @@ case "$SYSTEM" in
         alias upkg='paru -Qett | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -Rc' 
         alias clean-pkgs='paru -c'
         alias wezup='paru -S wezterm-nightly-bin'
+        alias restart-autio='systemctl --user restart pipewire.service pipewire-pulse.socket wireplumber.service'
         ;;
 
       Ubuntu)
