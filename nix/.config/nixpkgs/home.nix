@@ -14,26 +14,27 @@ with pkgs;
     username = "david";
     homeDirectory = "/home/david";
     packages = [
-      stow        # dotfiles manager
-      antibody    # zsh plugin manager
-      starship    # prompt
+      bat         # cat replacement
+      delta       # better diffs
+      direnv      # auto switch env on dir change
       exa         # ls replacement
-      fzf         # fuzzy find
       fasd        # quick access to files and dirs
       fd          # find replacement
-      bat         # cat replacement
+      fzf         # fuzzy find
+      gh          # github CLI
+      git         # dvcs
+      gnupg       # digital sigs for things like git commits
       htop        # system resource monitor
+      iosevka     # mono spaced font for terminal and code editors
+      micro       # better nano
       neofetch    # system info
       neovim      # better vim
-      micro       # better nano
-      git         # dvcs
-      gh          # github CLI
-      delta       # better diffs
-      ripgrep     # better grep
-      direnv      # auto switch env on dir change
-      gnupg       # digital sigs for things like git commits
-      tree-sitter # lang syntax parser for neovim
       nodejs      # global nodejs for npm CLI tools
+      ripgrep     # better grep
+      starship    # prompt
+      stow        # dotfiles manager
+      tree-sitter # lang syntax parser for neovim
+      zsh         # Z shell
 
       # patched nerd fonts with symbols for prompts and status lines in the terminal
       # the full package is quite large so override with just the fonts I use
