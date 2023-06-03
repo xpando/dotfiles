@@ -12,7 +12,7 @@ local wt = require 'wezterm';
 -- brew install --cask font-noto-color-emoji
 
 config = {
-  -- enable_wayland = false,
+  enable_wayland = true,
 
   color_scheme = "DaveDark",
 
@@ -28,29 +28,12 @@ config = {
     { key = 'DownArrow', mods = 'SHIFT', action = wt.action.ScrollToPrompt(1) },
   },  
 
-  font_size = 24.0,
+  font_size = 16.0,
   font = wt.font_with_fallback({
-    { family="Iosevka Term", weight="Light" },
-    { family="Symbols Nerd Font Mono" },
-    { family="Noto Color Emoji" },
-    { family="JoyPixels" },
+    { family="Iosevka", weight="ExtraLight" }
   }),
-  font_rules = {
-    {
-      intensity = "Bold",
-      font = wt.font_with_fallback({
-        { family="Iosevka Term", weight="Regular" },
-      })
-    },
-    {
-      intensity = "Half",
-      font = wt.font_with_fallback({
-        { family="Iosevka Term", weight="Light" },
-      })
-    }
-  },
   freetype_load_target = "HorizontalLcd",
-  -- bold_brightens_ansi_colors = true,
+  bold_brightens_ansi_colors = true,
   window_background_opacity = 0.95,
   text_background_opacity = 1.0,
 
