@@ -10,6 +10,7 @@
 # brew install --cask font-noto-color-emoji
 
 format = """
+$status\
 $directory\
 $git_branch\
 $git_commit\
@@ -38,12 +39,13 @@ $container\
 $shell\
 $fill\
 (\\[$jobs\\])\
-(\\[$cmd_duration\\])\
 (\\[$battery\\])\
 (\\[$custom\\])\
 (\\[$aws\\])\
+(\\[$cmd_duration\\])\
+$sudo\
 $line_break\
-$sudo$status$time$character$shlvl\
+$time$character$shlvl\
 """
 # right_format = """
 # $cmd_duration\
@@ -51,15 +53,13 @@ $sudo$status$time$character$shlvl\
 # $custom\
 # $aws\
 # """
-continuation_prompt = '[﬌ ](#666666) '
+continuation_prompt = '[  ](#666666) '
 
-command_timeout = 1000
+#command_timeout = 1000
 
 [character]
-success_symbol = ''
-error_symbol = ''
-# success_symbol = '[❯](green)'
-# error_symbol = '[❯](red)'
+success_symbol = '[ ](#777777)[ ](green)'
+error_symbol = '[ ](#777777)[ ](red)'
 vimcmd_symbol = '[ ](green)'
 vimcmd_replace_one_symbol = '[ ](purple)'
 vimcmd_replace_symbol = '[ ](purple)'
@@ -74,7 +74,7 @@ style = "fg:#1e2237"
 truncation_length = 4
 
 [status]
-format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style)'
+format = '[\[$symbol $common_meaning$signal_name$maybe_int\]]($style) '
 map_symbol = true
 disabled = false
 
@@ -82,16 +82,16 @@ disabled = false
 format = "[($duration)]($style)"
 
 [sudo]
-format = "$symbol"
+format = " $symbol"
 disabled = false
 
 [shlvl]
 threshold = 1
-symbol = "\u25B6"
+symbol = ""
 repeat = true
-format = "[$symbol](green) "
-# format = "[$shlvl](#aaaaaa)"
-disabled = false
+#format = '[$symbol](green) '
+#format = "[$shlvl](#aaaaaa)"
+disabled = true
 
 [jobs]
 symbol = " "

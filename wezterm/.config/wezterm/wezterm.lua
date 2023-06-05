@@ -30,7 +30,10 @@ config = {
 
   font_size = 16.0,
   font = wt.font_with_fallback({
-    { family="Iosevka", weight="ExtraLight" }
+    { family="Iosevka", weight="ExtraLight" },
+    { family="Symbols Nerd Font Mono" },
+    { family="Noto Color Emoji" },
+    { family="JoyPixels" },
   }),
   freetype_load_target = "HorizontalLcd",
   bold_brightens_ansi_colors = true,
