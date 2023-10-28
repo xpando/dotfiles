@@ -1,7 +1,18 @@
 [user]
   name = "David Findley"
   email = "xpando@gmail.com"
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF9fQACyaZIgsiNR9ndnQisN9Ns0iyQl3w6vEGh1dHrf
 
+[commit]
+  gpgsign = true
+
+[gpg]
+  format = ssh
+  
+[gpg "ssh"]
+  program = "/opt/1Password/op-ssh-sign"
+  allowedSignersFile = ~/.ssh/allowed_signers
+ 
 [init]
   defaultBranch = main
 
@@ -19,9 +30,6 @@
   file-decoration-style = none
   file-style = white ul
   commit-decoration-style = cyan box ul
-
-[commit]
-  gpgsign = true
 
 [merge]
   ff = only
