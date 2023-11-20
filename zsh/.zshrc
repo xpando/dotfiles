@@ -4,7 +4,7 @@
 ##############################################################################
 # Path 
 ##############################################################################
-export PATH=~/.local/bin:$PATH
+export PATH=~/.local/bin:~/cargo/bin:$PATH
 export LESS=FRX
 export EDITOR=vim
 
@@ -207,8 +207,13 @@ if command -v zoxide &>/dev/null; then
 fi
 
 # EXA is a better ls written in rust: https://the.exa.website/
-if command -v exa &>/dev/null; then
-  alias ls='exa --git --group-directories-first --group --time-style=long-iso --icons'
+# if command -v exa &>/dev/null; then
+#   alias ls='exa --git --group-directories-first --group --time-style=long-iso --icons'
+#   export EXA_ICON_SPACING=2
+# fi
+# EXA seems to no longer be maintained so I'm using this fork: https://github.com/eza-community/eza
+if command -v eza &>/dev/null; then
+  alias ls='eza --git --group-directories-first --group --time-style=long-iso --icons'
   export EXA_ICON_SPACING=2
 fi
 alias l='ls'
@@ -329,8 +334,8 @@ case "$SYSTEM" in
     alias ip='ip -c' # use colored output
     alias docker-up='sudo systemctl start {containerd.service,docker.socket}; systemctl status {containerd.service,docker.socket,docker.service} --no-pager'
     alias docker-down='sudo systemctl stop {docker.service,docker.socket,containerd.service}; sudo ip link delete docker0; systemctl status {docker.service,docker.socket,containerd.service} --no-pager'
-    alias kvm-up='sudo systemctl start libvirtd; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager; virsh net-start default'
-    alias kvm-down='virsh -q net-destroy default; sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
+    alias kvm-up='sudo systemctl start libvirtd; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
+    alias kvm-down='sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
     alias vmw-up='sudo systemctl start vmware-networks vmware-networks-configuration vmware-usbarbitrator && sudo systemctl status vmware-networks vmware-networks-configuration vmware-usbarbitrator'
     alias vmw-down='sudo systemctl stop vmware-usbarbitrator vmware-networks-configuration vmware-networks && sudo systemctl status vmware-networks vmware-networks-configuration vmware-usbarbitrator'
     alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1s'

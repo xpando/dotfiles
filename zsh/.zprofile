@@ -8,3 +8,5 @@ export LC_CTYPE="en_US.UTF-8"
 # Turn off debug logging for things like albert
 export QT_LOGGING_RULES="*.debug=false;*.info=false"
 
+#export GBM_BACKEND=nvidia-drm
+#export __GLX_VENDOR_LIBRARY_NAME=nvidia
