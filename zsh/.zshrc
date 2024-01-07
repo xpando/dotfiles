@@ -128,10 +128,10 @@ fi
 #  fpath=($HOME/.asdf/completions $fpath)
 #  source "$HOME/.asdf/asdf.sh"
 #fi
-# RTX is a replacement for asdf written in Rust
-# see: https://github.com/jdxcode/rtx
-if command -v rtx &>/dev/null; then
-  eval "$(rtx activate zsh)"
+# mise is a replacement for asdf written in Rust
+# see: https://mise.jdx.dev/
+if [ -f "$HOME/.local/bin/mise" ]; then
+	eval "$($HOME/.local/bin/mise activate zsh)"
 fi
 
 ##############################################################################
@@ -277,6 +277,9 @@ if command -v aws &>/dev/null; then
     }
   fi
 fi
+
+## Ocaml package manager
+[[ ! -r ~/.opam/opam-init/init.zsh ]] || source ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null
 
 ##############################################################################
 # Common aliases
