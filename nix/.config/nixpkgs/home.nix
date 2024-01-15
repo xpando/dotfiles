@@ -9,7 +9,7 @@ with pkgs;
   fonts.fontconfig.enable = true;
  
   # This is my base tool set. Per project dev tools will be 
-  # setup via a combo of direnv, asdf and nix-shell
+  # setup via a combo of direnv, mise and nix-shell
   home = {
     username = "david";
     homeDirectory = "/home/david";
@@ -17,7 +17,7 @@ with pkgs;
       bat         # cat replacement
       delta       # better diffs
       direnv      # auto switch env on dir change
-      exa         # ls replacement
+      eza         # ls replacement
       fasd        # quick access to files and dirs
       fd          # find replacement
       fzf         # fuzzy find
@@ -26,15 +26,12 @@ with pkgs;
       gnupg       # digital sigs for things like git commits
       htop        # system resource monitor
       iosevka     # mono spaced font for terminal and code editors
-      micro       # better nano
       neofetch    # system info
       neovim      # better vim
-      nodejs      # global nodejs for npm CLI tools
       ripgrep     # better grep
       starship    # prompt
-      stow        # dotfiles manager
-      tree-sitter # lang syntax parser for neovim
-      zsh         # Z shell
+      du-dust     # better du
+      duf         # disk info
 
       # patched nerd fonts with symbols for prompts and status lines in the terminal
       # the full package is quite large so override with just the fonts I use
@@ -50,5 +47,5 @@ with pkgs;
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "21.11";
+  home.stateVersion = "23.05";
 }
