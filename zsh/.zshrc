@@ -300,7 +300,7 @@ function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 SYSTEM=$(uname -s)
 case "$SYSTEM" in
   Linux)
-    DIST=$(lsb_release -a | grep -E 'Distributor ID:' | cut -f2)
+    DIST=$(lsb_release -i | grep -E 'Distributor ID:' | cut -f2)
     ;;
   Darwin)
     DIST=MacOS
