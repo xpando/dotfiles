@@ -1,0 +1,53 @@
+* {
+    all: unset;
+    font-family: "IosevkaTerm NF";
+    font-size: 32px;
+}
+
+#window {
+    background-color: #1f1f1f;
+    border-radius: 12px;
+}
+
+#outer-box {
+    background-color: #1f1f1f;
+    border: none;
+    border-radius: 12px;
+}
+
+#inner-box {
+    margin: 5px;
+}
+
+#input {
+    margin: 1rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background-color: #303241;
+}
+
+#input > image.left {
+    margin: 0 1rem;
+}
+
+#input > image.right {
+    margin: 0 1rem;
+}
+
+#entry {
+    margin: 0.25rem 0.75rem 0.25rem 0.75rem;
+    padding: 0.25rem 0.75rem 0.25rem 1.75rem;
+    color: #9699b7;
+    border-radius: 8px;
+}
+
+#entry:selected {
+    background-color: #303241;
+    color: #d9e0ee;
+}
+
+#img {
+    margin-right: 2rem;
+    width: 16px;
+    height: 16px;
+}
