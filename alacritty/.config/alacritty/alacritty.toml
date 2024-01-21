@@ -1,0 +1,41 @@
+[font]
+normal = { family = "IosevkaTerm NF Light", style = "Regular" }
+size = 18.0
+builtin_box_drawing = false
+
+[window]
+decorations = "None"
+padding = { x = 10, y = 10 }
+
+[cursor]
+style = { shape = "Underline", blinking = "On" }
+blink_interval = 250
+blink_timeout = 0
+unfocused_hollow = false
+thickness = 0.30
+
+[colors.primary]
+foreground = "#fffaf3"
+background = "#1f1f1f"
+
+[colors.normal]
+black = "#1f1f1f"
+red = "#ff000f"
+green = "#8ce00a"
+yellow = "#ffb900"
+blue = "#008df8"
+magenta = "#6c43a5"
+cyan = "#00d7eb"
+white = "#ffffff"
+
+[colors.bright]
+black = "#444444"
+red = "#ff273f"
+green = "#abe05a"
+yellow = "#ffd141"
+blue = "#0092ff"
+magenta = "#9a5feb"
+cyan = "#67ffef"
+white = "#ffffff"
+
+
