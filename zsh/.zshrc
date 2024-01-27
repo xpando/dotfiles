@@ -66,8 +66,8 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 ##############################################################################
 # Nix and Home Manager Environment
 ##############################################################################
-if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi
-if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 2>/dev/null; fi
+#if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi
+#if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 2>/dev/null; fi
 
 ##############################################################################
 # Homebrew package manager (Linux)
@@ -131,7 +131,7 @@ fi
 # mise is a replacement for asdf written in Rust
 # see: https://mise.jdx.dev/
 if [ -f "$HOME/.local/bin/mise" ]; then
-	eval "$($HOME/.local/bin/mise activate zsh)"
+  eval "$($HOME/.local/bin/mise activate zsh)"
 fi
 
 ##############################################################################
@@ -141,9 +141,9 @@ if command -v pyenv &>/dev/null; then
   eval "$(pyenv init -)"
 fi
 
-if command -v pipx &>/dev/null; then
-  eval "$(register-python-argcomplete pipx)"
-fi
+#if command -v pipx &>/dev/null; then
+#  eval "$(register-python-argcomplete pipx)"
+#fi
 
 if command -v pipenv &>/dev/null; then
   # Tell pipenv to create virtual environments inside the project directory
@@ -278,9 +278,6 @@ if command -v aws &>/dev/null; then
   fi
 fi
 
-## Ocaml package manager
-[[ ! -r ~/.opam/opam-init/init.zsh ]] || source ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null
-
 ##############################################################################
 # Common aliases
 ##############################################################################
@@ -351,6 +348,14 @@ case "$SYSTEM" in
     function eports() { sudo ss -ntapl | awk '$1=="LISTEN" && $4!~/^(127\.|\[::1\])/' }
 
     case "$DIST" in
+      nixos)
+        alias hm='home-manager'
+        alias hmu='nix flake update ~/.config/home-manager'
+        alias hms='home-manager switch --flake ~/.config/home-manager'
+				alias up='sudo nixos-rebuild --flake /etc/nixos switch'
+        alias gc-nix='sudo nix-collect-garbage --delete-older-than 7d'
+        alias gc-home-manager='nix-env --profile ~/.local/state/nix/profiles/home-manager --delete-generations +5'
+        ;;
       Arch)
         alias mirrors='reflector --verbose -f 5 -c US -p https'
         alias umirrors='mirrors | sudo tee /etc/pacman.d/mirrorlist'
