@@ -10,7 +10,7 @@
   format = ssh
   
 [gpg "ssh"]
-  program = "/opt/1Password/op-ssh-sign"
+  program = "op-ssh-sign"
   allowedSignersFile = ~/.ssh/allowed_signers
  
 [init]
@@ -70,3 +70,5 @@
 
 [rerere]
   enabled = true
+[safe]
+	directory = /etc/nixos
