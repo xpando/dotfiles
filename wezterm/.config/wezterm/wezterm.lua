@@ -30,19 +30,19 @@ config = {
 
   font_size = 16.0,
   font = wt.font_with_fallback {
-    { family = "IosevkaTerm Nerd Font Propo", weight = "ExtraLight", },
+    { family = "Iosevka NFP", weight = "ExtraLight", },
   },
   font_rules = {
     {
       intensity = "Bold",
       font = wt.font_with_fallback({
-        { family="IosevkaTerm Nerd Font Propo", weight="Light" }
+        { family="Iosevka NFP", weight="Light" }
       })
     },
     {
       intensity = "Half",
       font = wt.font_with_fallback({
-        { family="IosevkaTerm Nerd Font Propo", weight="ExtraLight" }
+        { family="Iosevka NFP", weight="ExtraLight" }
       })
     }
   },
