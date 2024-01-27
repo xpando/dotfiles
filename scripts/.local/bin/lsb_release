@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # This is a simple alternative to /usr/bin/lsb_release which
 # doesn't require python.
