@@ -70,6 +70,11 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 #if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 2>/dev/null; fi
 
 ##############################################################################
+# Homebrew package manager (MacOS)
+##############################################################################
+if [ -e "/opt/homebrew/bin/brew" ]; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
+
+##############################################################################
 # Homebrew package manager (Linux)
 ##############################################################################
 if [ -e "$HOME/.brew/bin/brew" ]; then eval "$($HOME/.brew/bin/brew shellenv)"; fi
