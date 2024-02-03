@@ -3,6 +3,10 @@ vim.loader.enable()
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+
 -- Use true color in the terminal
 vim.o.termguicolors = true
 
@@ -39,8 +43,8 @@ vim.o.timeoutlen = 300
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { 'menuone', 'noselect' }
 
--- NOTE: You should make sure your terminal supports this
+-- NOTE: make sure your terminal supports this
 vim.o.termguicolors = true
 
 -- Don't show diagnostic inlays in the editor
-vim.diagnostic.config({ virtual_text = false })
+vim.diagnostic.config { virtual_text = false }
