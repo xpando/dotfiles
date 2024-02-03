@@ -284,20 +284,15 @@ if command -v aws &>/dev/null; then
 fi
 
 ##############################################################################
-# Common aliases
+# Direnv
 ##############################################################################
-alias e="$EDITOR"
-alias path="tr ':' '\n' <<< \$PATH" # list path elements vertiacally for easier reading
-alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -nr | cut -d: -f2-"
-alias serve="python -m http.server"
-alias gwp="gradle properties | grep plugins: | sed 's/^.*\[\(.*\)\]$/\1/' | tr \",\" \"\n\" | xargs -n 1 | sort"
-alias qr='qrencode -t ANSI -s 1 -m 1'
-alias emoji-test='curl https://unicode.org/Public/emoji/11.0/emoji-test.txt | less -S'
-
-function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
+if command -v direnv &>/dev/null; then
+  export DIRENV_LOG_FORMAT=
+  eval "$(direnv hook zsh)"
+fi
 
 ##############################################################################
-# Platform specific aliases
+#  Detect platform
 ##############################################################################
 SYSTEM=$(uname -s)
 case "$SYSTEM" in
@@ -311,6 +306,18 @@ case "$SYSTEM" in
     echo "Unknown system: '$SYSTEM'."
 esac
 
+##############################################################################
+# Common aliases
+##############################################################################
+alias e="$EDITOR"
+alias path="tr ':' '\n' <<< \$PATH" # list path elements vertiacally for easier reading
+alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -nr | cut -d: -f2-"
+alias serve="python -m http.server"
+alias gwp="gradle properties | grep plugins: | sed 's/^.*\[\(.*\)\]$/\1/' | tr \",\" \"\n\" | xargs -n 1 | sort"
+alias qr='qrencode -t ANSI -s 1 -m 1'
+alias emoji-test='curl https://unicode.org/Public/emoji/11.0/emoji-test.txt | less -S'
+
+function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 
 # AWS Vault
 if command -v aws-vault &>/dev/null; then
