@@ -125,18 +125,10 @@ if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
   }
 fi
 
-##############################################################################
-# asdf - manage multiple versions of dev tools
-##############################################################################
-#if [ -f "$HOME/.asdf/asdf.sh" ]; then
-#  autoload -U +X bashcompinit && bashcompinit # asdf requires bash completions :(
-#  fpath=($HOME/.asdf/completions $fpath)
-#  source "$HOME/.asdf/asdf.sh"
-#fi
 # mise is a replacement for asdf written in Rust
 # see: https://mise.jdx.dev/
-if [ -f "$HOME/.local/bin/mise" ]; then
-  eval "$($HOME/.local/bin/mise activate zsh)"
+if command -v mise &>/dev/null; then
+  eval "$(mise activate zsh)"
 fi
 
 ##############################################################################
@@ -360,14 +352,7 @@ case "$SYSTEM" in
     function eports() { sudo ss -ntapl | awk '$1=="LISTEN" && $4!~/^(127\.|\[::1\])/' }
 
     case "$DIST" in
-      nixos)
-        alias hm='home-manager'
-        alias hmu='nix flake update ~/.config/home-manager'
-        alias hms='home-manager switch --flake ~/.config/home-manager'
-				alias up='sudo nixos-rebuild --flake /etc/nixos switch'
-        alias gc-nix='sudo nix-collect-garbage --delete-older-than 7d'
-        alias gc-home-manager='nix-env --profile ~/.local/state/nix/profiles/home-manager --delete-generations +5'
-        ;;
+
       Arch)
         alias mirrors='reflector --verbose -f 5 -c US -p https'
         alias umirrors='mirrors | sudo tee /etc/pacman.d/mirrorlist'
@@ -376,15 +361,25 @@ case "$SYSTEM" in
         alias ipkg='paru -Slq | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -S'
         alias upkg='paru -Qett | fzf -m --preview '\''cat <(paru -Si {1}) <(paru -Fl {1} | awk "{print \$2}")'\'' | xargs -ro paru -Rc' 
         alias clean-pkgs='paru -c'
-        alias wezup='paru -S wezterm-nightly-bin'
-        alias restart-autio='systemctl --user restart pipewire.service pipewire-pulse.socket wireplumber.service'
+        alias restart-audio='systemctl --user restart pipewire.service pipewire-pulse.socket wireplumber.service'
         ;;
 
-      Ubuntu)
-        ;;
 
       Fedora)
         ;;
+
+      nixos)
+        alias hm='home-manager'
+        alias hmu='nix flake update ~/.config/home-manager'
+        alias hms='home-manager switch --flake ~/.config/home-manager'
+				alias up='sudo nixos-rebuild --flake /etc/nixos switch'
+        alias gc-nix='sudo nix-collect-garbage --delete-older-than 7d'
+        alias gc-home-manager='nix-env --profile ~/.local/state/nix/profiles/home-manager --delete-generations +5'
+        ;;
+      
+      Ubuntu)
+        ;;
+    
     esac
     ;;
 
