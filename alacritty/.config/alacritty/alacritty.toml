@@ -1,6 +1,9 @@
 [font]
-normal = { family = "IosevkaTerm NF Light", style = "Regular" }
-size = 18.0
+normal = { family = "IosevkaTerm Nerd Font Propo", style = "ExtraLight" }
+bold = { family = "IosevkaTerm Nerd Font Propo", style = "Light" }
+italic = { family = "IosevkaTerm Nerd Font Propo", style = "ExtraLight Italic" }
+bold_italic = { family = "IosevkaTerm Nerd Font Propo", style = "Light Italic" }
+size = 24.0
 builtin_box_drawing = false
 
 [window]
@@ -37,5 +40,4 @@ blue = "#0092ff"
 magenta = "#9a5feb"
 cyan = "#67ffef"
 white = "#ffffff"
-
 
