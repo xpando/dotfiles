@@ -351,6 +351,11 @@ case "$SYSTEM" in
     # show what ports are open and listening
     function eports() { sudo ss -ntapl | awk '$1=="LISTEN" && $4!~/^(127\.|\[::1\])/' }
 
+		alias lld='lsblk -o NAME,FSTYPE,PARTUUID,PARTLABEL,LABEL,MOUNTPOINT,FSTYPE,FSUSE%'
+		alias vc-list='sudo veracrypt --text -l'
+		alias vc-mount='sudo veracrypt --text --pim 0 --keyfiles "" --protect-hidden no --mount'
+		alias vc-umount='sudo veracrypt --text -d'
+
     case "$DIST" in
 
       Arch)
