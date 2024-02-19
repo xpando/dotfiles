@@ -1,0 +1,14 @@
+[user]
+  email = "dfindley@omnidian.com"
+
+[alias]
+  omni = for-each-repo --config=omnidian.repos --
+
+[omnidian]
+  repos = /Users/david/Repos/activate
+  repos = /Users/david/Repos/core
+  repos = /Users/david/Repos/core-ui
+  repos = /Users/david/Repos/data-services
+  repos = /Users/david/Repos/homeowner-portal
+  repos = /Users/david/Repos/resolv-2
+  repos = /Users/david/Repos/resolv3

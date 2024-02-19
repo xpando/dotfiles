@@ -392,8 +392,11 @@ case "$SYSTEM" in
     # add sbin to path for Homebrew
     export PATH=/usr/local/sbin:$PATH
 
-    alias wezup='brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest'
-    alias qrp='pbpaste | qrencode -s 30 -o - | wezterm -n imgcat'
+    # Resolve k8s names via telepresence
+    # workaround for netty and CLI utils that don't support more than one resolver
+    function tp-service() {
+			dscacheutil -q host -a name "$1.services" | grep ip_address: | cut -d ' ' -f 2
+		}
     ;;
 esac
 

@@ -1,9 +1,5 @@
 [user]
   name = "David Findley"
-  email = "xpando@gmail.com"
-
-[commit]
-  gpgsign = true
 
 [init]
   defaultBranch = main
@@ -53,14 +49,14 @@
     -e 's#<sig>N</sig>#None#'; \
   }; f"
 
-# Local overrides
-[include]
-  path = ~/.gitconfig_local
-
 [push]
   autoSetupRemote = true
 
 [rerere]
   enabled = true
-[safe]
-	directory = /etc/nixos
+
+[includeif "gitdir:~/Git/Personal/"]
+path=~/.config/git/config-personal
+
+[includeif "gitdir:~/Git/Omnidian/"]
+path=~/.config/git/config-omnidian
