@@ -13,7 +13,22 @@ ip a
 
 KVM/QEMU Example (for physical system the disk device names should be changed):
 ```shell
-parted -s /dev/vda \
+# Virtual machine
+DISK=/dev/vda
+EFI_PART=/dev/vda1
+BTRFS_PART=/dev/vda2
+SWAP_SIZE=2g
+MOUNTOPTS=noatime,space_cache=v2,compress=zstd:3,discard=async
+
+# My Desktop (CorsairOne)
+DISK=/dev/nvme0n1
+EFI_PART=/dev/nvme0n1p1
+BTRFS_PART=/dev/nvme0n1p2
+SWAP_SIZE=4g
+MOUNTOPTS=noatime,ssd,space_cache=v2,compress=zstd:3,discard=async
+
+# Partition system installation disk
+parted -s $DISK \
   mklabel gpt \
   mkpart EFI fat32 2MiB 514MiB \
   set 1 esp on \
@@ -21,45 +36,37 @@ parted -s /dev/vda \
   align-check opt 1 \
   align-check opt 2 \
   print
-```
 
-Create file systems:
-```shell
-mkfs.fat -F32 -n EFI /dev/vda1
-mkfs.btrfs -L BTRFS /dev/vda2
+# Create filesystems
+mkfs.fat -F32 -n EFI $EFI_PART
+mkfs.btrfs -f -L BTRFS $BTRFS_PART
 lsblk -o NAME,FSTYPE,PARTUUID,PARTLABEL,LABEL,MOUNTPOINT,FSTYPE,FSUSE%
-```
 
-Create BTRFS volumes:
-```shell
-# mount the BTRFS partition so we can create subvolumes
-mount /dev/vda2 /mnt
-btrfs subvolume create /mnt/{@,@var,@home,@snapshots,@swap}
+# Create BTRFS volumes:
+# Mount the BTRFS partition and create subvolumes
+mount $BTRFS_PART /mnt
+btrfs subvolume create /mnt/{@,@var,@home,@swap}
 umount /mnt
 ```
 
 Mount BTRFS volumes to prepare file system structure for installation:
 ```shell
-MOUNTOPTS=noatime,ssd,space_cache=v2,compress=zstd:3,discard=async
-
 # Mount the root volume
-mount -o "$MOUNTOPTS,subvol=@" /dev/vda2 /mnt
+mount -o "$MOUNTOPTS,subvol=@" $BTRFS_PART /mnt
 
 # Create dirs in the root volume that we will mount the rest of the volumes to
-mkdir -p /mnt/{boot,var,home,swap,.snapshots}
+mkdir -p /mnt/{boot,var,home,swap}
 
-mount -o "$MOUNTOPTS,subvol=@" /dev/vda2 /mnt
-mount -o "$MOUNTOPTS,subvol=@var" /dev/vda2 /mnt/var
-mount -o "$MOUNTOPTS,subvol=@home" /dev/vda2 /mnt/home
-mount -o "$MOUNTOPTS,subvol=@swap" /dev/vda2 /mnt/swap
-mount -o "$MOUNTOPTS,subvol=@snapshots" /dev/vda2 /mnt/.snapshots
+mount -o "$MOUNTOPTS,subvol=@var" $BTRFS_PART /mnt/var
+mount -o "$MOUNTOPTS,subvol=@home" $BTRFS_PART /mnt/home
+mount -o "$MOUNTOPTS,subvol=@swap" $BTRFS_PART /mnt/swap
 
 # Create a swapfile
 btrfs filesystem mkswapfile --size 4g --uuid clear /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
 
 # Mount EFI boot partition
-mount /dev/vda1 /mnt/boot
+mount $EFI_PART /mnt/boot
 
 # TODO: Create directories and mount any other drives/partitions you
 # want mounted during boot. Ex:
@@ -83,7 +90,7 @@ pacman -Sy
 
 # minimal initial packages. More can be added after chroot for installation 
 # specific packages
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers intel-ucode btrfs-progs pacman-contrib networkmanager openssh rsync acpi acpi_call tlp acpid grub grub-btrfs efibootmgr reflector man vim git
+pacstrap -K /mnt base base-devel linux linux-firmware linux-headers intel-ucode btrfs-progs pacman-contrib networkmanager openssh rsync acpi acpi_call tlp acpid grub grub-btrfs efibootmgr reflector man vim git zsh
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -106,6 +113,8 @@ echo -e "127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.0.1\t$(cat /etc/hostname)
 
 # Boot loader (GRUB)
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+# My CorsairOne BIOS requires the --romovable flag :(
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable networking
@@ -134,6 +143,12 @@ echo "david ALL=(ALL) ALL" > /etc/sudoers.d/david
 
 # or uncomment wheel group in main conf with
 visudo
+
+exit
+swapoff /mnt/swap/swapfile
+
+umount -R /mnt
+reboot
 ```
 
 ```shell
@@ -165,13 +180,13 @@ pkgs=(
   gum
   htop
   jless
-  jq          #
-  just        #
-  lazygit     # Git TUI
-  less        # 
-  lnav        # Log file parsing, coloring and formatting
-  lua         # 
-  mise-bin    # manages multiple versions of dev tools
+  jq
+  just
+  lazygit
+  less
+  lnav
+  lua
+  mise-bin
   neofetch
   neovim
   nvtop
@@ -267,12 +282,12 @@ sudo vim /etc/default/grub
 
 # Append nvidia-drm.modeset=1 to GRUB_CMDLINE_LINUX_DEFAULT
 
-sudo nano /etc/mkinitcpio.conf
+sudo vim /etc/mkinitcpio.conf
 
 # MODULES=(nvidia nvidia_uvm nvidia_drm)
 # Remove the word "kms" from HOOKS()
 
-mkinitcpio -p linux
+sudo mkinitcpio -p linux
 ```
 
 Auto build a new boot image with NVIDIA kernel modules when either the Linux kernel is updated or the NVIDIA drivers are updated. 
