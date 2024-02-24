@@ -113,7 +113,7 @@ echo -e "127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.0.1\t$(cat /etc/hostname)
 
 # Boot loader (GRUB)
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-# My CorsairOne BIOS requires the --romovable flag :(
+# My Corsairone BIOS requires the --romovable flag :(
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable
 grub-mkconfig -o /boot/grub/grub.cfg
 
