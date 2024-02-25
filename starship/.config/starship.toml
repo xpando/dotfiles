@@ -10,6 +10,7 @@
 # brew install --cask font-noto-color-emoji
 
 format = """
+$hostname\
 $status\
 $directory\
 $git_branch\
