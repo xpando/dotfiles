@@ -1,5 +1,9 @@
 [user]
   name = "David Findley"
+	email = "xpando@gmail.com"
+
+[commit]
+	gpgsign = true
 
 [init]
   defaultBranch = main
@@ -54,9 +58,6 @@
 
 [rerere]
   enabled = true
-
-[includeif "gitdir:~/Git/Personal/"]
-path=~/.config/git/config-personal
 
 [includeif "gitdir:~/Git/Omnidian/"]
 path=~/.config/git/config-omnidian
