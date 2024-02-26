@@ -392,6 +392,8 @@ case "$SYSTEM" in
     # add sbin to path for Homebrew
     export PATH=/usr/local/sbin:$PATH
 
+		alias eports='lsof -i -P | grep LISTEN'
+
     # Resolve k8s names via telepresence
     # workaround for netty and CLI utils that don't support more than one resolver
     function tp-service() {
