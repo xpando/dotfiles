@@ -64,18 +64,6 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 #zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 ##############################################################################
-# Atuin shell history
-# https://docs.atuin.sh/
-##############################################################################
-if command -v atuin &>/dev/null; then
-	export ATUIN_NOBIND="true"
-  eval "$(atuin init zsh)"
-	bindkey '^r' atuin-search
-	bindkey '^[[A' atuin-up-search
-  bindkey '^[OA' atuin-up-search
-fi
-
-##############################################################################
 # Nix and Home Manager Environment
 ##############################################################################
 #if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi
