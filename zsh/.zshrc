@@ -221,7 +221,7 @@ alias lla='ls -la'
 # Colorized cat
 if command -v bat &>/dev/null; then
   alias cat='bat -p'
-  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+	export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat -l man -p'"
 fi
 
 # prefer neovim
