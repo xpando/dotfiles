@@ -241,7 +241,7 @@ if command -v http &>/dev/null; then
 fi
 
 # AWS CLI
-if command -v aws &>/dev/null; then
+if command -v aws &>/dev/null || command -v mise &>/dev/null && mise which aws &>/dev/null; then
   # AWS CLI with Localstack
   alias awsl='aws --endpoint-url=http://localhost:4566'
   
