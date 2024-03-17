@@ -80,6 +80,13 @@ if [ -e "/opt/homebrew/bin/brew" ]; then eval "$(/opt/homebrew/bin/brew shellenv
 if [ -e "$HOME/.brew/bin/brew" ]; then eval "$($HOME/.brew/bin/brew shellenv)"; fi
 
 ##############################################################################
+# Atuin shell history
+##############################################################################
+if command -v atuin &>/dev/null; then
+	eval "$(atuin init zsh --disable-up-arrow)"
+fi
+
+##############################################################################
 # Privacy
 ##############################################################################
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -406,3 +413,4 @@ esac
 if [ -f "$HOME/.zsh_local" ]; then
   source "$HOME/.zsh_local"
 fi
+
