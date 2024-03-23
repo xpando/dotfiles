@@ -7,6 +7,7 @@ return {
       'neovim/nvim-lspconfig',
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim', -- Automatically install linters, formatters and debug adapters
+			'nvim-neotest/nvim-nio',
       'mfussenegger/nvim-dap',
       'rcarriga/nvim-dap-ui',
       'nvimtools/none-ls.nvim',
