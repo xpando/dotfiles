@@ -23,3 +23,9 @@ map('n', 'gd', vim.lsp.buf.definition, {})
 map('n', '<leader>ba', vim.lsp.buf.code_action, {})
 map('n', '<leader>bf', vim.lsp.buf.format, {})
 
+-- Neotest
+local nt = require 'neotest'
+map('n', '<leader>tr', nt.run.run, {})
+map('n', '<leader>td', function() nt.run.run({ strategy = 'dap', suite = true }) end, {})
+map('n', '<leader>tf', function() nt.run.run(vim.fn.expand("%")) end, {})
+map('n', '<leader>ts', nt.summary.toggle, {})
