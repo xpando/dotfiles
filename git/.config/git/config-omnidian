@@ -5,16 +5,6 @@ email = "dfindley@omnidian.com"
 gpgsign = false
 
 [alias]
-ols = ! git log --no-merges --invert-grep --grep='\\[skip ci\\]' --pretty=format:\"\\\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\\\"\" --graph --date=relative --decorate --all
+ols = ! git log --no-merges --invert-grep --grep='\\[skip ci\\]' --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --graph --date=relative --decorate --all
 omni = for-each-repo --config=omnidian.repos --
-
-[omnidian]
-repos = /Users/david/Git/Omnidian/activate
-repos = /Users/david/Git/Omnidian/core
-repos = /Users/david/Git/Omnidian/core-ui
-repos = /Users/david/Git/Omnidian/data-services
-repos = /Users/david/Git/Omnidian/homeowner-portal
-repos = /Users/david/Git/Omnidian/resolv-2
-repos = /Users/david/Git/Omnidian/resolv3
-repos = /Users/david/Git/Omnidian/client-portal
 
