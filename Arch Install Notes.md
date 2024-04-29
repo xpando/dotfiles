@@ -12,6 +12,7 @@ ip a
 ## Disk Partitioning and File Systems
 
 KVM/QEMU Example (for physical system the disk device names should be changed):
+
 ```shell
 # Virtual machine
 DISK=/dev/vda
@@ -21,6 +22,13 @@ SWAP_SIZE=2g
 MOUNTOPTS=noatime,space_cache=v2,compress=zstd:3,discard=async
 
 # My Desktop (CorsairOne)
+DISK=/dev/nvme0n1
+EFI_PART=/dev/nvme0n1p1
+BTRFS_PART=/dev/nvme0n1p2
+SWAP_SIZE=4g
+MOUNTOPTS=noatime,ssd,space_cache=v2,compress=zstd:3,discard=async
+
+# My Desktop (BeeLink)
 DISK=/dev/nvme0n1
 EFI_PART=/dev/nvme0n1p1
 BTRFS_PART=/dev/nvme0n1p2
@@ -90,7 +98,34 @@ pacman -Sy
 
 # minimal initial packages. More can be added after chroot for installation 
 # specific packages
-pacstrap -K /mnt base base-devel linux linux-firmware linux-headers intel-ucode btrfs-progs pacman-contrib networkmanager openssh rsync acpi acpi_call tlp acpid grub grub-btrfs efibootmgr reflector man vim git zsh
+pkgs=(
+  base 
+  base-devel 
+  linux 
+  linux-firmware 
+  linux-headers 
+  lsb-release 
+  amd-ucode 
+  btrfs-progs 
+  btrfsmaintenance
+  pacman-contrib 
+  networkmanager 
+  openssh 
+  rsync 
+  acpi 
+  acpi_call 
+  tlp 
+  acpid 
+  grub 
+  grub-btrfs 
+  efibootmgr 
+  reflector 
+  man 
+  vim 
+  git 
+  zsh
+)
+pacstrap -K /mnt ${pkgs[@]}
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -108,7 +143,7 @@ echo -e "LANG=en_US.UTF-8\nLC_ALL=en_US.UTF-8\n" > /etc/locale.conf
 echo -e "KEYMAP=us" > /etc/vconsole.conf
 
 # set host name
-echo "varch" >> /etc/hostname
+echo "beebox" >> /etc/hostname
 echo -e "127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.0.1\t$(cat /etc/hostname).local,$(cat /etc/hostname)\n" > /etc/hosts
 
 # Boot loader (GRUB)
@@ -164,9 +199,12 @@ yay -S paru-bin
 
 # CLI
 pkgs=(
+  atuin
   bandwhich
   bat
+  ctop
   direnv
+  dmidecode
   docker
   dog
   duf
@@ -179,6 +217,8 @@ pkgs=(
   go-swagger
   gum
   htop
+  hwinfo
+  inxi
   jless
   jq
   just
@@ -196,6 +236,7 @@ pkgs=(
   stow
   tmux
   tokei
+  unarchiver
   unzip
   zellij
   zip
@@ -214,6 +255,19 @@ paru -S --needed ${pkgs[@]}
 # Video drivers/utils
 # Uncomment [multilib] in /etc/pacman.conf for 32bit libs
 # needed for Steam games
+
+# AMD GPU
+pkgs=(
+  mesa
+  xf86-video-amdgpu
+  vulkan-radeon
+  libva-mesa-driver
+  lib32-libva-mesa-driver
+  lib32-vulkan-radeon
+)
+paru -S --needed ${pkgs[@]}
+
+# NVIDIA GPU
 pkgs=(
   mesa
   nvidia-dkms
@@ -238,6 +292,7 @@ paru -S --needed ${pkgs[@]}
 pkgs=(
   ttf-iosevka
   ttf-iosevka-nerd
+  ttf-iosevkaterm-nerd
 )
 paru -S --needed ${pkgs[@]}
 
