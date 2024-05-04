@@ -285,6 +285,7 @@ pkgs=(
   gnome
   folderpreview
   webp-pixbuf-loader
+  gnome-shell-extension-appindicator
 )
 paru -S --needed ${pkgs[@]}
 
