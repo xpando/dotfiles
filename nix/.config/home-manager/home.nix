@@ -13,6 +13,7 @@
   # environment.
   home.packages = with pkgs; [
     # CLI Tools
+    atuin
     bandwhich
     bat
     delta
@@ -41,7 +42,7 @@
     ripgrep
     starship
     tailspin
-    tmux
+    unar
     xstow
     zellij
     zoxide

@@ -15,6 +15,8 @@
       pkgs = import nixpkgs { inherit system; config = { allowUnfree = true; }; };
     in
     {
+      formatter.${system} = pkgs.alejandra;
+
       homeConfigurations."david@corsairone" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
