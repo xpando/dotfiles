@@ -135,7 +135,7 @@ fi
 # mise is a replacement for asdf written in Rust
 # see: https://mise.jdx.dev/
 if command -v mise &>/dev/null; then
-  eval "$(mise activate zsh)"
+  eval "$(mise activate zsh --shims)"
 fi
 
 ##############################################################################
@@ -362,6 +362,14 @@ case "$SYSTEM" in
 		alias vc-list='sudo veracrypt --text -l'
 		alias vc-mount='sudo veracrypt --text --pim 0 --keyfiles "" --protect-hidden no --mount'
 		alias vc-umount='sudo veracrypt --text -d'
+
+    if command -v idea &>/dev/null; then
+      _idea="$(which idea)"
+      # Open IntelliJ IDEA and detach from terminal
+      function idea() {
+        nohup "$_idea" "$@" &>/dev/null &!
+      }
+    fi
 
     case "$DIST" in
 
