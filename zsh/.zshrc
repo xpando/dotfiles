@@ -49,6 +49,15 @@ export ZNAP_ROOT="$HOME/.local/share/zsh/plugins/zsh-snap"
 # Start Znap
 source "$ZNAP_ROOT/znap.zsh"
 
+znap source romkatv/powerlevel10k
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 znap source softmoth/zsh-vim-mode
 znap source zsh-users/zsh-completions
 znap source zsh-users/zsh-syntax-highlighting
@@ -66,13 +75,14 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 ##############################################################################
 # Nix and Home Manager Environment
 ##############################################################################
-#if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi
-#if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 2>/dev/null; fi
+if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi
+if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" 2>/dev/null; fi
 
 ##############################################################################
-# Homebrew package manager (MacOS)
+# Homebrew package manager
 ##############################################################################
 if [ -e "/opt/homebrew/bin/brew" ]; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
+if [ -e /home/linuxbrew/.linuxbrew/bin/brew ]; then eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; fi
 
 ##############################################################################
 # Homebrew package manager (Linux)
@@ -102,10 +112,10 @@ fi
 ##############################################################################
 # Prompt https://starship.rs
 ##############################################################################
-if command -v starship &>/dev/null; then
-  export STARSHIP_LOG=error
-  eval "$(starship init zsh)"
-fi
+#if command -v starship &>/dev/null; then
+#  export STARSHIP_LOG=error
+#  eval "$(starship init zsh)"
+#fi
 
 ##############################################################################
 # JetBrains CLI scripts
@@ -145,9 +155,9 @@ if command -v pyenv &>/dev/null; then
   eval "$(pyenv init -)"
 fi
 
-#if command -v pipx &>/dev/null; then
-#  eval "$(register-python-argcomplete pipx)"
-#fi
+if command -v pipx &>/dev/null; then
+  eval "$(register-python-argcomplete pipx)"
+fi
 
 if command -v pipenv &>/dev/null; then
   # Tell pipenv to create virtual environments inside the project directory
@@ -337,6 +347,16 @@ if command -v aws-vault &>/dev/null; then
   fi
 fi
 
+# Nix Home Manager
+if command -v home-manager &>/dev/null; then
+  alias hm='home-manager'
+  alias hmu='nix flake update ~/.config/home-manager'
+  alias hms='home-manager switch --flake ~/.config/home-manager'
+  alias hme='"$EDITOR" ~/.config/home-manager/home.nix'
+  alias hmgc='nix-env --profile home-manager --delete-generations +5'
+  alias nxgc='nix-store --gc && nix-collect-garbage -d'
+fi
+
 case "$SYSTEM" in
   Linux)
     # aliases common to all Linux systems
@@ -358,16 +378,15 @@ case "$SYSTEM" in
     # show what ports are open and listening
     function eports() { sudo ss -ntapl | awk '$1=="LISTEN" && $4!~/^(127\.|\[::1\])/' }
 
-		alias lld='lsblk -o NAME,FSTYPE,PARTUUID,PARTLABEL,LABEL,MOUNTPOINT,FSTYPE,FSUSE%'
+		alias lld='lsblk -o NAME,FSTYPE,PARTLABEL,LABEL,MOUNTPOINT,FSUSE%'
 		alias vc-list='sudo veracrypt --text -l'
 		alias vc-mount='sudo veracrypt --text --pim 0 --keyfiles "" --protect-hidden no --mount'
 		alias vc-umount='sudo veracrypt --text -d'
 
-    if command -v idea &>/dev/null; then
-      _idea="$(which idea)"
-      # Open IntelliJ IDEA and detach from terminal
+    # Open IntelliJ IDEA and detach from terminal
+    if command -v idea-ultimate &>/dev/null; then
       function idea() {
-        nohup "$_idea" "$@" &>/dev/null &!
+        nohup idea-ultimate "$@" &>/dev/null &!
       }
     fi
 
@@ -386,15 +405,6 @@ case "$SYSTEM" in
 
 
       Fedora)
-        ;;
-
-      nixos)
-        alias hm='home-manager'
-        alias hmu='nix flake update ~/.config/home-manager'
-        alias hms='home-manager switch --flake ~/.config/home-manager'
-				alias up='sudo nixos-rebuild --flake /etc/nixos switch'
-        alias gc-nix='sudo nix-collect-garbage --delete-older-than 7d'
-        alias gc-home-manager='nix-env --profile ~/.local/state/nix/profiles/home-manager --delete-generations +5'
         ;;
       
       Ubuntu)
@@ -422,3 +432,5 @@ if [ -f "$HOME/.zsh_local" ]; then
   source "$HOME/.zsh_local"
 fi
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
