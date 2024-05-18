@@ -49,15 +49,6 @@ export ZNAP_ROOT="$HOME/.local/share/zsh/plugins/zsh-snap"
 # Start Znap
 source "$ZNAP_ROOT/znap.zsh"
 
-znap source romkatv/powerlevel10k
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 znap source softmoth/zsh-vim-mode
 znap source zsh-users/zsh-completions
 znap source zsh-users/zsh-syntax-highlighting
@@ -112,10 +103,10 @@ fi
 ##############################################################################
 # Prompt https://starship.rs
 ##############################################################################
-#if command -v starship &>/dev/null; then
-#  export STARSHIP_LOG=error
-#  eval "$(starship init zsh)"
-#fi
+if command -v starship &>/dev/null; then
+  export STARSHIP_LOG=error
+  eval "$(starship init zsh)"
+fi
 
 ##############################################################################
 # JetBrains CLI scripts
@@ -431,6 +422,3 @@ esac
 if [ -f "$HOME/.zsh_local" ]; then
   source "$HOME/.zsh_local"
 fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
