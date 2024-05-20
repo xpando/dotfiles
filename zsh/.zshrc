@@ -360,7 +360,7 @@ case "$SYSTEM" in
     alias kvm-down='sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
     alias vmw-up='sudo systemctl start vmware-networks vmware-networks-configuration vmware-usbarbitrator && sudo systemctl status vmware-networks vmware-networks-configuration vmware-usbarbitrator'
     alias vmw-down='sudo systemctl stop vmware-usbarbitrator vmware-networks-configuration vmware-networks && sudo systemctl status vmware-networks vmware-networks-configuration vmware-usbarbitrator'
-    alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1s'
+    alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1d'
 
     # Disable Fn mode for F keys for Mac keyboards
     # This is needed when I'm using my Keychron K3 on Linux
@@ -369,10 +369,10 @@ case "$SYSTEM" in
     # show what ports are open and listening
     function eports() { sudo ss -ntapl | awk '$1=="LISTEN" && $4!~/^(127\.|\[::1\])/' }
 
-		alias lld='lsblk -o NAME,FSTYPE,PARTLABEL,LABEL,MOUNTPOINT,FSUSE%'
-		alias vc-list='sudo veracrypt --text -l'
-		alias vc-mount='sudo veracrypt --text --pim 0 --keyfiles "" --protect-hidden no --mount'
-		alias vc-umount='sudo veracrypt --text -d'
+    alias lld='lsblk -o NAME,FSTYPE,PARTLABEL,LABEL,MOUNTPOINT,FSUSE%'
+    alias vc-list='sudo veracrypt --text -l'
+    alias vc-mount='sudo veracrypt --text --pim 0 --keyfiles "" --protect-hidden no --mount'
+    alias vc-umount='sudo veracrypt --text -d'
 
     # Open IntelliJ IDEA and detach from terminal
     if command -v idea-ultimate &>/dev/null; then
