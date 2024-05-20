@@ -239,9 +239,6 @@ fi
 
 # Git
 alias g='git'
-alias gfa='g fetch --all'
-alias gfp='g fetch --prune --all'
-alias grp='g remote prune'
 
 # httpie - https://httpie.org/
 if command -v http &>/dev/null; then

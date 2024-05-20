@@ -33,6 +33,8 @@ ff = only
 sort = -committerdate
 
 [alias]
+fa = fetch --all
+fap = fetch --all --prune
 ai = !git add $(git status --porcelain | fzf -m | awk '{print $2}')
 ci = commit -a
 co = checkout
