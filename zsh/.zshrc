@@ -237,9 +237,6 @@ if command -v nvim &>/dev/null; then
   export EDITOR=nvim
 fi
 
-# Git
-alias g='git'
-
 # httpie - https://httpie.org/
 if command -v http &>/dev/null; then
   alias https='http --default-scheme=https'
