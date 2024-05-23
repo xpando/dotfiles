@@ -9,31 +9,27 @@ passwd
 # Get IP address to use with SSH/SCP from another machine
 ip a
 ```
-## Disk Partitioning and File Systems
 
-KVM/QEMU Example (for physical system the disk device names should be changed):
+## Disk Partitioning and File Systems
 
 ```shell
 # Virtual machine
 DISK=/dev/vda
 EFI_PART=/dev/vda1
 BTRFS_PART=/dev/vda2
-SWAP_SIZE=2g
-MOUNTOPTS=noatime,space_cache=v2,compress=zstd:3,discard=async
+MOUNTOPTS=noatime,compress=zstd,discard=async
 
 # My Desktop (CorsairOne)
 DISK=/dev/nvme0n1
 EFI_PART=/dev/nvme0n1p1
 BTRFS_PART=/dev/nvme0n1p2
-SWAP_SIZE=4g
-MOUNTOPTS=noatime,ssd,space_cache=v2,compress=zstd:3,discard=async
+MOUNTOPTS=noatime,ssd,compress=zstd,discard=async
 
 # My Desktop (BeeLink)
 DISK=/dev/nvme0n1
 EFI_PART=/dev/nvme0n1p1
 BTRFS_PART=/dev/nvme0n1p2
-SWAP_SIZE=4g
-MOUNTOPTS=noatime,ssd,space_cache=v2,compress=zstd:3,discard=async
+MOUNTOPTS=noatime,ssd,compress=zstd,discard=async
 
 # Partition system installation disk
 parted -s $DISK \
@@ -45,6 +41,11 @@ parted -s $DISK \
   align-check opt 2 \
   print
 
+# Encrypt BTRFS partition (optional)
+cryptsetup luksFormat -v -s 512 -h sha512 $BTRFS_PART
+cryptsetup luksOpen $BTRFS_PART archlinux
+BTRFS_PART=/dev/mapper/archlinux
+
 # Create filesystems
 mkfs.fat -F32 -n EFI $EFI_PART
 mkfs.btrfs -f -L BTRFS $BTRFS_PART
@@ -53,21 +54,31 @@ lsblk -o NAME,FSTYPE,PARTUUID,PARTLABEL,LABEL,MOUNTPOINT,FSTYPE,FSUSE%
 # Create BTRFS volumes:
 # Mount the BTRFS partition and create subvolumes
 mount $BTRFS_PART /mnt
-btrfs subvolume create /mnt/{@,@var,@home,@swap}
+btrfs subvolume create /mnt/{@,@home,@tmp,@log,@pkg,@swap,.@snapshots}
+
+# Disable copy on write on these volumes
+chattr +C /mnt/@tmp
+chattr +C /mnt/@log
+chattr +C /mnt/@swap
+
 umount /mnt
 ```
 
 Mount BTRFS volumes to prepare file system structure for installation:
+
 ```shell
 # Mount the root volume
 mount -o "$MOUNTOPTS,subvol=@" $BTRFS_PART /mnt
 
 # Create dirs in the root volume that we will mount the rest of the volumes to
-mkdir -p /mnt/{boot,var,home,swap}
+mkdir -p /mnt/{boot,home,tmp,var/log,var/cache/pacman/pkg,swap,.snapshots}
 
-mount -o "$MOUNTOPTS,subvol=@var" $BTRFS_PART /mnt/var
 mount -o "$MOUNTOPTS,subvol=@home" $BTRFS_PART /mnt/home
+mount -o "$MOUNTOPTS,subvol=@tmp" $BTRFS_PART /mnt/tmp
+mount -o "$MOUNTOPTS,subvol=@log" $BTRFS_PART /mnt/var/log
+mount -o "$MOUNTOPTS,subvol=@pkg" $BTRFS_PART /mnt/var/cache/pacman/pkg
 mount -o "$MOUNTOPTS,subvol=@swap" $BTRFS_PART /mnt/swap
+mount -o "$MOUNTOPTS,subvol=.@snapshots" $BTRFS_PART /mnt/.snapshots
 
 # Create a swapfile
 btrfs filesystem mkswapfile --size 4g --uuid clear /mnt/swap/swapfile
@@ -83,6 +94,7 @@ mount $EFI_PART /mnt/boot
 ```
 
 Base Installation:
+
 ```shell
 # Set timezone
 timedatectl set-timezone America/Los_Angeles
@@ -94,35 +106,36 @@ timedatectl
 reflector --save /etc/pacman.d/mirrorlist --protocol https --country US --sort rate --age 6 --latest 10
 
 # Update package DB
-pacman -Sy
+pacman -Syy
 
-# minimal initial packages. More can be added after chroot for installation 
+# minimal initial packages. More can be added after chroot for installation
 # specific packages
+pkgs=(amd-ucode)
+pkgs=(intel-ucode)
 pkgs=(
-  base 
-  base-devel 
-  linux 
-  linux-firmware 
-  linux-headers 
-  lsb-release 
-  amd-ucode 
-  btrfs-progs 
-  btrfsmaintenance
-  pacman-contrib 
-  networkmanager 
-  openssh 
-  rsync 
-  acpi 
-  acpi_call 
-  tlp 
-  acpid 
-  grub 
-  grub-btrfs 
-  efibootmgr 
-  reflector 
-  man 
-  vim 
-  git 
+  base
+  base-devel
+  linux
+  linux-firmware
+  linux-headers
+  lsb-release
+  btrfs-progs
+  pacman-contrib
+  avahi
+  networkmanager
+  openssh
+  rsync
+  acpi
+  acpi_call
+  tlp
+  acpid
+  grub
+  grub-btrfs
+  efibootmgr
+  reflector
+  man
+  vim
+  git
   zsh
 )
 pacstrap -K /mnt ${pkgs[@]}
@@ -134,7 +147,7 @@ arch-chroot /mnt
 
 # Timezone and hardware clock
 ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
-hwclock --systohc 
+hwclock --systohc
 
 # Generate locales
 vim /etc/locale.gen # uncomment the desired locales
@@ -148,17 +161,33 @@ echo -e "127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.0.1\t$(cat /etc/hostname)
 
 # Boot loader (GRUB)
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+
 # My Corsairone BIOS requires the --romovable flag :(
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable
+
+# if using Luks encryption, get the device id of the BTRFS partition
+blkid -s UUID -o value $BTRFS_PART
+
+# Add encryption kernel parameters to grub config. For example:
+# cryptdevice=UUID=4fc38db5-18be-46b8-9a32-b8c7f593c85c:archlinux root=/dev/mapper/archlinux
+vim /etc/default/grub
+
+# Create the Grub configuration
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# Add btrfs to the MODULES= section
+# Add the encrypt hook between 'block' and 'filesystems' if using Luks to the HOOKE= section
+vim /etc/mkinitcpio.conf
+
 # Enable networking
+systemctl enable avahi-daemon
 systemctl enable NetworkManager
 systemctl enable sshd
 systemctl enable tlp
 systemctl enable acpid
 systemctl enable reflector.timer
 systemctl enable fstrim.timer     # For SSDs
+systemctl enable upower
 
 # Set root password
 passwd
@@ -222,8 +251,7 @@ pkgs=(
   jless
   jq
   just
-  lazygit
-  less
+
   lnav
   lua
   mise-bin
@@ -322,7 +350,7 @@ pkgs=(
 paru -S --needed ${pkgs[@]}
 ```
 
-## NVIDIA Setup 
+## NVIDIA Setup
 
 Install drivers
 
@@ -346,13 +374,14 @@ sudo vim /etc/mkinitcpio.conf
 sudo mkinitcpio -p linux
 ```
 
-Auto build a new boot image with NVIDIA kernel modules when either the Linux kernel is updated or the NVIDIA drivers are updated. 
+Auto build a new boot image with NVIDIA kernel modules when either the Linux kernel is updated or the NVIDIA drivers are updated.
 
 ```shell
 sudo vim /etc/pacman.d/hooks/nvidia.hook
 ```
 
 Add this content:
+
 ```
 [Trigger]
 Operation=Install
@@ -381,6 +410,7 @@ options nvidia_drm modeset=1 fbdev=1 NVreg_PreserveVideoMemoryAllocations=1
 ```
 
 ## Timeshift and Timeshift-Autosnap
+
 ```shell
 paru -S timeshift-bin timeshift-autosnap
 timeshift --list-devices
@@ -390,28 +420,33 @@ timeshift --snapshot-device /dev/vda2
 ## Tips
 
 List Disks
+
 ```shell
 lsblk -o NAME,FSTYPE,PARTUUID,PARTLABEL,LABEL,MOUNTPOINT,FSTYPE,FSUSE%
 ```
 
 Find the UUID of a partition:
+
 ```
 # Get uuid of partition
 blkid -s UUID -o value /dev/vda2
 ```
 
 Connect to WiFi using network manager text UI
+
 ```shell
 nmtui
 ```
 
 Enable Parallel Package Downloads
+
 ```shell
 # uncomment ParallelDownloads = 5 line in pacman.conf
 sudo vim /etc/pacman.conf
 ```
 
 Better TTY Fonts
+
 ```shell
 paru -S powerline-fonts-git
 sudo vim /etc/vconsole.conf
@@ -421,12 +456,13 @@ FONT=ter-powerline-v20n
 ```
 
 Gnome Files Thumbnails
+
 ```shell
 sudo pacman -S --needed tumbler poppler-glib ffmpegthumbnailer freetype2 libgsf raw-thumbnailer totem evince
 ```
 
 Wayland w/NVIDIA
+
 ```shell
 sudo pacman -S --needed xorg-xwayland xorg-xlsclients glfw-wayland
 ```
-
