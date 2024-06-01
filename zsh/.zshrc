@@ -101,14 +101,6 @@ if [ -f "$HOME/.config/wezterm/shell_integration.sh" ]; then
 fi
 
 ##############################################################################
-# Prompt https://starship.rs
-##############################################################################
-if command -v starship &>/dev/null; then
-  export STARSHIP_LOG=error
-  eval "$(starship init zsh)"
-fi
-
-##############################################################################
 # JetBrains CLI scripts
 ##############################################################################
 if [ -d "$HOME/.local/share/JetBrains/Toolbox/scripts" ]; then
@@ -209,6 +201,7 @@ compdef _dirs d
 ##############################################################################
 if command -v zoxide &>/dev/null; then
   eval "$(zoxide init zsh)"
+  alias cd=z
 fi
 
 # EXA is a better ls written in rust: https://the.exa.website/
@@ -283,6 +276,14 @@ fi
 if command -v direnv &>/dev/null; then
   export DIRENV_LOG_FORMAT=
   eval "$(direnv hook zsh)"
+fi
+
+##############################################################################
+# Prompt https://starship.rs
+##############################################################################
+if command -v starship &>/dev/null; then
+  export STARSHIP_LOG=error
+  eval "$(starship init zsh)"
 fi
 
 ##############################################################################
@@ -390,6 +391,11 @@ case "$SYSTEM" in
 
 
       Fedora)
+        if [[ -f /opt/intellij-idea/bin/idea.sh ]]; then
+          function idea() {
+            nohup /opt/intellij-idea/bin/idea.sh "$@" &>/dev/null &!
+          }
+        fi
         ;;
       
       Ubuntu)
