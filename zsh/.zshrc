@@ -281,9 +281,16 @@ fi
 ##############################################################################
 # Prompt https://starship.rs
 ##############################################################################
-if command -v starship &>/dev/null; then
-  export STARSHIP_LOG=error
-  eval "$(starship init zsh)"
+#if command -v starship &>/dev/null; then
+#  export STARSHIP_LOG=error
+#  eval "$(starship init zsh)"
+#fi
+
+##############################################################################
+# Prompt https://ohmyposh.dev
+##############################################################################
+if command -v oh-my-posh &>/dev/null; then
+  eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/dave.yaml)"
 fi
 
 ##############################################################################
