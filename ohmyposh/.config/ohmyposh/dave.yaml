@@ -10,6 +10,7 @@ blocks:
     newline: true
     segments:
       - type: path
+        style: plain
         max_depth: 2
         foreground: cyan
         background: transparent
@@ -26,7 +27,7 @@ blocks:
           - "{{ if gt .Ahead 0 }}yellow{{ end }}"                               # local is ahead of the remote
           - "{{ if gt .Behind 0 }}yellow{{ end }}"                              # local is behind the remote
         background: transparent
-        template: " {{ .UpstreamIcon }} {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}* {{ end }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <green>\uf044 {{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }} <green>\uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} <gray>\uf0c7 {{ .StashCount }}</>{{ end }}"
+        template: " {{ .UpstreamIcon }} {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}* {{ end }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <red>\uf044 {{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }} <green>\uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} <gray>\uf0c7 {{ .StashCount }}</>{{ end }}"
         properties:
           fetch_status: true
           fetch_upstream_icon: true
