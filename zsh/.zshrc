@@ -84,7 +84,7 @@ if [ -e "$HOME/.brew/bin/brew" ]; then eval "$($HOME/.brew/bin/brew shellenv)"; 
 # Atuin shell history
 ##############################################################################
 if command -v atuin &>/dev/null; then
-	eval "$(atuin init zsh --disable-up-arrow)"
+	eval "$(atuin init zsh)"
 fi
 
 ##############################################################################

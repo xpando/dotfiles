@@ -9,6 +9,17 @@ blocks:
     alignment: left
     newline: true
     segments:
+      # Show a red badge as a reminder if the shell is elevated
+      - type: command
+        style: plain
+        foreground: "#fc6868"
+        background: transparent
+        template: "{{ .Output }} "
+        properties:
+          interpret: false
+          command: "sudo -Nnv &>/dev/null && printf 󰶧"
+
+      # Current directory
       - type: path
         style: plain
         max_depth: 2
@@ -18,14 +29,14 @@ blocks:
         properties:
           style: folder
 
+      # Git status
       - type: git
         style: plain
         foreground: "#777"
         foreground_templates:
-          # - "{{ if or (.Working.Changed) (.Staging.Changed) }}white{{ end }}"   # has uncommitted changes
-          - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}red{{ end }}"             # branch has diverged from remote
-          - "{{ if gt .Ahead 0 }}yellow{{ end }}"                               # local is ahead of the remote
-          - "{{ if gt .Behind 0 }}yellow{{ end }}"                              # local is behind the remote
+          - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}red{{ end }}"  # branch has diverged from remote
+          - "{{ if gt .Ahead 0 }}yellow{{ end }}"                    # local is ahead of the remote
+          - "{{ if gt .Behind 0 }}yellow{{ end }}"                   # local is behind the remote
         background: transparent
         template: " {{ .UpstreamIcon }} {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}* {{ end }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <red>\uf044 {{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }} <green>\uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} <gray>\uf0c7 {{ .StashCount }}</>{{ end }}"
         properties:
@@ -40,6 +51,7 @@ blocks:
           github_icon: " "
           bitbucket_icon: ""
 
+  # Right prompt shows relevant dev tool info
   - type: prompt
     alignment: right
     segments:
@@ -85,6 +97,7 @@ blocks:
           style: austin
           threshold: 2000
 
+  # Main prompt and input line shows OS logo and repeated chevrons indicating the shell level
   - type: prompt
     alignment: left
     newline: true
@@ -95,15 +108,15 @@ blocks:
           - "{{if gt .Code 0}}red{{end}}"
           - "{{if eq .Code 0}}white{{end}}"
         background: transparent
-        template: "{{if .Root}}<red>󰶧</> {{end}}{{ .Icon }} "
+        template: '{{ .Icon }} {{ repeat .SHLVL "❯" }}'
 
 transient_prompt:
+  newline: true
   foreground_templates:
     - "{{if gt .Code 0}}red{{end}}"
     - "{{if eq .Code 0}}gray{{end}}"
   background: transparent
-  filler: '.'
-  template: "❯ "
+  template: '{{ nindent 0 "❯ " }}'
 
 palette:
   amazon_orange: "#FF9900"
