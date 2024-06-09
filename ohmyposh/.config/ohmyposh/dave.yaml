@@ -39,13 +39,13 @@ blocks:
       # Git status
       - type: git
         style: plain
-        foreground: "#777"
+        foreground: lightMagenta
         foreground_templates:
           - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}red{{ end }}"  # branch has diverged from remote
           - "{{ if gt .Ahead 0 }}yellow{{ end }}"                    # local is ahead of the remote
           - "{{ if gt .Behind 0 }}yellow{{ end }}"                   # local is behind the remote
         background: transparent
-        template: " {{ .UpstreamIcon }} {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}* {{ end }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <red>\uf044 {{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }} <green>\uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} <gray>\uf0c7 {{ .StashCount }}</>{{ end }}"
+        template: " {{ .UpstreamIcon }} {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}∗ {{ end }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <red>\uf044 {{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }} <green>\uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} <gray>\uf0c7 {{ .StashCount }}</>{{ end }}"
         properties:
           fetch_status: true
           fetch_upstream_icon: true
@@ -62,12 +62,6 @@ blocks:
   - type: prompt
     alignment: right
     segments:
-      - type: java
-        style: plain
-        foreground: p:java_blue
-        background: transparent
-        template: "  {{ .Major }}"
-
       - type: node
         style: plain
         foreground: p:node_green
@@ -80,6 +74,12 @@ blocks:
         background: transparent
         template: "  {{ .Major }}"
 
+      - type: java
+        style: plain
+        foreground: p:java_blue
+        background: transparent
+        template: "  {{ .Major }}"
+
       - type: kubectl
         style: plain
         parse_kubeconfig: true
@@ -91,7 +91,7 @@ blocks:
         style: plain
         foreground: p:amazon_orange
         background: transparent
-        template: " 󰸏 {{.Profile}}"
+        template: "  {{.Profile}}"
         properties:
           display_default: false
 

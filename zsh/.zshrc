@@ -281,16 +281,20 @@ fi
 ##############################################################################
 # Prompt https://starship.rs
 ##############################################################################
-#if command -v starship &>/dev/null; then
-#  export STARSHIP_LOG=error
-#  eval "$(starship init zsh)"
-#fi
+if [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+  if command -v starship &>/dev/null; then
+    export STARSHIP_LOG=error
+    eval "$(starship init zsh)"
+  fi
+fi
 
 ##############################################################################
 # Prompt https://ohmyposh.dev
 ##############################################################################
-if command -v oh-my-posh &>/dev/null; then
-  eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/dave.yaml)"
+if [[ ! "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+  if command -v oh-my-posh &>/dev/null; then
+    eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/dave.yaml)"
+  fi
 fi
 
 ##############################################################################
