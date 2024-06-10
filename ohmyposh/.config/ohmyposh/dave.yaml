@@ -14,7 +14,7 @@ blocks:
           - "{{if gt .Code 0}}red{{end}}"
           - "{{if eq .Code 0}}white{{end}}"
         background: transparent
-        template: '{{ .Icon }} '
+        template: "{{ .Icon }} "
 
       # Show a red badge as a reminder if the shell is elevated
       - type: command
@@ -41,11 +41,11 @@ blocks:
         style: plain
         foreground: lightMagenta
         foreground_templates:
-          - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}red{{ end }}"  # branch has diverged from remote
-          - "{{ if gt .Ahead 0 }}yellow{{ end }}"                    # local is ahead of the remote
-          - "{{ if gt .Behind 0 }}yellow{{ end }}"                   # local is behind the remote
+          - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}red{{ end }}" # branch has diverged from remote
+          - "{{ if gt .Ahead 0 }}yellow{{ end }}" # local is ahead of the remote
+          - "{{ if gt .Behind 0 }}yellow{{ end }}" # local is behind the remote
         background: transparent
-        template: " {{ .UpstreamIcon }} {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}∗ {{ end }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <red>\uf044 {{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }} <green>\uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} <gray>\uf0c7 {{ .StashCount }}</>{{ end }}"
+        template: " {{ .UpstreamIcon }} {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}∗ {{ end }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <red>\uf044 {{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }} <green>\uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} <darkGray>\uf0c7 {{ .StashCount }}</>{{ end }}"
         properties:
           fetch_status: true
           fetch_upstream_icon: true
@@ -67,7 +67,7 @@ blocks:
         foreground: p:node_green
         background: transparent
         template: "  {{ .Major }}"
-      
+
       - type: react
         style: plain
         foreground: p:react_blue
@@ -86,7 +86,7 @@ blocks:
         foreground: p:k8s_blue
         background: transparent
         template: " 󱃾 {{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}}"
-      
+
       - type: aws
         style: plain
         foreground: p:amazon_orange
@@ -127,4 +127,3 @@ palette:
   java_blue: "#5382a1"
   node_green: "#68A063"
   react_blue: "#61DBFB"
-
