@@ -1,14 +1,15 @@
 [font]
-normal = { family = "IosevkaTerm Nerd Font Propo", style = "ExtraLight" }
-bold = { family = "IosevkaTerm Nerd Font Propo", style = "Light" }
-italic = { family = "IosevkaTerm Nerd Font Propo", style = "ExtraLight Italic" }
-bold_italic = { family = "IosevkaTerm Nerd Font Propo", style = "Light Italic" }
+normal = { family = "Iosevka Term", style = "ExtraLight" }
+bold = { family = "Iosevka Term", style = "Light" }
+italic = { family = "Iosevka Term", style = "ExtraLight Italic" }
+bold_italic = { family = "Iosevka Term", style = "Light Italic" }
 size = 24.0
 builtin_box_drawing = false
 
 [window]
 decorations = "None"
 padding = { x = 10, y = 10 }
+opacity = 0.9
 
 [cursor]
 style = { shape = "Underline", blinking = "On" }
