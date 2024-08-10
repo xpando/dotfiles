@@ -4,7 +4,7 @@
 ##############################################################################
 # Path 
 ##############################################################################
-export PATH=~/.local/bin:~/cargo/bin:$PATH
+export PATH=~/.local/bin:$PATH
 export LESS=FRX
 export EDITOR=vim
 
@@ -281,21 +281,21 @@ fi
 ##############################################################################
 # Prompt https://starship.rs
 ##############################################################################
-if [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+#if [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
   if command -v starship &>/dev/null; then
     export STARSHIP_LOG=error
     eval "$(starship init zsh)"
   fi
-fi
+#fi
 
 ##############################################################################
 # Prompt https://ohmyposh.dev
 ##############################################################################
-if [[ ! "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
-  if command -v oh-my-posh &>/dev/null; then
-    eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/dave.yaml)"
-  fi
-fi
+#if [[ ! "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]]; then
+#  if command -v oh-my-posh &>/dev/null; then
+#    eval "$(oh-my-posh init zsh --config ~/.config/ohmyposh/dave.yaml)"
+#  fi
+#fi
 
 ##############################################################################
 #  Detect platform
