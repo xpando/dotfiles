@@ -10,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"time"
 )
 
@@ -128,6 +129,9 @@ func DownloadFileWithProgress(url, filepath string) error {
 }
 
 func main() {
+	osName := runtime.GOOS
+	fmt.Printf("Installing fonts for %s\n", osName)
+
 	// Define command-line flags
 	owner := flag.String("owner", "", "GitHub repository owner")
 	repo := flag.String("repo", "", "GitHub repository name")
