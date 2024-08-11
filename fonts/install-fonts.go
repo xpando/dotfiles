@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"regexp"
 	"runtime"
 	"strings"
 	"time"
@@ -59,32 +58,30 @@ func GetLatestReleaseAssets(repo Repo, font Font) <-chan Asset {
 		// Fetch the latest release
 		resp, err := http.Get(url)
 		if err != nil {
-			fmt.Printf("Error fetching latest release: %w", err)
+			fmt.Printf("Error fetching latest release: %v\n", err)
 			return
 		}
 		defer resp.Body.Close()
 
 		if resp.StatusCode != http.StatusOK {
-			fmt.Printf("Failed to fetch latest release, status code: %d", resp.StatusCode)
+			fmt.Printf("Failed to fetch latest release, status code: %d\n", resp.StatusCode)
 			return
 		}
 
 		// Decode the JSON response
 		var release Release
 		if err := json.NewDecoder(resp.Body).Decode(&release); err != nil {
-			fmt.Printf("error decoding latest release response: %w", err)
-			return
-		}
-
-		// Compile the regex pattern
-		assetNamePattern, err := regexp.Compile(font.AssetName)
-		if err != nil {
-			fmt.Printf("invalid regex pattern: %w", err)
+			fmt.Printf("error decoding latest release response: %v\n", err)
 			return
 		}
 
 		for _, asset := range release.Assets {
-			if assetNamePattern.MatchString(asset.Name) {
+			matched, err := filepath.Match(font.AssetName, asset.Name)
+			if err != nil {
+				fmt.Printf("error matching %s with %s, %v\n", asset.Name, font.AssetName, err)
+				continue
+			}
+			if matched {
 				out <- asset
 			}
 		}
@@ -157,18 +154,12 @@ func DownloadFileWithProgress(url string, filePath string) error {
 		fmt.Println("\nDownload complete!")
 		return nil
 	}
+
 	fmt.Printf("Using previously downloaded file: %s\n", filePath)
 	return nil
 }
 
 func Unzip(src string, dest string, filePattern string) error {
-	// Compile the regex pattern
-	pattern, err := regexp.Compile(filePattern)
-	if err != nil {
-		return fmt.Errorf("invalid regex pattern: %w", err)
-	}
-
-	// Open the ZIP file
 	r, err := zip.OpenReader(src)
 	if err != nil {
 		return fmt.Errorf("failed to open ZIP file: %w", err)
@@ -178,8 +169,12 @@ func Unzip(src string, dest string, filePattern string) error {
 	// Iterate through the files in the archive
 	fmt.Printf("Unzipping from %s to %s\n", src, dest)
 	for _, f := range r.File {
-		if !pattern.MatchString(f.Name) {
-			fmt.Printf("Skipping %s because it did not match pattern: %s\n", f.Name, filePattern)
+		matched, err := filepath.Match(filePattern, f.Name)
+		if err != nil {
+			fmt.Printf("Error matching %s with %s, %v\n", f.Name, filePattern, err)
+		}
+		if !matched {
+			fmt.Printf("Skipping %s because it did not match: %s\n", f.Name, filePattern)
 			continue
 		}
 

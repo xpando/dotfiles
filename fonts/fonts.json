@@ -9,8 +9,8 @@
       "name": "nerd-fonts",
       "fonts": [
         {
-          "assetName": "^NerdFontsSymbolsOnly\\.zip$",
-          "assetFiles": "\\.ttf$"
+          "assetName": "NerdFontsSymbolsOnly.zip",
+          "assetFiles": "*.ttf"
         }
       ]
     },
@@ -19,8 +19,8 @@
       "name": "Iosevka",
       "fonts": [
         {
-          "assetName": "^PkgTTC-Iosevka-\\d+\\.\\d+\\.\\d+\\.zip$",
-          "assetFiles": "\\.ttc$"
+          "assetName": "PkgTTC-Iosevka-*.zip",
+          "assetFiles": "*.ttc"
         }
       ]
     }
