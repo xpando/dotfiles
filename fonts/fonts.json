@@ -1,7 +1,8 @@
 {
   "cacheDir": "/tmp",
   "fontDir": {
-    "linux": "~/.local/share/fonts"
+    "linux": "~/.local/share/fonts",
+    "darwin": "~/Library/Fonts"
   },
   "repos": [
     {
