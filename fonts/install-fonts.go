@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"runtime"
+	"strings"
 	"time"
 )
 
@@ -219,7 +220,37 @@ func Unzip(src string, dest string, filePattern string) error {
 			return fmt.Errorf("failed to copy file %s: %w", f.Name, err)
 		}
 	}
+
 	return nil
+}
+
+func ExpandPath(path string) (string, error) {
+	// Check if the path contains '~'
+	if strings.HasPrefix(path, "~") {
+		// Replace '~' with the user's home directory
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			return "", err
+		}
+		path = filepath.Join(homeDir, path[1:])
+	}
+
+	// Check if the path contains '$HOME'
+	if strings.Contains(path, "$HOME") {
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			return "", err
+		}
+		path = strings.Replace(path, "$HOME", homeDir, -1)
+	}
+
+	// Resolve the absolute path
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		return "", err
+	}
+
+	return absPath, nil
 }
 
 func main() {
@@ -241,6 +272,11 @@ func main() {
 		log.Fatalf("Missing fontDir config for OS: %s", runtime.GOOS)
 	}
 
+	absoluteFontDirPath, err := ExpandPath(fontDir)
+	if err != nil {
+		log.Fatalf("Could not expand fontDir path: %s", fontDir)
+	}
+
 	for _, repo := range config.Repos {
 		for _, font := range repo.Fonts {
 			for asset := range GetLatestReleaseAssets(repo, font) {
@@ -250,7 +286,7 @@ func main() {
 					continue
 				}
 
-				if err := Unzip(cachePath, fontDir, font.AssetFiles); err != nil {
+				if err := Unzip(cachePath, absoluteFontDirPath, font.AssetFiles); err != nil {
 					log.Fatalf("Failed to unzip %s to %s", cachePath, fontDir)
 				}
 			}

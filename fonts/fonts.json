@@ -1,7 +1,7 @@
 {
   "cacheDir": "/tmp",
   "fontDir": {
-    "linux": "/home/david/.local/share/fonts"
+    "linux": "~/.local/share/fonts"
   },
   "repos": [
     {
@@ -14,7 +14,7 @@
         }
       ]
     },
-		{
+    {
       "owner": "be5invis",
       "name": "Iosevka",
       "fonts": [
@@ -23,6 +23,6 @@
           "assetFiles": "\\.ttc$"
         }
       ]
- 		}
+    }
   ]
 }
