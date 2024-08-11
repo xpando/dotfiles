@@ -21,7 +21,6 @@ return {
       -- Automatically install these servers
       local servers = {
         html = { filetypes = { 'html', 'htm' } },
-				kotlin_language_server = {},
         tsserver = {},
         jsonls = {},
         lua_ls = {
@@ -64,8 +63,6 @@ return {
       require('mason-tool-installer').setup {
         ensure_installed = {
           -- Formatters
-					'google-java-format',
-					'ktlint',
           'prettierd',
           'shfmt',
 
@@ -74,8 +71,6 @@ return {
           'eslint_d',
 
           -- Debug adapters
-					'kotlin-debug-adapter',
-					'java-debug-adapter',
           'js-debug-adapter',
           'chrome-debug-adapter',
           'firefox-debug-adapter',
