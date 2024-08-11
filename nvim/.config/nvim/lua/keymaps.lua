@@ -13,9 +13,10 @@ map('n', '<S-Tab>', ':bprev<CR>', {})
 
 -- Telescope
 local ts = require 'telescope.builtin'
-map('n', '<leader>sf', ts.find_files, {})
-map('n', '<leader>sg', ts.live_grep, {})
-map('n', '<leader>sb', ts.buffers, {})
+map('n', '<leader>fc', function() ts.find_files({ cwd = '~/.config/nvim' }) end, {})
+map('n', '<leader>ff', ts.find_files, {})
+map('n', '<leader>fg', ts.live_grep, {})
+map('n', '<leader>fb', ts.buffers, {})
 
 map('n', 'K', vim.lsp.buf.hover, {})
 map('n', 'gD', vim.lsp.buf.declaration, {})

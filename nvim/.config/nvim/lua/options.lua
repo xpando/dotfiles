@@ -6,6 +6,7 @@ vim.g.maplocalleader = ' '
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
+vim.opt.wrap = false
 
 -- Use true color in the terminal
 vim.o.termguicolors = true
@@ -54,7 +55,7 @@ vim.diagnostic.config {
 	virtual_lines = false,
 	update_in_insert = true,
 	float = {
-    header = false,
+    header = '',
 		border = 'rounded',
 		focusable = true,
 	},
