@@ -1,0 +1,28 @@
+{
+  "cacheDir": "/tmp",
+  "fontDir": {
+    "linux": "/home/david/.local/share/fonts"
+  },
+  "repos": [
+    {
+      "owner": "ryanoasis",
+      "name": "nerd-fonts",
+      "fonts": [
+        {
+          "assetName": "^NerdFontsSymbolsOnly\\.zip$",
+          "assetFiles": "\\.ttf$"
+        }
+      ]
+    },
+		{
+      "owner": "be5invis",
+      "name": "Iosevka",
+      "fonts": [
+        {
+          "assetName": "^PkgTTC-Iosevka-\\d+\\.\\d+\\.\\d+\\.zip$",
+          "assetFiles": "\\.ttc$"
+        }
+      ]
+ 		}
+  ]
+}
