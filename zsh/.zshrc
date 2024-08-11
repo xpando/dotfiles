@@ -408,8 +408,10 @@ case "$SYSTEM" in
           }
         fi
         ;;
-      
-      Ubuntu)
+
+      openSUSE)
+        alias zp='zypper'
+        alias szp='sudo zypper'
         ;;
     
     esac
