@@ -356,16 +356,19 @@ fi
 
 case "$SYSTEM" in
   Linux)
+		# Set default libvirt mode to 'system'
+		# don't forget to:
+		# sudo usermod -aG libvirt "$USER"
+		export LIBVIRT_DEFAULT_URI='qemu:///system'
+
     # aliases common to all Linux systems
     alias sdn='sudo shutdown now'
     alias reboot='sudo reboot'
     alias ip='ip -c' # use colored output
     alias docker-up='sudo systemctl start {containerd.service,docker.socket}; systemctl status {containerd.service,docker.socket,docker.service} --no-pager'
     alias docker-down='sudo systemctl stop {docker.service,docker.socket,containerd.service}; sudo ip link delete docker0; systemctl status {docker.service,docker.socket,containerd.service} --no-pager'
-    alias kvm-up='sudo systemctl start libvirtd; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
-    alias kvm-down='sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
-    alias vmw-up='sudo systemctl start vmware-networks vmware-networks-configuration vmware-usbarbitrator && sudo systemctl status vmware-networks vmware-networks-configuration vmware-usbarbitrator'
-    alias vmw-down='sudo systemctl stop vmware-usbarbitrator vmware-networks-configuration vmware-networks && sudo systemctl status vmware-networks vmware-networks-configuration vmware-usbarbitrator'
+    #alias kvm-up='sudo systemctl start libvirtd; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
+    #alias kvm-down='sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
     alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1d'
 
     # Disable Fn mode for F keys for Mac keyboards
@@ -379,6 +382,24 @@ case "$SYSTEM" in
     alias vc-list='sudo veracrypt --text -l'
     alias vc-mount='sudo veracrypt --text --pim 0 --keyfiles "" --protect-hidden no --mount'
     alias vc-umount='sudo veracrypt --text -d'
+
+		function kvm-status() {
+			systemctl --state=running --no-legend --no-pager | grep 'virt'
+		}
+
+		function kvm-up() {
+			for drv in qemu interface network nodedev nwfilter secret storage; do
+				sudo systemctl start virt${drv}d.service
+				sudo systemctl start virt${drv}d{,-ro,-admin}.socket
+			done
+		}
+
+		function kvm-down() {
+			for drv in qemu interface network nodedev nwfilter secret storage; do
+				sudo systemctl stop virt${drv}d.service
+				sudo systemctl stop virt${drv}d{,-ro,-admin}.socket 
+			done	
+		}
 
     # Open IntelliJ IDEA and detach from terminal
     if command -v idea-ultimate &>/dev/null; then
