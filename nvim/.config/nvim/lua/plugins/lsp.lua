@@ -21,7 +21,7 @@ return {
       -- Automatically install these servers
       local servers = {
         html = { filetypes = { 'html', 'htm' } },
-        tsserver = {},
+        ts_ls = {},
         jsonls = {},
         lua_ls = {
           Lua = {
