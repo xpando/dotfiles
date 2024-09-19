@@ -442,6 +442,7 @@ case "$SYSTEM" in
     # add sbin to path for Homebrew
     export PATH=/usr/local/sbin:$PATH
 
+		alias myip='ipconfig getifaddr en0'
 		alias eports='lsof -i -P | grep LISTEN'
 
     # Resolve k8s names via telepresence
