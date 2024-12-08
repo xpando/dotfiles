@@ -1,6 +1,10 @@
 # Bail out if not running interactively
 [[ $- != *i* ]] && return
 
+if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
+    builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
+fi
+
 ##############################################################################
 # Path 
 ##############################################################################
@@ -135,18 +139,22 @@ fi
 ##############################################################################
 # Python
 ##############################################################################
-if command -v pyenv &>/dev/null; then
-  eval "$(pyenv init -)"
+if [ -f "$HOME/miniconda3/bin/conda" ]; then
+  eval "$(~/miniconda3/bin/conda shell.zsh hook)"
 fi
 
-if command -v pipx &>/dev/null; then
-  eval "$(register-python-argcomplete pipx)"
-fi
+#if command -v pyenv &>/dev/null; then
+#  eval "$(pyenv init -)"
+#fi
 
-if command -v pipenv &>/dev/null; then
-  # Tell pipenv to create virtual environments inside the project directory
-  export PIPENV_VENV_IN_PROJECT=1
-fi
+#if command -v pipx &>/dev/null; then
+#  eval "$(register-python-argcomplete pipx)"
+#fi
+
+#if command -v pipenv &>/dev/null; then
+#  # Tell pipenv to create virtual environments inside the project directory
+#  export PIPENV_VENV_IN_PROJECT=1
+#fi
 
 if command -v poetry &>/dev/null; then
 	export POETRY_VIRTUALENVS_IN_PROJECT=true
@@ -226,6 +234,7 @@ fi
 if command -v eza &>/dev/null; then
   alias ls='eza --git --group-directories-first --group --time-style=long-iso --icons'
   export EXA_ICON_SPACING=2
+	# export EXA_COLORS='di=38;5;25:da=38;5;59'
 fi
 alias l='ls'
 alias la='ls -a'
@@ -473,5 +482,3 @@ esac
 if [ -f "$HOME/.zsh_local" ]; then
   source "$HOME/.zsh_local"
 fi
-
-. "$HOME/.atuin/bin/env"
