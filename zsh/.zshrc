@@ -128,7 +128,8 @@ fi
 # mise is a replacement for asdf written in Rust
 # see: https://mise.jdx.dev/
 if command -v mise &>/dev/null; then
-  eval "$(mise activate zsh --shims)"
+  # eval "$(mise activate zsh --shims)"
+  eval "$(mise activate zsh)"
 fi
 
 ##############################################################################
@@ -145,6 +146,18 @@ fi
 if command -v pipenv &>/dev/null; then
   # Tell pipenv to create virtual environments inside the project directory
   export PIPENV_VENV_IN_PROJECT=1
+fi
+
+if command -v poetry &>/dev/null; then
+	export POETRY_VIRTUALENVS_IN_PROJECT=true
+fi
+
+if command -v uv &>/dev/null; then
+	eval "$(uv --generate-shell-completion zsh)"
+fi
+
+if command -v uvx &>/dev/null; then
+	eval "$(uvx --generate-shell-completion zsh)"
 fi
 
 ##############################################################################
@@ -423,6 +436,9 @@ case "$SYSTEM" in
 
 
       Fedora)
+				alias checkupdates='dnf check-update'
+				alias up='sudo dnf update -y'
+
         if [[ -f /opt/intellij-idea/bin/idea.sh ]]; then
           function idea() {
             nohup /opt/intellij-idea/bin/idea.sh "$@" &>/dev/null &!
@@ -457,3 +473,5 @@ esac
 if [ -f "$HOME/.zsh_local" ]; then
   source "$HOME/.zsh_local"
 fi
+
+. "$HOME/.atuin/bin/env"
