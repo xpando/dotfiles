@@ -20,8 +20,6 @@ return {
 
       -- Automatically install these servers
       local servers = {
-        html = { filetypes = { 'html', 'htm' } },
-        ts_ls = {},
         jsonls = {},
         lua_ls = {
           Lua = {
@@ -63,17 +61,13 @@ return {
       require('mason-tool-installer').setup {
         ensure_installed = {
           -- Formatters
-          'prettierd',
           'shfmt',
+					'blackd-client',
 
           -- Linters
           'shellcheck',
-          'eslint_d',
 
           -- Debug adapters
-          'js-debug-adapter',
-          'chrome-debug-adapter',
-          'firefox-debug-adapter',
         },
       }
 
@@ -83,10 +77,7 @@ return {
       null_ls.setup {
         sources = {
           null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.google_java_format,
-					null_ls.builtins.formatting.ktlint,
-          null_ls.builtins.formatting.prettierd,
-          null_ls.builtins.diagnostics.eslint_d,
+					null_ls.builtins.formatting.blackd,
         },
       }
 
