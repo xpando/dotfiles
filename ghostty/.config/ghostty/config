@@ -1,0 +1,22 @@
+theme = Elementary
+# theme = Aardvark Blue
+# theme = CLRS
+# theme = Nocturnal Winter
+window-theme = ghostty
+background-opacity = 0.9
+
+font-family = IosevkaTerm NFP Light
+# font-family = Symbols Nerd Font Mono
+font-size = 18
+
+# Linux specific
+# gtk-adwaita = false
+# window-decoration = false
+# gtk-titlebar = false
+
+# custom-shader-animation = false
+# custom-shader = /home/david/.config/ghostty/shaders/crt2.glsl
+# custom-shader = /home/david/.config/ghostty/shaders/bloom.glsl
+# custom-shader = /home/david/.config/ghostty/shaders/crt.glsl
+# custom-shader = /home/david/.config/ghostty/retro-terminal.glsl
+
