@@ -12,8 +12,16 @@
         {
           "assetName": "NerdFontsSymbolsOnly.zip",
           "assetFiles": "*.ttf"
+        },
+        {
+          "assetName": "Iosevka.zip",
+          "assetFiles": "*.ttf"
+        },
+        {
+          "assetName": "IosevkaTerm.zip",
+          "assetFiles": "*.ttf"
         }
-      ]
+       ]
     },
     {
       "owner": "be5invis",
