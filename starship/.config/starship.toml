@@ -20,23 +20,12 @@ $git_metrics\
 $git_status\
 $docker_context\
 $package\
-$dotnet\
-$elixir\
-$erlang\
 $golang\
-$haskell\
 $java\
-$kotlin\
 $lua\
 $nodejs\
-$pulumi\
 $python\
 $rust\
-$scala\
-$terraform\
-$vagrant\
-$nix_shell\
-$container\
 $shell\
 $fill\
 (\\[$jobs\\])\
@@ -146,17 +135,13 @@ symbol = "🦀"
 format = "[$symbol( $version)](blue) "
 
 [python]
-symbol = " "
-format = '[$symbol( ($virtualenv:)$version)](blue) '
-
-[elixir]
-symbol = " "
-format = '[$symbol( $version \(OTP $otp_version\) )](blue) '
+symbol = "🐍 "
+#symbol = "\ue73c "
+#format = '[$symbol( ($virtualenv:)$version)](blue) '
+style = "bold #f3e10b"
+format = '[${symbol}(${version} )(\($virtualenv\) )]($style)'
 
 # Build, Package and Deployment Tools
 [package]
 format = "[$symbol($version)](yellow) "
 
-[pulumi]
-symbol = "ﲳ "
-format = "[$symbol( $stack)](blue) "
