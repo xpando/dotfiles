@@ -30,10 +30,19 @@
 ehthumbs.db
 Thumbs.db
 
-.venv/
+# Python
+**/.venv/
+**/Pipfile
+**/Pipfile.lock
+**/ruff.toml
+**/uv.lock
+**/.python-version
+
 .vscode/**
 .fleet
 
-# asdf/mise configs
-.tool-versions
+# mise configs
+**/mise.toml
+**/.tool-versions
 
+**/justfile
