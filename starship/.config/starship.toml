@@ -89,7 +89,7 @@ format = "[$symbol($number)](blue)"
 
 [aws]
 # symbol = " "
-symbol = " "
+symbol = ""
 format = '[($symbol($profile)( $region)( $duration))]($style)'
 # format = '[($symbol($profile))]($style) '
 disabled = false
@@ -115,15 +115,15 @@ disabled = false
 # Programming Languages
 
 [java]
-symbol = " "
+symbol = ""
 format = "[$symbol( $version)](blue) "
 
 [scala]
-symbol = " "
+symbol = ""
 format = "[$symbol( $version)](blue) "
 
 [kotlin]
-symbol = " "
+symbol = ""
 format = "[$symbol( $version)](blue) "
 
 [golang]
@@ -135,7 +135,7 @@ symbol = "🦀"
 format = "[$symbol( $version)](blue) "
 
 [python]
-symbol = "🐍 "
+symbol = "🐍"
 #symbol = "\ue73c "
 #format = '[$symbol( ($virtualenv:)$version)](blue) '
 style = "bold #f3e10b"
