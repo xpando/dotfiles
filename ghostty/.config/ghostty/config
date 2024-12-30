@@ -4,11 +4,12 @@ theme = tokyonight
 # theme = CLRS
 # theme = Nocturnal Winter
 window-theme = ghostty
-background-opacity = 0.9
+background-opacity = 1.0
 
 font-family = IosevkaTerm NFP Light
-# font-family = Symbols Nerd Font Mono
 font-size = 18
+
+adjust-cursor-thickness = 3
 
 # Linux specific
 # gtk-adwaita = false
@@ -16,6 +17,7 @@ font-size = 18
 # gtk-titlebar = false
 
 # custom-shader-animation = false
+# custom-shader = /home/david/.config/ghostty/shaders/tft.glsl
 # custom-shader = /home/david/.config/ghostty/shaders/crt2.glsl
 # custom-shader = /home/david/.config/ghostty/shaders/bloom.glsl
 # custom-shader = /home/david/.config/ghostty/shaders/crt.glsl
