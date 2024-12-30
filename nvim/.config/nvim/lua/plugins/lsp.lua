@@ -60,14 +60,9 @@ return {
       -- Automatically install these linters, formatters and debug adapters
       require('mason-tool-installer').setup {
         ensure_installed = {
-          -- Formatters
           'shfmt',
-					'blackd-client',
-
-          -- Linters
           'shellcheck',
-
-          -- Debug adapters
+					'ruff', -- python linter/formatter
         },
       }
 
@@ -77,7 +72,7 @@ return {
       null_ls.setup {
         sources = {
           null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.blackd,
+					null_ls.builtins.formatting.ruff,
         },
       }
 
