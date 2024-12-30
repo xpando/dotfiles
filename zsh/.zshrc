@@ -132,29 +132,31 @@ fi
 # mise is a replacement for asdf written in Rust
 # see: https://mise.jdx.dev/
 if command -v mise &>/dev/null; then
-  # eval "$(mise activate zsh --shims)"
-  eval "$(mise activate zsh)"
+  eval "$(mise activate zsh --shims)"
+  # eval "$(mise activate zsh)"
 fi
 
 ##############################################################################
 # Python
 ##############################################################################
+export VIRTUAL_ENV_DISABLE_PROMPT=1 # venv prompt is handled by starship prompt
+
 if [ -f "$HOME/miniconda3/bin/conda" ]; then
   eval "$(~/miniconda3/bin/conda shell.zsh hook)"
 fi
 
-#if command -v pyenv &>/dev/null; then
-#  eval "$(pyenv init -)"
-#fi
+if command -v pyenv &>/dev/null; then
+  eval "$(pyenv init -)"
+fi
 
-#if command -v pipx &>/dev/null; then
-#  eval "$(register-python-argcomplete pipx)"
-#fi
+if command -v pipx &>/dev/null; then
+  eval "$(register-python-argcomplete pipx)"
+fi
 
-#if command -v pipenv &>/dev/null; then
-#  # Tell pipenv to create virtual environments inside the project directory
-#  export PIPENV_VENV_IN_PROJECT=1
-#fi
+if command -v pipenv &>/dev/null; then
+  # Tell pipenv to create virtual environments inside the project directory
+  export PIPENV_VENV_IN_PROJECT=1
+fi
 
 if command -v poetry &>/dev/null; then
 	export POETRY_VIRTUALENVS_IN_PROJECT=true
@@ -392,6 +394,10 @@ case "$SYSTEM" in
     #alias kvm-up='sudo systemctl start libvirtd; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
     #alias kvm-down='sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
     alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1d'
+
+		function clean-docker-images() {
+				docker image ls -n | grep '^localhost/' | tr -s ' ' ' ' | cut -d' ' -f3 | xargs docker image rm -f
+	  }
 
     # Disable Fn mode for F keys for Mac keyboards
     # This is needed when I'm using my Keychron K3 on Linux
