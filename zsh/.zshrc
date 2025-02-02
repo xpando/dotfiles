@@ -1,9 +1,9 @@
 # Bail out if not running interactively
 [[ $- != *i* ]] && return
 
-#if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
-#    builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
-#fi
+if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
+  builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
+fi
 
 ##############################################################################
 # Path 
@@ -411,9 +411,9 @@ case "$SYSTEM" in
     alias vc-mount='sudo veracrypt --text --pim 0 --keyfiles "" --protect-hidden no --mount'
     alias vc-umount='sudo veracrypt --text -d'
 
-		function kvm-status() {
-			systemctl --state=running --no-legend --no-pager | grep 'virt'
-		}
+    function kvm-status() {
+      systemctl --state=running --no-legend --no-pager | grep 'virt'
+    }
 
 		function kvm-up() {
 			for drv in qemu interface network nodedev nwfilter secret storage; do
@@ -435,6 +435,13 @@ case "$SYSTEM" in
         nohup idea-ultimate "$@" &>/dev/null &!
       }
     fi
+
+    function it-tools-up() {
+      docker run --name it-tools -d --rm -p 8080:80 ghcr.io/corentinth/it-tools:latest
+      xdg-open http://localhost:8080
+    }
+    alias it-tools-down='docker stop it-tools'
+    alias it-tools-update='docker pull ghcr.io/corentinth/it-tools:latest'
 
     case "$DIST" in
 
