@@ -139,7 +139,7 @@ symbol = "🐍"
 #symbol = "\ue73c "
 #format = '[$symbol( ($virtualenv:)$version)](blue) '
 style = "bold #f3e10b"
-format = '[${symbol}(${version} )(\($virtualenv\) )]($style)'
+format = '[${symbol} (${version} )(\($virtualenv\) )]($style)'
 
 # Build, Package and Deployment Tools
 [package]
