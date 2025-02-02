@@ -3,7 +3,18 @@ return {
     'williamboman/mason.nvim',
 
     dependencies = {
-      'folke/neodev.nvim', -- Automatically configures lua-language-server for your Neovim config, Neovim runtime and plugin directories
+      { 
+        -- Automatically configures lua-language-server for your Neovim config, Neovim runtime and plugin directories 
+        'folke/lazydev.nvim',
+        ft = 'lua', -- only load on lua files
+        opts = {
+          library = {
+            -- See the configuration section for more details
+            -- Load luvit types when the `vim.uv` word is found
+            { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+          },
+        },
+      },
       'neovim/nvim-lspconfig',
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim', -- Automatically install linters, formatters and debug adapters
@@ -13,13 +24,10 @@ return {
     },
 
     config = function()
-      -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-      require('neodev').setup {
-        library = { plugins = { 'neotest' }, types = true },
-      }
-
       -- Automatically install these servers
       local servers = {
+				pyright = {},
+        ruff = {},
         jsonls = {},
         lua_ls = {
           Lua = {
@@ -60,9 +68,14 @@ return {
       -- Automatically install these linters, formatters and debug adapters
       require('mason-tool-installer').setup {
         ensure_installed = {
+          -- Formatters
           'shfmt',
+
+          -- Linters
           'shellcheck',
-					'ruff', -- python linter/formatter
+					'pyright',
+
+          -- Debug adapters
         },
       }
 
@@ -72,7 +85,6 @@ return {
       null_ls.setup {
         sources = {
           null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.ruff,
         },
       }
 
