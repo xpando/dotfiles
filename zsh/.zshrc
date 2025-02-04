@@ -110,6 +110,17 @@ fi
 if [ -d "$HOME/.local/share/JetBrains/Toolbox/scripts" ]; then
   export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
 fi
+function ijhttp() {
+  docker run --rm -it -v $PWD:/workdir jetbrains/intellij-http-client $@
+}
+
+##############################################################################
+# add cargo bin to the path if it exists so that tools installed via cargo
+# can be found
+##############################################################################
+if [ -d "$HOME/.cargo/bin" ]; then
+	export PATH="$HOME/.cargo/bin:$PATH"
+fi
 
 ##############################################################################
 # SDK Man - manage multiple versions of JVM based tools
