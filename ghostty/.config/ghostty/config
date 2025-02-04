@@ -1,15 +1,19 @@
-theme = tokyonight
+theme = Argonaut
+# theme = tokyonight
 # theme = Elementary
 # theme = Aardvark Blue
 # theme = CLRS
 # theme = Nocturnal Winter
+# theme = catppuccin-mocha
+# theme = david
+cursor-color = ffffff
 window-theme = ghostty
 background-opacity = 1.0
+adjust-cursor-thickness = 3
 
 font-family = IosevkaTerm NFP Light
-font-size = 18
+font-size = 24
 
-adjust-cursor-thickness = 3
 
 # Linux specific
 # gtk-adwaita = false
@@ -17,7 +21,7 @@ adjust-cursor-thickness = 3
 # gtk-titlebar = false
 
 # custom-shader-animation = false
-# custom-shader = /home/david/.config/ghostty/shaders/tft.glsl
+# custom-shader = /Users/david/.config/ghostty/shaders/tft.glsl
 # custom-shader = /home/david/.config/ghostty/shaders/crt2.glsl
 # custom-shader = /home/david/.config/ghostty/shaders/bloom.glsl
 # custom-shader = /home/david/.config/ghostty/shaders/crt.glsl
