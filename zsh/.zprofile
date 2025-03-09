@@ -14,3 +14,5 @@ export QT_LOGGING_RULES="*.debug=false;*.info=false"
 #if command -v mise &>/dev/null; then
 #  eval "$(mise activate zsh)"
 #fi
+
+export MOZ_ENABLE_WAYLAND=1

@@ -170,6 +170,10 @@ if command -v uvx &>/dev/null; then
 	eval "$(uvx --generate-shell-completion zsh)"
 fi
 
+if command -v marimo &>/dev/null; then
+	eval "$(_MARIMO_COMPLETE=zsh_source marimo)"
+fi
+
 ##############################################################################
 # Go
 ##############################################################################
