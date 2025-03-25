@@ -9,7 +9,7 @@ fi
 # Path 
 ##############################################################################
 export PATH=~/.local/bin:$PATH
-export LESS=FRX
+export LESS=-FRXij5
 export EDITOR=vim
 
 ##############################################################################
@@ -242,12 +242,7 @@ if command -v zoxide &>/dev/null; then
   alias cd=z
 fi
 
-# EXA is a better ls written in rust: https://the.exa.website/
-# if command -v exa &>/dev/null; then
-#   alias ls='exa --git --group-directories-first --group --time-style=long-iso --icons'
-#   export EXA_ICON_SPACING=2
-# fi
-# EXA seems to no longer be maintained so I'm using this fork: https://github.com/eza-community/eza
+# EZA is a better ls: https://github.com/eza-community/eza
 if command -v eza &>/dev/null; then
   alias ls='eza --git --group-directories-first --group --time-style=long-iso --icons'
   export EXA_ICON_SPACING=2
@@ -274,40 +269,65 @@ if command -v http &>/dev/null; then
   alias https='http --default-scheme=https'
 fi
 
-# AWS CLI
-if command -v aws &>/dev/null || command -v mise &>/dev/null && mise which aws &>/dev/null; then
-  # AWS CLI with Localstack
-  alias awsl='aws --endpoint-url=http://localhost:4566'
-  
-  # AWS SSO login
-  alias aws-login='aws --profile $(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | head -n 1) sso login'
+# AWS CLI with Localstack
+alias awsl='aws --endpoint-url=http://localhost:4566'
 
-  # Show all AWS related environment variables
-  alias awse='env | grep AWS_ | sed -n "s/^\(.*\)=\(.*\)$/\x1b[34m\1\x1b[0m=\x1b[32m\2\x1b[0m/gp" && echo "Caller identity:" && aws sts get-caller-identity | jq'
-  
-  # Clear AWS related environment variables
-  alias awsc='unset `env | grep AWS_ | cut -d'=' -f1 | grep -v "AWS_VAULT_"`'
+# Show all AWS related environment variables and test authentication
+function awse() {
+	env | grep AWS_ | sed -n "s/^\(.*\)=\(.*\)$/\x1b[34m\1\x1b[0m=\x1b[32m\2\x1b[0m/gp" 
+	echo "Caller identity:" && aws sts get-caller-identity | jq
+}
 
-  # AWS Profile selector function
-  function aws_profile_selector() {
-    get_profiles='sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | sort'
-    if command -v gum &>/dev/null; then
-      eval "$get_profiles | gum filter --placeholder='Select profile...' --indicator='👉'"
-    elif command -v fzf &>/dev/null; then
-      eval "$get_profiles | fzf +m --height 40% --border rounded"
-    else
-      echo "select_aws_profile requires either gum or fzf."
-      return -1
-    fi
-  }
+# Clear AWS related environment variables
+alias awsc='unset `env | grep AWS_ | cut -d'=' -f1 | grep -v "AWS_VAULT_"`'
 
-  if command -v aws_profile_selector &>/dev/null; then
-    function awsp() {
-      profile=$(aws_profile_selector)
-      [ ! -z "$profile" ] && export AWS_PROFILE=$profile
-    }
+# AWS SSO session selector function
+function aws_sso_session_selector() {
+  sessions=$(sed -n "s/\[sso-session \(.*\)\]/\1/gp" ~/.aws/config | sort)
+
+  if command -v gum &>/dev/null; then
+    echo $sessions | gum filter --placeholder='Select session...' --select-if-one --indicator='👉'
+    return 0
   fi
-fi
+
+  if command -v fzf &>/dev/null; then
+    echo $sessions | fzf -1 +m --height 40% --border rounded
+    return 0
+  fi
+
+  echo "aws_sso_session_selector requires either gum or fzf."
+  return -1
+}
+
+# AWS Profile selector function
+function aws_profile_selector() {
+  profiles=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | sort)
+
+  if command -v gum &>/dev/null; then
+    echo $profiles | gum filter --placeholder='Select profile...' --select-if-one --indicator='👉'
+    return 0
+  fi
+
+  if command -v fzf &>/dev/null; then
+    echo $profiles | fzf -1 +m --height 40% --border rounded
+    return 0
+  fi
+
+  echo "aws_profile_selector requires either gum or fzf."
+  return -1
+}
+
+# Activate AWS profile
+function awsp() {
+  profile=$(aws_profile_selector)
+  [ ! -z "$profile" ] && export AWS_PROFILE=$profile
+}
+
+# Authenticate using AWS SSO session
+function awso() {
+  session=$(aws_sso_session_selector)
+  [ ! -z "$session" ] && aws sso login --sso-session $session
+}
 
 ##############################################################################
 # Direnv
@@ -452,11 +472,18 @@ case "$SYSTEM" in
     fi
 
     function it-tools-up() {
-      docker run --name it-tools -d --rm -p 8080:80 ghcr.io/corentinth/it-tools:latest
-      xdg-open http://localhost:8080
+      docker run --name it-tools -d --rm -p 8180:80 ghcr.io/corentinth/it-tools:latest
+      xdg-open http://localhost:8180
     }
     alias it-tools-down='docker stop it-tools'
     alias it-tools-update='docker pull ghcr.io/corentinth/it-tools:latest'
+
+ 		function xdraw-up() {
+			docker run --name xdraw -d --rm -p "8280:80" excalidraw/excalidraw:latest
+      xdg-open http://localhost:8280
+		}
+    alias xdraw-down='docker stop xdraw'
+    alias xdraw-update='docker pull excalidraw/excalidraw:latest'
 
     case "$DIST" in
 
@@ -503,10 +530,28 @@ case "$SYSTEM" in
     function tp-service() {
 			dscacheutil -q host -a name "$1.services" | grep ip_address: | cut -d ' ' -f 2
 		}
-    ;;
+
+    function it-tools-up() {
+      docker run --name it-tools -d --rm -p 8180:80 ghcr.io/corentinth/it-tools:latest
+      open http://localhost:8180
+    }
+    alias it-tools-down='docker stop it-tools'
+    alias it-tools-update='docker pull ghcr.io/corentinth/it-tools:latest'
+
+ 		function xdraw-up() {
+			docker run --name xdraw -d --rm -p "8280:80" excalidraw/excalidraw:latest
+      open http://localhost:8280
+		}
+    alias xdraw-down='docker stop xdraw'
+    alias xdraw-update='docker pull excalidraw/excalidraw:latest'
+
+   ;;
 esac
 
 # load local system configuration if it exists
 if [ -f "$HOME/.zsh_local" ]; then
   source "$HOME/.zsh_local"
 fi
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/david/.lmstudio/bin"
