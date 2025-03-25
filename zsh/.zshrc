@@ -1,6 +1,7 @@
 # Bail out if not running interactively
 [[ $- != *i* ]] && return
 
+# Ghostty terminal emulator integration
 if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
   builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
 fi
@@ -76,13 +77,20 @@ if [ -e "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then . "$HOME/.
 ##############################################################################
 # Homebrew package manager
 ##############################################################################
-if [ -e "/opt/homebrew/bin/brew" ]; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
-if [ -e /home/linuxbrew/.linuxbrew/bin/brew ]; then eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; fi
+if [ -e "/opt/homebrew/bin/brew" ]; then 
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+if [ -e /home/linuxbrew/.linuxbrew/bin/brew ]; then 
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 
 ##############################################################################
-# Homebrew package manager (Linux)
+# Homebrew package manager local user installation. Typically manual install
+# on Linux distros where homebrew is not in the package manager
 ##############################################################################
-if [ -e "$HOME/.brew/bin/brew" ]; then eval "$($HOME/.brew/bin/brew shellenv)"; fi
+if [ -e "$HOME/.brew/bin/brew" ]; then 
+  eval "$($HOME/.brew/bin/brew shellenv)"
+fi
 
 ##############################################################################
 # Atuin shell history
@@ -96,13 +104,6 @@ fi
 ##############################################################################
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export SAM_CLI_TELEMETRY=0
-
-##############################################################################
-# Wezterm shell integration
-##############################################################################
-if [ -f "$HOME/.config/wezterm/shell_integration.sh" ]; then
-  source "$HOME/.config/wezterm/shell_integration.sh"
-fi
 
 ##############################################################################
 # JetBrains CLI scripts
@@ -122,24 +123,6 @@ if [ -d "$HOME/.cargo/bin" ]; then
 	export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-##############################################################################
-# SDK Man - manage multiple versions of JVM based tools
-##############################################################################
-if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
-  export SDKMAN_DIR="$HOME/.sdkman"
-  source "$HOME/.sdkman/bin/sdkman-init.sh" 2>/dev/null
-  function java_list_cacerts() {
-    keytool -list -cacerts -storepass changeit
-  }
-  function java_trust_aws_rds_cacert() {
-    if [ ! -f "$1" ]; then
-      echo "Certificate file '$1' not found"
-      return 2 # No such file or directory
-    fi
-    keytool -import -cacerts -storepass changeit -alias awsRdsRootCaCertificate -file $1
-  }
-fi
-
 # mise is a replacement for asdf written in Rust
 # see: https://mise.jdx.dev/
 if command -v mise &>/dev/null; then
@@ -151,6 +134,14 @@ fi
 # Python
 ##############################################################################
 export VIRTUAL_ENV_DISABLE_PROMPT=1 # venv prompt is handled by starship prompt
+
+if command -v uv &>/dev/null; then
+	eval "$(uv --generate-shell-completion zsh)"
+fi
+
+if command -v uvx &>/dev/null; then
+	eval "$(uvx --generate-shell-completion zsh)"
+fi
 
 if [ -f "$HOME/miniconda3/bin/conda" ]; then
   eval "$(~/miniconda3/bin/conda shell.zsh hook)"
@@ -173,14 +164,6 @@ if command -v poetry &>/dev/null; then
 	export POETRY_VIRTUALENVS_IN_PROJECT=true
 fi
 
-if command -v uv &>/dev/null; then
-	eval "$(uv --generate-shell-completion zsh)"
-fi
-
-if command -v uvx &>/dev/null; then
-	eval "$(uvx --generate-shell-completion zsh)"
-fi
-
 if command -v marimo &>/dev/null; then
 	eval "$(_MARIMO_COMPLETE=zsh_source marimo)"
 fi
@@ -192,6 +175,13 @@ if command -v go &>/dev/null; then
 #  export GOPATH=$HOME/Go
 #  export GOBIN=$GOPATH/bin
 #  export PATH=$PATH:$GOBIN
+fi
+
+##############################################################################
+# LM Studio
+##############################################################################
+if [ -d "$HOME/.lmstudio/bin" ]; then
+  export PATH="$PATH:$HOME/.lmstudio/bin"
 fi
 
 ##############################################################################
@@ -269,7 +259,11 @@ if command -v http &>/dev/null; then
   alias https='http --default-scheme=https'
 fi
 
-# AWS CLI with Localstack
+##############################################################################
+# AWS CLI helper functions and aliases
+##############################################################################
+
+# Run AWS CLI commands with Localstack
 alias awsl='aws --endpoint-url=http://localhost:4566'
 
 # Show all AWS related environment variables and test authentication
@@ -324,7 +318,7 @@ function awsp() {
 }
 
 # Authenticate using AWS SSO session
-function awso() {
+function awsso() {
   session=$(aws_sso_session_selector)
   [ ! -z "$session" ] && aws sso login --sso-session $session
 }
@@ -552,6 +546,3 @@ esac
 if [ -f "$HOME/.zsh_local" ]; then
   source "$HOME/.zsh_local"
 fi
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/david/.lmstudio/bin"
