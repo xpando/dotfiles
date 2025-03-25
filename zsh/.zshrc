@@ -96,7 +96,7 @@ fi
 # Atuin shell history
 ##############################################################################
 if command -v atuin &>/dev/null; then
-	eval "$(atuin init zsh)"
+  eval "$(atuin init zsh)"
 fi
 
 ##############################################################################
@@ -120,7 +120,7 @@ function ijhttp() {
 # can be found
 ##############################################################################
 if [ -d "$HOME/.cargo/bin" ]; then
-	export PATH="$HOME/.cargo/bin:$PATH"
+  export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # mise is a replacement for asdf written in Rust
@@ -136,11 +136,11 @@ fi
 export VIRTUAL_ENV_DISABLE_PROMPT=1 # venv prompt is handled by starship prompt
 
 if command -v uv &>/dev/null; then
-	eval "$(uv --generate-shell-completion zsh)"
+  eval "$(uv --generate-shell-completion zsh)"
 fi
 
 if command -v uvx &>/dev/null; then
-	eval "$(uvx --generate-shell-completion zsh)"
+  eval "$(uvx --generate-shell-completion zsh)"
 fi
 
 if [ -f "$HOME/miniconda3/bin/conda" ]; then
@@ -161,11 +161,11 @@ if command -v pipenv &>/dev/null; then
 fi
 
 if command -v poetry &>/dev/null; then
-	export POETRY_VIRTUALENVS_IN_PROJECT=true
+  export POETRY_VIRTUALENVS_IN_PROJECT=true
 fi
 
 if command -v marimo &>/dev/null; then
-	eval "$(_MARIMO_COMPLETE=zsh_source marimo)"
+  eval "$(_MARIMO_COMPLETE=zsh_source marimo)"
 fi
 
 ##############################################################################
@@ -236,7 +236,7 @@ fi
 if command -v eza &>/dev/null; then
   alias ls='eza --git --group-directories-first --group --time-style=long-iso --icons'
   export EXA_ICON_SPACING=2
-	# export EXA_COLORS='di=38;5;25:da=38;5;59'
+  # export EXA_COLORS='di=38;5;25:da=38;5;59'
 fi
 alias l='ls'
 alias la='ls -a'
@@ -246,7 +246,7 @@ alias lla='ls -la'
 # Colorized cat
 if command -v bat &>/dev/null; then
   alias cat='bat -p'
-	export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat -l man -p'"
+  export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat -l man -p'"
 fi
 
 # prefer neovim
@@ -268,8 +268,8 @@ alias awsl='aws --endpoint-url=http://localhost:4566'
 
 # Show all AWS related environment variables and test authentication
 function awse() {
-	env | grep AWS_ | sed -n "s/^\(.*\)=\(.*\)$/\x1b[34m\1\x1b[0m=\x1b[32m\2\x1b[0m/gp" 
-	echo "Caller identity:" && aws sts get-caller-identity | jq
+  env | grep AWS_ | sed -n "s/^\(.*\)=\(.*\)$/\x1b[34m\1\x1b[0m=\x1b[32m\2\x1b[0m/gp" 
+  echo "Caller identity:" && aws sts get-caller-identity | jq
 }
 
 # Clear AWS related environment variables
@@ -409,10 +409,10 @@ fi
 
 case "$SYSTEM" in
   Linux)
-		# Set default libvirt mode to 'system'
-		# don't forget to:
-		# sudo usermod -aG libvirt "$USER"
-		export LIBVIRT_DEFAULT_URI='qemu:///system'
+    # Set default libvirt mode to 'system'
+    # don't forget to:
+    # sudo usermod -aG libvirt "$USER"
+    export LIBVIRT_DEFAULT_URI='qemu:///system'
 
     # aliases common to all Linux systems
     alias sdn='sudo shutdown now'
@@ -424,9 +424,9 @@ case "$SYSTEM" in
     #alias kvm-down='sudo systemctl stop {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket}; systemctl status {libvirtd.service,libvirtd-admin.socket,libvirtd-ro.socket,libvirtd.socket} --no-pager'
     alias clean-logs='sudo journalctl --rotate && sudo journalctl --vacuum-time=1d'
 
-		function clean-docker-images() {
-				docker image ls -n | grep '^localhost/' | tr -s ' ' ' ' | cut -d' ' -f3 | xargs docker image rm -f
-	  }
+    function clean-docker-images() {
+        docker image ls -n | grep '^localhost/' | tr -s ' ' ' ' | cut -d' ' -f3 | xargs docker image rm -f
+    }
 
     # Disable Fn mode for F keys for Mac keyboards
     # This is needed when I'm using my Keychron K3 on Linux
@@ -444,19 +444,19 @@ case "$SYSTEM" in
       systemctl --state=running --no-legend --no-pager | grep 'virt'
     }
 
-		function kvm-up() {
-			for drv in qemu interface network nodedev nwfilter secret storage; do
-				sudo systemctl start virt${drv}d.service
-				sudo systemctl start virt${drv}d{,-ro,-admin}.socket
-			done
-		}
+    function kvm-up() {
+      for drv in qemu interface network nodedev nwfilter secret storage; do
+        sudo systemctl start virt${drv}d.service
+        sudo systemctl start virt${drv}d{,-ro,-admin}.socket
+      done
+    }
 
-		function kvm-down() {
-			for drv in qemu interface network nodedev nwfilter secret storage; do
-				sudo systemctl stop virt${drv}d.service
-				sudo systemctl stop virt${drv}d{,-ro,-admin}.socket 
-			done	
-		}
+    function kvm-down() {
+      for drv in qemu interface network nodedev nwfilter secret storage; do
+        sudo systemctl stop virt${drv}d.service
+        sudo systemctl stop virt${drv}d{,-ro,-admin}.socket 
+      done	
+    }
 
     # Open IntelliJ IDEA and detach from terminal
     if command -v idea-ultimate &>/dev/null; then
@@ -472,10 +472,10 @@ case "$SYSTEM" in
     alias it-tools-down='docker stop it-tools'
     alias it-tools-update='docker pull ghcr.io/corentinth/it-tools:latest'
 
- 		function xdraw-up() {
-			docker run --name xdraw -d --rm -p "8280:80" excalidraw/excalidraw:latest
+     function xdraw-up() {
+      docker run --name xdraw -d --rm -p "8280:80" excalidraw/excalidraw:latest
       xdg-open http://localhost:8280
-		}
+    }
     alias xdraw-down='docker stop xdraw'
     alias xdraw-update='docker pull excalidraw/excalidraw:latest'
 
@@ -494,8 +494,8 @@ case "$SYSTEM" in
 
 
       Fedora)
-				alias checkupdates='dnf check-update'
-				alias up='sudo dnf update -y'
+        alias checkupdates='dnf check-update'
+        alias up='sudo dnf update -y'
 
         if [[ -f /opt/intellij-idea/bin/idea.sh ]]; then
           function idea() {
@@ -516,14 +516,14 @@ case "$SYSTEM" in
     # add sbin to path for Homebrew
     export PATH=/usr/local/sbin:$PATH
 
-		alias myip='ipconfig getifaddr en0'
-		alias eports='lsof -i -P | grep LISTEN'
+    alias myip='ipconfig getifaddr en0'
+    alias eports='lsof -i -P | grep LISTEN'
 
     # Resolve k8s names via telepresence
     # workaround for netty and CLI utils that don't support more than one resolver
     function tp-service() {
-			dscacheutil -q host -a name "$1.services" | grep ip_address: | cut -d ' ' -f 2
-		}
+      dscacheutil -q host -a name "$1.services" | grep ip_address: | cut -d ' ' -f 2
+    }
 
     function it-tools-up() {
       docker run --name it-tools -d --rm -p 8180:80 ghcr.io/corentinth/it-tools:latest
@@ -532,10 +532,10 @@ case "$SYSTEM" in
     alias it-tools-down='docker stop it-tools'
     alias it-tools-update='docker pull ghcr.io/corentinth/it-tools:latest'
 
- 		function xdraw-up() {
-			docker run --name xdraw -d --rm -p "8280:80" excalidraw/excalidraw:latest
+     function xdraw-up() {
+      docker run --name xdraw -d --rm -p "8280:80" excalidraw/excalidraw:latest
       open http://localhost:8280
-		}
+    }
     alias xdraw-down='docker stop xdraw'
     alias xdraw-update='docker pull excalidraw/excalidraw:latest'
 
