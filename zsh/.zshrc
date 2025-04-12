@@ -407,6 +407,10 @@ if command -v home-manager &>/dev/null; then
   alias nxgc='nix-store --gc && nix-collect-garbage -d'
 fi
 
+if [ "$TERM" = "xterm-ghostty" ]; then
+	alias wthr='timg "https://radar.weather.gov/ridge/standard/KATX_0.gif"'
+fi
+
 case "$SYSTEM" in
   Linux)
     # Set default libvirt mode to 'system'
