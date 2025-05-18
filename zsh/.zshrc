@@ -63,10 +63,11 @@ znap source joshskidmore/zsh-fzf-history-search
 # Completions
 # See: https://superuser.com/questions/1092033/how-can-i-make-zsh-tab-completion-fix-capitalization-errors-for-directories-and
 ##############################################################################
-#autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 #zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+fpath=(~/.docker/completions $fpath)
+autoload -Uz compinit && compinit
 
 ##############################################################################
 # Nix and Home Manager Environment
@@ -182,6 +183,11 @@ fi
 ##############################################################################
 if [ -d "$HOME/.lmstudio/bin" ]; then
   export PATH="$PATH:$HOME/.lmstudio/bin"
+fi
+
+if command -v jj &>/dev/null; then
+  # source <(jj util completion zsh)
+  source <(COMPLETE=zsh jj)
 fi
 
 ##############################################################################
