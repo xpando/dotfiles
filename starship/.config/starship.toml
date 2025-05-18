@@ -13,6 +13,7 @@ format = """
 $hostname\
 $status\
 $directory\
+(${custom.jj})\
 $git_branch\
 $git_commit\
 $git_state\
@@ -109,6 +110,12 @@ disabled = false
 description = "AWS Vault server is active."
 symbol = " "
 when = 'ps -o command | grep -E "^aws-vault.*(--ecs-server|--ec2-server|--server|-s)"'
+disabled = false
+
+[custom.jj]
+description = "In a Jujutsu repository"
+symbol = "柔術 "
+when = 'jj root --ignore-working-copy'
 disabled = false
 
 # Programming Languages
