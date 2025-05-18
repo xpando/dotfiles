@@ -8,3 +8,12 @@ gpgsign = false
 ols = ! git log --no-merges --invert-grep --grep='\\[skip ci\\]' --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --graph --date=relative --decorate --all
 omni = for-each-repo --config=omnidian.repos --
 
+[omnidian]
+repos = "~/Git/Omnidian/core"
+repos = "~/Git/Omnidian/data-services"
+repos = "~/Git/Omnidian/energy-data"
+repos = "~/Git/Omnidian/stream"
+repos = "~/Git/Omnidian/workflow"
+repos = "~/Git/Omnidian/resolv3"
+repos = "~/Git/Omnidian/client-portal"
+

@@ -1,52 +1,64 @@
 [user]
-name = "David Findley"
-email = "xpando@gmail.com"
-
-[commit]
-gpgsign = true
+  name = "David Findley"
+  email = "xpando@gmail.com"
 
 [init]
-defaultBranch = main
+  defaultBranch = main
+
+[commit]
+  gpgsign = true
+
+[tag]
+  sort = version:refname
+
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true	
+  renames = true
 
 [core]
-pager = delta
+  pager = delta
 
 [interactive]
-diffFilter = delta --color-only
+#  diffFilter = delta --color-only
 
 [delta]
-features = side-by-side line-numbers decorations
-whitespace-error-style = 22 reverse
+  features = side-by-side line-numbers decorations
+  whitespace-error-style = 22 reverse
 
 [delta "decorations"]
-file-decoration-style = none
-file-style = white ul
-commit-decoration-style = cyan box ul
+  file-decoration-style = none
+  file-style = white ul
+  commit-decoration-style = cyan box ul
 
 [merge]
-ff = only
+  ff = only
+
+[fetch]
+	all = true
+	prune = true
+	pruneTags = true
 
 [pull]
-ff = only
+  ff = only
 
 [branch]
-sort = -committerdate
+  sort = -committerdate
 
 [alias]
-fa = fetch --all
-fap = fetch --all --prune
-ai = !git add $(git status --porcelain | fzf -m | awk '{print $2}')
-ci = commit -a
-co = checkout
-st = status
-ff = merge --ff-only
-am = commit --amend -C HEAD
-pushf = push --force-with-lease
-up = "!f() { git fetch --all; git pull origin HEAD; for upstream in $(git remote); do git remote prune "${upstream}"; done }; f"
-undo = ! git reset HEAD~1 --mixed
-top = ! git log --format=format:%an | sort | uniq -c | sort -gbr | head -n 20
-logg = ! git log --pretty=format:\"\\\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\\\"\" --graph --date=relative --decorate --all
-logv = "!f() { git log --all --color --graph --pretty=format:'%C(bold yellow)<sig>%G?</sig>%C(reset) %C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cr) %C(blue)<%an>%C(reset)' | \
+  ai = !git add $(git status --porcelain | fzf -m | awk '{print $2}')
+  ci = commit -a
+  co = checkout
+  st = status -s
+  ff = merge --ff-only
+  am = commit --amend -C HEAD
+  pushf = push --force-with-lease
+  up = "!f() { git fetch --all; git pull origin HEAD; for upstream in $(git remote); do git remote prune "${upstream}"; done }; f"
+  undo = ! git reset HEAD~1 --mixed
+  top = ! git log --format=format:%an | sort | uniq -c | sort -gbr | head -n 20
+  logg = ! git log --pretty=format:\"\\\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\\\"\" --graph --date=relative --decorate --all
+  logv = "!f() { git log --all --color --graph --pretty=format:'%C(bold yellow)<sig>%G?</sig>%C(reset) %C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(green)(%cr) %C(blue)<%an>%C(reset)' | \
     sed \
     -e 's#<sig>G</sig>#Good#' \
     -e 's#<sig>B</sig>#\\nBAD \\nBAD \\nBAD \\nBAD \\nBAD#' \
@@ -59,13 +71,14 @@ logv = "!f() { git log --all --color --graph --pretty=format:'%C(bold yellow)<si
   }; f"
 
 [push]
-autoSetupRemote = true
+  autoSetupRemote = true
 
 [rerere]
-enabled = true
+  enabled = true
+	autoupdate = true
 
 # Repo level config
 [includeif "gitdir:~/Git/Omnidian/"]
-path = ~/.config/git/config-omnidian
+  path = ~/.config/git/config-omnidian
 
 
